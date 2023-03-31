@@ -31,10 +31,6 @@ export class UpdateUserDto {
   phoneNumber: string;
 
   @IsOptional()
-  @IsString()
-  generation: string;
-
-  @IsOptional()
   @IsEnum(Gender)
   @IsString()
   gender: Gender;
@@ -84,5 +80,5 @@ export class RecoveryPassword {
   @IsString()
   @MinLength(8)
   @IsAlphanumeric()
-  password: string;
+  newPassword: string;
 }

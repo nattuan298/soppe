@@ -24,7 +24,7 @@
 
 ## Description
 
-Building backend API for GVC Management!!!
+Building backend API for Soppe Web!!!
 
 ## Installation
 

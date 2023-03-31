@@ -4,5 +4,5 @@ export class CreateFavouriteProductDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  productCode: string;
+  productId: string;
 }

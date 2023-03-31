@@ -16,7 +16,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    generation: String,
     gender: {
       type: String,
       enum: Object.values(Gender),
@@ -24,10 +23,6 @@ const UserSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default: defaultAvatar,
-    },
-    beltLevel: {
-      type: String,
-      default: '',
     },
     dateOfBirth: Date,
     salt: String,

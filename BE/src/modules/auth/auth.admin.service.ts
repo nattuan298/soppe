@@ -36,6 +36,7 @@ export class AuthAdminService {
             role: user.role,
             salt: user.salt,
             updatedPasswordAt: user.updatedPasswordAt,
+            id: user.id,
           };
           const jwtAccessToken = await this.jwtService.signAsync(payload);
           const {

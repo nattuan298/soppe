@@ -2,18 +2,27 @@ import {
   CommonPaginationDto,
   PaginationResDto,
 } from 'src/common/pagination.dto';
-import { FileType, KeySort, ProductEndPoint } from '../product.constant';
-import { IsDefined, IsEnum, IsOptional, IsString, Min } from 'class-validator';
-import { Transform } from 'class-transformer';
-import { IMultiLangDto } from './update-product.dto';
-import { IMediaFile, IProductLegacy } from '../interfaces/product.interface';
+import { KeySort } from '../product.constant';
+import {
+  IsDefined,
+  IsMongoId,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Min,
+} from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IProductLegacy } from '../interfaces/product.interface';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class FindProductsDto extends CommonPaginationDto {
   @IsOptional()
+  @IsString()
   keyword?: string;
 
   @IsOptional()
-  category?: string;
+  @IsMongoId()
+  categoryId?: string;
 
   @IsOptional()
   @Transform((data) => +data.value)
@@ -28,55 +37,19 @@ export class FindProductsDto extends CommonPaginationDto {
   @IsOptional()
   keySort?: KeySort;
 
-  @IsOptional()
-  memberId?: string;
+  @ApiProperty({ default: 1 })
+  @Type(() => Number)
+  @IsPositive()
+  @IsDefined()
+  page: number;
 
-  @IsEnum(ProductEndPoint)
-  place: ProductEndPoint;
-}
-
-export class AdminFindProductsDto extends CommonPaginationDto {
-  @IsOptional()
-  keyword?: string;
-
-  @IsOptional()
-  category?: string;
-
-  @IsOptional()
-  @Transform((data) => +data.value)
-  @Min(0)
-  minPrice?: number;
-
-  @IsOptional()
-  @Transform((data) => +data.value)
-  @Min(0)
-  maxPrice?: number;
-
-  @IsOptional()
-  keySort?: KeySort;
-}
-
-export class FindProductsBySkuDto {
-  @IsString({ each: true })
-  productCode?: string[];
-
-  @IsString()
-  @IsOptional()
-  memberId?: string;
-}
-
-export class FindOneProductDto {
-  @IsString()
-  productCode: string;
-}
-
-class MediaFile implements IMediaFile {
-  url: string;
-  fileType: FileType;
-  position: number;
+  @ApiProperty({ default: 10 })
+  @Type(() => Number)
+  @IsPositive()
+  @IsDefined()
+  pageSize: number;
 }
 export class ResFindProductDto implements IProductLegacy {
-  productCode: string;
   productName: string;
   pv: number;
   memberPrice: number;
@@ -91,8 +64,8 @@ export class ResFindProductDto implements IProductLegacy {
   rating: number;
   stock: number;
   sold: number;
-  media?: MediaFile[];
-  description: IMultiLangDto;
+  mediaUrl: string;
+  description: string;
   isNewProduct: boolean;
   isFavourite: boolean;
   favouriteId: any;

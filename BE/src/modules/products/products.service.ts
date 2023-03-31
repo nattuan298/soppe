@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   forwardRef,
   Inject,
   InternalServerErrorException,
@@ -8,25 +9,21 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UploadService } from '../upload/upload.service';
-import { FindOneProductDto, FindProductsDto } from './dto/find-products.dto';
+import { FindProductsDto } from './dto/find-products.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import {
-  DELETE_POPULAR_KEY,
-  FALSE,
-  KeySort,
-  ProductKeyBy,
-  ProductKeyFilter,
-} from './product.constant';
-import {
-  IProductDoc,
-  IProductLegacy,
-  IMediaFile,
-} from './interfaces/product.interface';
+import { DELETE_POPULAR_KEY, FALSE } from './product.constant';
+import { IProductDoc } from './interfaces/product.interface';
 import { PRODUCT_MODEL } from './entities/product.schema';
 import { POPULAR_KEY_MODEL } from './entities/popular-key.schema';
 import { IPopularKeyDoc } from './interfaces/popular-key.interface';
 import { FavouriteProductsService } from '../favourite-products/favourite-products.service';
 import { PaginateModel } from 'mongoose-paginate-v2';
+import { CommonIdParams } from 'src/common/common.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { PRODUCT_CATEGORY_MODEL } from './entities/product-category.schema';
+import { IProductCategoryDoc } from './interfaces/product-category.interface';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { paginationTransformer } from 'src/common/helpers';
 // import { ReviewStatus } from '../reviews/review.constant';
 
 @Injectable()
@@ -36,6 +33,8 @@ export class ProductsService {
     private readonly productModel: PaginateModel<IProductDoc>,
     @InjectModel(POPULAR_KEY_MODEL)
     private readonly popularKeyModel: Model<IPopularKeyDoc>,
+    @InjectModel(PRODUCT_CATEGORY_MODEL)
+    private readonly productCategoryModel: PaginateModel<IProductCategoryDoc>,
     @Inject(forwardRef(() => UploadService))
     private readonly uploadService: UploadService,
     @Inject(forwardRef(() => FavouriteProductsService))
@@ -49,56 +48,35 @@ export class ProductsService {
   //   }
   //   this.deletePopularKey();
   // }
+  async create(createProductDto: CreateProductDto) {
+    const { productName } = createProductDto;
+    const existProductName = await this.productModel.findOne({
+      productName: productName.trim(),
+    });
+    if (existProductName) {
+      throw new BadRequestException(`Product name already existed.`);
+    }
+    await this.productModel.create(createProductDto);
+  }
 
   async findAll(findProductsDto: FindProductsDto) {
-    const {
-      minPrice = 0,
-      maxPrice = 0,
-      place,
-      keyword,
-      category,
-      pageSize,
-      page,
-      keySort,
-      memberId,
-    } = findProductsDto;
-    const input: Record<string, unknown> = {
-      key_filter: ProductKeyFilter.Price,
-      key_by: ProductKeyBy.Personal,
-      key_group: 0,
-    };
+    const { minPrice = 0, maxPrice = 0, keyword, categoryId } = findProductsDto;
+    const input: Record<string, unknown> = {};
     const options: Record<string, unknown> = {};
+
     if (keyword) {
-      input.key_search = keyword;
+      const regex = new RegExp(`^${input.key_search}$`);
+      input.productName = { $regex: regex, $options: 'i' };
       await this.popularKeyModel.create({
         keyword: keyword.toLowerCase().trim(),
       });
     }
-    if (category) {
-      input.key_group = category;
+    if (categoryId) {
+      input.categoryId = categoryId;
     }
     if (maxPrice) {
       input.min_price = minPrice;
       input.max_price = maxPrice;
-    }
-    if (pageSize) {
-      input.per_page = pageSize;
-    }
-    if (page) {
-      input.start_page = page;
-    }
-    if (keySort) {
-      input.key_sort = keySort;
-
-      if (
-        keySort === KeySort.BySKUFromAToZ ||
-        keySort === KeySort.BySKUFromZToA
-      ) {
-        input.key_filter = ProductKeyFilter.Code;
-      }
-    }
-    if (memberId) {
-      input.key_by = ProductKeyBy.Member;
     }
 
     options.page = findProductsDto.page;
@@ -106,279 +84,49 @@ export class ProductsService {
     options.sort = { createdAt: -1 };
     try {
       const products = await this.productModel.paginate(input, options);
-      return products;
+      if (!products.docs.length) {
+        return paginationTransformer(products);
+      }
+      products.docs.map((product: any) => {
+        if (product.mediaUrl) {
+          product.mediaUrl = this.uploadService.getSignedUrl(product.mediaUrl);
+        }
+      });
+      return paginationTransformer(products);
     } catch (e) {
       throw new InternalServerErrorException(e);
     }
   }
 
-  // async adminFindAll(findProductsDto: AdminFindProductsDto) {
-  //   const { minPrice = 0, maxPrice = 0 } = findProductsDto;
-  //   const input: Record<string, unknown> = {
-  //     key_filter: 'Price',
-  //     key_group: 0,
-  //   };
-  //   if (findProductsDto.countryCode) {
-  //     input.location_id = findProductsDto.countryCode;
-  //   }
-  //   if (findProductsDto.keyword) {
-  //     input.key_search = findProductsDto.keyword;
-  //   }
-  //   if (findProductsDto.category) {
-  //     input.key_group = findProductsDto.category;
-  //   }
-  //   if (findProductsDto.maxPrice) {
-  //     input.min_price = minPrice;
-  //     input.max_price = maxPrice;
-  //   }
-  //   if (findProductsDto.pageSize) {
-  //     input.per_page = findProductsDto.pageSize;
-  //   }
-  //   if (findProductsDto.page) {
-  //     input.start_page = findProductsDto.page;
-  //   }
-  //   if (findProductsDto.keySort) {
-  //     input.key_sort = findProductsDto.keySort;
-  //   }
-  //   try {
-  //     const legacyResponse = await this.apiClientService.get(
-  //       `${process.env.LEGACY_API}/Product_Package/Product`,
-  //       {
-  //         params: input,
-  //       },
-  //     );
-  //     const { DATA, ROW } = legacyResponse.data;
-
-  //     if (Array.isArray(DATA)) {
-  //       const existingProducts = await this.productModel.aggregate([
-  //         {
-  //           $lookup: {
-  //             from: 'reviews',
-  //             localField: 'productCode',
-  //             foreignField: 'sku',
-  //             as: 'reviews',
-  //           },
-  //         },
-  //         {
-  //           $addFields: {
-  //             approvedReviews: {
-  //               $filter: {
-  //                 input: '$reviews',
-  //                 as: 'review',
-  //                 cond: {
-  //                   $eq: ['$$review.status', ReviewStatus.Approved],
-  //                 },
-  //               },
-  //             },
-  //           },
-  //         },
-  //         {
-  //           $match: {
-  //             productCode: {
-  //               $in: DATA.map((product) => product.product_code),
-  //             },
-  //           },
-  //         },
-  //         {
-  //           $project: {
-  //             productCode: 1,
-  //             isNewProduct: 1,
-  //             media: 1,
-  //             description: 1,
-  //             rating: 1,
-  //             countApprovedReviews: {
-  //               $size: '$approvedReviews',
-  //             },
-  //             approvedReviews: 1,
-  //           },
-  //         },
-  //       ]);
-
-  //       const data = DATA.map((val) => {
-  //         const productDetail = existingProducts.find(
-  //           (p) => p.productCode === val.product_code,
-  //         );
-  //         return this.productTransformer(val, productDetail);
-  //       });
-
-  //       return {
-  //         data,
-  //         total: ROW,
-  //         page: +findProductsDto.page,
-  //         limit: +findProductsDto.pageSize,
-  //       };
-  //     }
-
-  //     return {
-  //       data: [],
-  //       total: 0,
-  //       page: +findProductsDto.page,
-  //       limit: +findProductsDto.pageSize,
-  //     };
-  //   } catch (error) {
-  //     if (error?.response.status) {
-  //       return {
-  //         data: [],
-  //         total: 0,
-  //         page: +findProductsDto.page,
-  //         limit: +findProductsDto.pageSize,
-  //       };
-  //     } else {
-  //       throw new ServiceUnavailableException({ key: 'translate.LegacyError' });
-  //     }
-  //   }
-  // }
-
-  // async listProductBySku(findProductsBySkuDto: FindProductsBySkuDto) {
-  //   const input: Record<string, unknown> = {};
-  //   if (findProductsBySkuDto.countryCode) {
-  //     input.location_id = findProductsBySkuDto.countryCode;
-  //   }
-  //   if (findProductsBySkuDto.productCode) {
-  //     input.product_array =
-  //       typeof findProductsBySkuDto.productCode === 'string'
-  //         ? [findProductsBySkuDto.productCode]
-  //         : findProductsBySkuDto.productCode;
-  //   }
-  //   try {
-  //     const { DATA } = await this.callApiProductPackageArray(input);
-
-  //     if (Array.isArray(DATA)) {
-  //       const data = await this.findProductData(DATA);
-  //       if (findProductsBySkuDto.memberId) {
-  //         await this.mapFavouriteProduct(
-  //           data.data,
-  //           findProductsBySkuDto.memberId,
-  //         );
-  //       }
-
-  //       return data;
-  //     }
-  //     return {
-  //       data: [],
-  //     };
-  //   } catch (error) {
-  //     if (error?.response.status) {
-  //       throw new NotFoundException({ key: 'translate.ProductNotFound' });
-  //     } else {
-  //       throw new ServiceUnavailableException({ key: 'translate.LegacyError' });
-  //     }
-  //   }
-  // }
-
-  // async adminFindOne(findOneProductDto: FindOneProductDto) {
-  //   const input: Record<string, unknown> = {};
-
-  //   if (findOneProductDto.countryCode) {
-  //     input.location_id = findOneProductDto.countryCode;
-  //   }
-  //   if (findOneProductDto.productCode) {
-  //     input.product_array = [findOneProductDto.productCode];
-  //   }
-
-  //   const { DATA } = await this.callApiProductPackageArray(input);
-
-  //   const product = await this.productModel.findOne({
-  //     productCode: DATA[0].product_code,
-  //   });
-
-  //   if (Array.isArray(DATA) && DATA.length) {
-  //     return this.productTransformer(DATA[0], product);
-  //   }
-
-  //   throw new NotFoundException({ key: 'translate.ProductNotFound' });
-  // }
-
-  async findOne(findOneProductDto: FindOneProductDto) {
-    const input: Record<string, unknown> = {};
-    if (findOneProductDto.productCode) {
-      input.product_array = [findOneProductDto.productCode];
-    }
+  async findOne({ id }: CommonIdParams) {
     try {
-      const product = await this.productModel.findOne({
-        productCode: findOneProductDto.productCode,
-      });
+      const product = await this.productModel.findById(id).lean();
+      if (product.mediaUrl) {
+        product.mediaUrl = this.uploadService.getSignedUrl(product.mediaUrl);
+      }
       return product;
     } catch (error) {
-      throw new NotFoundException(error, 'Not found');
+      throw new InternalServerErrorException(error);
     }
   }
 
-  async update(productCode: string, updateProductDto: UpdateProductDto) {
-    let existingProduct = await this.productModel.findOne({ productCode });
+  async update({ id }: CommonIdParams, updateProductDto: UpdateProductDto) {
+    let existingProduct = await this.productModel.findById(id);
     if (!existingProduct) {
       existingProduct = new this.productModel({
         ...updateProductDto,
-        productCode,
       });
     } else {
-      existingProduct.media = updateProductDto.media;
+      existingProduct.mediaUrl = updateProductDto.mediaUrl;
       existingProduct.isNewProduct = updateProductDto.isNewProduct;
       existingProduct.description = updateProductDto.description;
+      existingProduct.productName = updateProductDto.productName;
+      existingProduct.stock = updateProductDto.stock;
+      existingProduct.price = updateProductDto.price;
     }
     return existingProduct.save();
   }
 
-  productTransformer(product, existingProduct): IProductLegacy {
-    let media = [];
-    if (existingProduct?.media && existingProduct.media.length) {
-      media = existingProduct.media.map((val: IMediaFile) => {
-        return {
-          url: val.url || '',
-          urlPreSign: val.url
-            ? `${process.env.AWS_S3_PUBLIC_URL}/${val.url}`
-            : '',
-          fileType: val.fileType,
-          position: val.position,
-        };
-      });
-    }
-    return {
-      productCode: product.product_code,
-      productName: product.product_name,
-      pv: +product.pv,
-      memberPrice: +product.member_price,
-      personalPrice: +product.personal_price,
-      weight: +product.weight,
-      categoryId: product.category,
-      sdate: product.sdate,
-      edate: product.edate,
-      flag: product.flag,
-      media,
-      status: product.statuss,
-      rating: existingProduct?.rating || 0,
-      stock: 0,
-      sold: 0,
-      description: {
-        en: existingProduct?.description?.en || '',
-        th: existingProduct?.description?.th || '',
-      },
-      isNewProduct: existingProduct?.isNewProduct || false,
-      isFavourite: null,
-      favouriteId: null,
-      memberId: null,
-      countApprovedReviews: existingProduct?.countApprovedReviews || 0,
-    };
-  }
-
-  async findProductData(DATA) {
-    const existingProducts = await this.productModel
-      .find({
-        productCode: {
-          $in: DATA.map((product) => product.product_code),
-        },
-      })
-      .lean();
-    const data = await Promise.all(
-      DATA.map((val) => {
-        const productDetail = existingProducts.filter(
-          (p) => p.productCode === val.product_code,
-        );
-        return this.productTransformer(val, productDetail[0]);
-      }),
-    );
-    return { data };
-  }
   async popularKey() {
     const key = await this.popularKeyModel
       .aggregate([
@@ -415,28 +163,52 @@ export class ProductsService {
     }
   }
 
-  async updateRatingAfterReview(productCode: string, rating: number) {
+  async updateRatingAfterReview({ id }: CommonIdParams, rating: number) {
     await this.productModel.updateOne(
-      { productCode },
+      { id },
       { rating },
       { upsert: true, setDefaultsOnInsert: true },
     );
   }
 
-  async mapFavouriteProduct(data, memberId) {
-    const favouriteArr = await this.favouriteProductsService.findIn(
-      data.map((product) => product.productCode),
-      memberId,
+  async createCategory({ category }: CreateCategoryDto) {
+    // Get all category
+    const listCategory = await this.productCategoryModel.find();
+    const categoryExist: string[] = listCategory.map(
+      (obj: any) => obj.category,
     );
-    data.map((product) =>
-      favouriteArr.forEach((favouriteProduct) => {
-        if (favouriteProduct.productCode === product.productCode) {
-          product.isFavourite = true;
-          product.favouriteId = favouriteProduct._id;
-          product.memberId = memberId;
-        }
-      }),
+    // Trim value
+    const categoryTransform = category.map((val) => val.trim().toLowerCase());
+
+    // Get unique category
+    const uniqueCategory = categoryTransform.filter(
+      (val: any) => !categoryExist.includes(val),
     );
-    return data;
+
+    const dataInsert = uniqueCategory.map((category: any) => ({
+      category,
+    }));
+    if (dataInsert.length) {
+      await this.productCategoryModel.insertMany(dataInsert);
+    }
+  }
+
+  async getAllCategory() {
+    const list = await this.productCategoryModel.find();
+    if (!list.length) {
+      throw new NotFoundException(`Empty category`);
+    }
+    list.map((obj: any) => {
+      return (obj.category =
+        obj.category.charAt(0).toUpperCase() + obj.category.slice(1));
+    });
+    return list;
+  }
+
+  async deleteProduct({ id }: CommonIdParams) {
+    const user = await this.productModel.findByIdAndDelete(id);
+    if (!user) {
+      throw new NotFoundException(`Not found product with id ${id}`);
+    }
   }
 }

@@ -48,9 +48,6 @@ export class UserSignUpDto {
   @IsString()
   avatar: string;
 
-  @IsString()
-  generation: string;
-
   @IsEnum(Gender)
   @IsString()
   gender: Gender;

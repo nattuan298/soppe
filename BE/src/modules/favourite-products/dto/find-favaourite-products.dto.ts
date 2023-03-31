@@ -5,5 +5,5 @@ export class FindOneFavouriteProductDto {
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  productCode: string;
+  productId: string;
 }

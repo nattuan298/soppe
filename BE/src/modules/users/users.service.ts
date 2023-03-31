@@ -65,7 +65,7 @@ export class UsersService {
     user.code = '';
 
     const options = {
-      subject: 'Welcome to GVC Management',
+      subject: 'Welcome to Soppe',
       template: 'user-create',
       context: {
         username: createUserDto.username,
@@ -78,7 +78,7 @@ export class UsersService {
       this.sendMailToUser(createUserDto.email, options),
     ]);
     return {
-      message: `Thanks for signing up. Please wait for admin to approve your account.`,
+      message: `Thanks for signing up.`,
     };
   }
 
@@ -129,7 +129,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(UserResponseMessage.NotFound);
     }
-    if (user.avatar.length >= 1) {
+    if (user.avatar) {
       user.avatar = this.uploadService.getSignedUrl(user.avatar);
     }
     return user;
@@ -158,7 +158,7 @@ export class UsersService {
     }
     const users = await this.userModel.paginate(filters, options);
     users.docs.map((user: any) => {
-      if (user.avatar.length >= 1) {
+      if (user.avatar) {
         user.avatar = this.uploadService.getSignedUrl(user.avatar);
       }
     });
@@ -293,7 +293,7 @@ export class UsersService {
       throw new NotFoundException(UserResponseMessage.NotFound);
     }
     const { salt, hashPassword } = await this.hashPassword(
-      recoveryPassword.password,
+      recoveryPassword.newPassword,
     );
     user.salt = salt;
     user.password = hashPassword;
@@ -304,24 +304,6 @@ export class UsersService {
       message: `Recovery password successful.`,
     };
   }
-
-  // async updateCreateRequest(id: string, createRequestDto: CreateRequestDto) {
-  //   const user = await this.userModel.findByIdAndUpdate(
-  //     { _id: id },
-  //     { createRequest: createRequestDto.createRequest },
-  //   );
-  //   if (!user) {
-  //     throw new NotFoundException(UserResponseMessage.NotFound);
-  //   }
-  //   if (false) {
-  //     const options = {
-  //       subject: 'Approve Account!',
-  //       template: 'approve-account',
-  //     };
-
-  //     await this.sendMailToUser(user.email, options);
-  //   }
-  // }
 
   async getUserByUsername(username: string): Promise<any> {
     return this.userModel.findOne({ username });

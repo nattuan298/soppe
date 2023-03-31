@@ -7,7 +7,6 @@ export interface IUser {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  generation: string;
   gender: Gender;
   avatar: string;
   dateOfBirth: Date;

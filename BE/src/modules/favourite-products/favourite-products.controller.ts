@@ -6,19 +6,18 @@ import {
   Param,
   Delete,
   UseGuards,
-  Query,
-  Req,
 } from '@nestjs/common';
 import { FavouriteProductsService } from './favourite-products.service';
 import { CreateFavouriteProductDto } from './dto/create-favourite-product.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { CommonIdParams } from 'src/common/common.dto';
-import { Request } from 'express';
+import { JwtGuard } from 'src/common/guards/jwt-guard';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
+import IJwtPayload from '../auth/payloads/jwt-payload';
 
 @ApiTags('favourite-products')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('verifyMember'))
+@UseGuards(JwtGuard)
 @Controller('favourite-products')
 export class FavouriteProductsController {
   constructor(
@@ -28,21 +27,18 @@ export class FavouriteProductsController {
   @Post()
   create(
     @Body() createFavouriteProductDto: CreateFavouriteProductDto,
-    @Param('memberId') memberId: string,
+    @GetUser() { id }: IJwtPayload,
   ) {
-    return this.favouriteProductsService.create(
-      createFavouriteProductDto,
-      memberId,
-    );
+    return this.favouriteProductsService.create(createFavouriteProductDto, id);
   }
 
   @Get()
-  findAll(@Param('memberId') memberId: string) {
-    return this.favouriteProductsService.findAll(memberId);
+  findAll(@GetUser() { id }: IJwtPayload) {
+    return this.favouriteProductsService.findAll(id);
   }
 
   @Delete(':id')
-  remove(@Param() params: CommonIdParams) {
-    return this.favouriteProductsService.remove(params.id);
+  remove(@Param() { id }: CommonIdParams) {
+    return this.favouriteProductsService.remove(id);
   }
 }

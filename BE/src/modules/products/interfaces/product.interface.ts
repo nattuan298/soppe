@@ -1,19 +1,6 @@
-import { FileType } from '../product.constant';
 import { Document } from 'mongoose';
 
-export interface IMediaFile {
-  url: string;
-  fileType: FileType;
-  position: number;
-}
-
-export interface IMultiLang {
-  en: string;
-  th: string;
-}
-
 export interface IProductLegacy {
-  productCode: string;
   productName: string;
   pv: number;
   memberPrice: number;
@@ -27,8 +14,7 @@ export interface IProductLegacy {
   rating: number;
   stock: number;
   sold: number;
-  media?: IMediaFile[];
-  description: IMultiLang;
+  description: string;
   isNewProduct: boolean;
   isFavourite: boolean;
   favouriteId: any;
@@ -39,8 +25,7 @@ export interface IProductLegacy {
 export interface IProduct {
   productCode: string;
   isNewProduct: boolean;
-  media: IMediaFile[];
-  description: IMultiLang;
+  description: string;
   rating: number;
 }
 export type IProductDoc = Document & IProduct;

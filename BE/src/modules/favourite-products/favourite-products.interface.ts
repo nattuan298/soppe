@@ -1,8 +1,10 @@
 import { Document } from 'mongoose';
 
 export interface IFavouriteProduct {
-  productCode: string;
-  memberId: string;
+  productId: string;
+  userId: string;
+  mediaUrl: string;
+  productName: string;
   createdAt: Date;
 }
 export type IFavouriteProductDoc = Document & IFavouriteProduct;

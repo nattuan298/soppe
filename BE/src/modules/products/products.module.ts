@@ -11,6 +11,10 @@ import {
 } from './entities/popular-key.schema';
 import { PopularKeywordController } from './popular-key.controller';
 import { FavouriteProductsModule } from '../favourite-products/favourite-products.module';
+import {
+  PRODUCT_CATEGORY_MODEL,
+  ProductCategorySchema,
+} from './entities/product-category.schema';
 
 @Module({
   imports: [
@@ -22,6 +26,10 @@ import { FavouriteProductsModule } from '../favourite-products/favourite-product
       {
         name: POPULAR_KEY_MODEL,
         schema: PopularKeySchema,
+      },
+      {
+        name: PRODUCT_CATEGORY_MODEL,
+        schema: ProductCategorySchema,
       },
     ]),
     forwardRef(() => UploadModule),

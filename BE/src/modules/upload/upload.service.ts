@@ -24,14 +24,15 @@ export class UploadService {
     return { Key, Location };
   }
 
-  getSignedUrl(Key: string) {
+  getSignedUrl(key: string) {
+    if (!key) return '';
     const s3 = new S3({
       accessKeyId: process.env.AWS_ACCESS_KEY,
       secretAccessKey: process.env.AWS_SECRET_KEY,
     });
     return s3.getSignedUrl('getObject', {
       Bucket: this.BUCKET,
-      Key,
+      Key: key,
       Expires: this.EXPIRES,
     });
   }

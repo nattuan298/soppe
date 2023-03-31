@@ -1,17 +1,14 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 
 import {
-  FindOneProductDto,
   FindProductsDto,
   ResFindProductDto,
   ResFindProductsDto,
 } from './dto/find-products.dto';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CommonIdParams } from 'src/common/common.dto';
 
-@ApiBearerAuth()
-@UseGuards(JwtGuard)
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
@@ -23,14 +20,14 @@ export class ProductsController {
     return this.productsService.findAll(findProductsDto);
   }
 
-  // @Get('list')
-  // findProductBySku(@Query() findProductsBySkuDto: FindProductsBySkuDto) {
-  //   return this.productsService.listProductBySku(findProductsBySkuDto);
-  // }
+  @Get('/category')
+  findAllCategory() {
+    return this.productsService.getAllCategory();
+  }
 
-  @Get(':productCode')
+  @Get(':id')
   @ApiResponse({ type: ResFindProductDto })
-  findOne(@Query() findOneProductDto: FindOneProductDto) {
-    return this.productsService.findOne(findOneProductDto);
+  findOne(@Param() commonIdParams: CommonIdParams) {
+    return this.productsService.findOne(commonIdParams);
   }
 }

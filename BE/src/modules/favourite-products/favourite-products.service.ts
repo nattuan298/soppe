@@ -1,10 +1,10 @@
 import {
-  BadGatewayException,
   BadRequestException,
   ConflictException,
   forwardRef,
   Inject,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -24,58 +24,52 @@ export class FavouriteProductsService {
 
   async create(
     createFavouriteProductDto: CreateFavouriteProductDto,
-    memberId: string,
+    userId: string,
   ) {
-    createFavouriteProductDto.productCode =
-      createFavouriteProductDto.productCode.trim();
+    createFavouriteProductDto.productId =
+      createFavouriteProductDto.productId.trim();
     const countFavouriteProduct =
-      await this.favouriteProductModel.countDocuments({ memberId });
+      await this.favouriteProductModel.countDocuments({ userId });
     if (countFavouriteProduct >= 30) {
-      throw new BadRequestException({
-        key: 'translate.FavouriteProdOver30Products',
-      });
+      throw new BadRequestException(`You can only add maximum 30 product`);
     }
-    const existProductCode = await this.favouriteProductModel.findOne({
-      productCode: createFavouriteProductDto.productCode,
-      memberId,
+    const existProductId = await this.favouriteProductModel.findOne({
+      productId: createFavouriteProductDto.productId,
+      userId,
     });
-    if (existProductCode) {
-      throw new ConflictException({
-        key: 'translate.FavouriteProdAlreadyExist',
-      });
+    if (existProductId) {
+      throw new ConflictException(`You already added this product`);
     }
     return await this.favouriteProductModel.create({
       ...createFavouriteProductDto,
-      memberId,
+      userId,
     });
   }
 
-  async findAll(memberId: string) {
-    const favProducts = await this.favouriteProductModel.find({ memberId });
+  async findAll(userId: string) {
+    const favProducts = await this.favouriteProductModel
+      .find({ userId })
+      .lean();
+
     if (!favProducts.length) {
       return {
         data: [],
       };
     }
+    const listProduct = await Promise.all(
+      favProducts.map(async (p) => {
+        const id = p.productId;
+        const prod = await this.productsService.findOne({ id });
+        return {
+          ...p,
+          mediaUrl: prod.mediaUrl,
+          productName: prod.productName,
+        };
+      }),
+    );
     return {
-      data: favProducts,
+      data: listProduct,
     };
-  }
-
-  async findIn(productCode: string[], memberId: string) {
-    const favouriteProducts = await this.favouriteProductModel.find({
-      productCode: { $in: productCode },
-      memberId,
-    });
-    return favouriteProducts;
-  }
-
-  async findOne(productCode: string, memberId: string) {
-    const favouriteProduct = await this.favouriteProductModel.findOne({
-      productCode,
-      memberId,
-    });
-    return favouriteProduct;
   }
 
   async remove(id: string) {
@@ -83,7 +77,7 @@ export class FavouriteProductsService {
       { _id: id },
     );
     if (!favouriteProduct) {
-      throw new BadGatewayException({ key: 'translate.FavouriteProdNotFound' });
+      throw new NotFoundException(`Not found favorite product.`);
     }
   }
 }

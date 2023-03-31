@@ -8,23 +8,24 @@ import {
   UseGuards,
   HttpStatus,
   HttpCode,
+  Post,
+  Delete,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { UpdateProductDto } from './dto/update-product.dto';
 import {
-  AdminFindProductsDto,
-  FindOneProductDto,
+  FindProductsDto,
   ResFindProductDto,
   ResFindProductsDto,
 } from './dto/find-products.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { CommonIdParams } from '../../common/common.dto';
-import { UpdateLocationPriceDto } from './dto/location-price.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/common.constants';
 import { JwtGuard } from 'src/common/guards/jwt-guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
+import { CreateProductDto } from './dto/create-product.dto';
+import { CreateCategoryDto } from './dto/create-category.dto';
 
 @ApiTags('admin')
 @ApiBearerAuth()
@@ -34,28 +35,40 @@ import { RolesGuard } from 'src/common/guards/role.guard';
 @Controller('admin/products')
 export class ProductsAdminController {
   constructor(private readonly productsService: ProductsService) {}
-  // @Get()
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard('jwt'), RolesGuard)
-  // @ApiResponse({ type: ResFindProductsDto })
-  // findAll(@Query() findProductsDto: AdminFindProductsDto) {
-  //   return this.productsService.adminFindAll(findProductsDto);
-  // }
+  @Get()
+  @ApiResponse({ type: ResFindProductsDto })
+  findAll(@Query() findProductsDto: FindProductsDto) {
+    return this.productsService.findAll(findProductsDto);
+  }
 
-  // @Get(':productCode')
-  // @ApiBearerAuth()
-  // @ApiResponse({ type: ResFindProductDto })
-  // findOne(@Query() findOneProductDto: FindOneProductDto) {
-  //   return this.productsService.adminFindOne(findOneProductDto);
-  // }
+  @Post()
+  @ApiResponse({ type: UpdateProductDto })
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.create(createProductDto);
+  }
 
-  @Put(':productCode')
-  @ApiBearerAuth()
+  @Get(':id')
+  @ApiResponse({ type: ResFindProductDto })
+  findOne(@Param() commonIdParams: CommonIdParams) {
+    return this.productsService.findOne(commonIdParams);
+  }
+
+  @Put(':id')
   @ApiResponse({ type: UpdateProductDto })
   update(
-    @Param('productCode') productCode: string,
+    @Param() commonIdParams: CommonIdParams,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    return this.productsService.update(productCode, updateProductDto);
+    return this.productsService.update(commonIdParams, updateProductDto);
+  }
+
+  @Delete(':id')
+  delete(@Param() commonIdParams: CommonIdParams) {
+    return this.productsService.deleteProduct(commonIdParams);
+  }
+
+  @Post('/category')
+  createCategory(@Body() body: CreateCategoryDto) {
+    return this.productsService.createCategory(body);
   }
 }

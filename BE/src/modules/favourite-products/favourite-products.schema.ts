@@ -3,8 +3,8 @@ import * as mongoose from 'mongoose';
 const FAVOURITE_PRODUCT_MODEL = 'favourite-products';
 const FavouriteProductsSchema = new mongoose.Schema(
   {
-    productCode: String,
-    memberId: String,
+    productId: String,
+    userId: String,
   },
   { timestamps: true },
 );

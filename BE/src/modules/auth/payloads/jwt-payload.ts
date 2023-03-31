@@ -6,4 +6,5 @@ export default interface IJwtPayload {
   role: Role;
   salt: string;
   updatedPasswordAt: Date;
+  id: string;
 }

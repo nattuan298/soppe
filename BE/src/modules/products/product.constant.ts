@@ -1,8 +1,3 @@
-export enum FileType {
-  Image = 'IMAGE',
-  Video = 'VIDEO',
-}
-
 export enum ProductResponseMessage {
   NotFound = 'Product is not found',
 }

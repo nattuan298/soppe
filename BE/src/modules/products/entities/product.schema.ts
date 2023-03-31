@@ -5,17 +5,25 @@ const PRODUCT_MODEL = 'products';
 
 const ProductSchema = new mongoose.Schema(
   {
-    productCode: String,
+    productName: String,
     isNewProduct: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-    media: [],
+    mediaUrl: String,
     description: String,
     rating: {
       type: Number,
       default: 0,
     },
+    ratingCount: {
+      type: Number,
+      default: 0,
+    },
+    categoryId: String,
+    stock: Number,
+    sold: Number,
+    price: Number,
   },
   { timestamps: true },
 );

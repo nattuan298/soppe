@@ -41,9 +41,6 @@ export class CreateUserDto {
   @IsNumberString()
   phoneNumber: string;
 
-  @IsString()
-  generation: string;
-
   @IsEnum(Gender)
   @IsString()
   gender: Gender;
