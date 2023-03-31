@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { I18nRequestScopeService } from 'nestjs-i18n';
 import { ProductsService } from '../products/products.service';
 import { CreateFavouriteProductDto } from './dto/create-favourite-product.dto';
 import { IFavouriteProductDoc } from './favourite-products.interface';
@@ -21,7 +20,6 @@ export class FavouriteProductsService {
     private readonly favouriteProductModel: Model<IFavouriteProductDoc>,
     @Inject(forwardRef(() => ProductsService))
     private readonly productsService: ProductsService,
-    private readonly _i18nService: I18nRequestScopeService,
   ) {}
 
   async create(

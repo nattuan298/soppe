@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { UploadModule } from './modules/upload/upload.module';
+import { ProductsModule } from './modules/products/products.module';
+import { FavouriteProductsModule } from './modules/favourite-products/favourite-products.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -43,6 +45,8 @@ import { UploadModule } from './modules/upload/upload.module';
     UsersModule,
     AuthModule,
     UploadModule,
+    ProductsModule,
+    FavouriteProductsModule,
   ],
 })
 export class AppModule {}

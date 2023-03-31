@@ -1,15 +1,17 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
 
 import {
   FindOneProductDto,
-  FindProductsBySkuDto,
   FindProductsDto,
   ResFindProductDto,
   ResFindProductsDto,
 } from './dto/find-products.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/common/guards/jwt-guard';
 
+@ApiBearerAuth()
+@UseGuards(JwtGuard)
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {

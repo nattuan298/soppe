@@ -1,28 +1,19 @@
 import {
   forwardRef,
-  HttpStatus,
   Inject,
   InternalServerErrorException,
   NotFoundException,
-  ServiceUnavailableException,
 } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Status } from '../../common/common.constants';
 import { UploadService } from '../upload/upload.service';
-import {
-  AdminFindProductsDto,
-  FindOneProductDto,
-  FindProductsBySkuDto,
-  FindProductsDto,
-} from './dto/find-products.dto';
+import { FindOneProductDto, FindProductsDto } from './dto/find-products.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import {
   DELETE_POPULAR_KEY,
   FALSE,
   KeySort,
-  ProductEndPoint,
   ProductKeyBy,
   ProductKeyFilter,
 } from './product.constant';
@@ -34,10 +25,7 @@ import {
 import { PRODUCT_MODEL } from './entities/product.schema';
 import { POPULAR_KEY_MODEL } from './entities/popular-key.schema';
 import { IPopularKeyDoc } from './interfaces/popular-key.interface';
-import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { FavouriteProductsService } from '../favourite-products/favourite-products.service';
-import { ILocationPriceDoc } from './interfaces/location-price.interface';
-import { FindOneDto, UpdateLocationPriceDto } from './dto/location-price.dto';
 import { PaginateModel } from 'mongoose-paginate-v2';
 // import { ReviewStatus } from '../reviews/review.constant';
 
@@ -52,19 +40,15 @@ export class ProductsService {
     private readonly uploadService: UploadService,
     @Inject(forwardRef(() => FavouriteProductsService))
     private readonly favouriteProductsService: FavouriteProductsService,
-    private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
-    name: DELETE_POPULAR_KEY,
-  })
-  handleCron() {
-    if (process.env.POPULAR_KEY_CRON_JOB === FALSE) {
-      const job = this.schedulerRegistry.getCronJob(DELETE_POPULAR_KEY);
-      return job.stop();
-    }
-    this.deletePopularKey();
-  }
+  // handleCron() {
+  //   if (process.env.POPULAR_KEY_CRON_JOB === FALSE) {
+  //     const job = this.schedulerRegistry.getCronJob(DELETE_POPULAR_KEY);
+  //     return job.stop();
+  //   }
+  //   this.deletePopularKey();
+  // }
 
   async findAll(findProductsDto: FindProductsDto) {
     const {
