@@ -1,0 +1,220 @@
+/* .main-banner {
+  max-height: 600px;
+} */
+
+.main-banner img {
+    height: 100%;
+    width: 100%;
+}
+
+.main-banner .slick-list {
+    /* height: 590px; */
+    /* outline: 10px solid blue; */
+}
+
+.main-banner__slider-item {
+    width: 100%;
+}
+
+.main-banner .height-400 .slick-list {
+    height: 400px !important;
+}
+
+.main-banner .height-484 .slick-list {
+    height: 484px;
+}
+.main-banner .height-164 .slick-list {
+    height: 164px;
+}
+
+.height-600 {
+    height: 600px;
+}
+.height-375 {
+    height: 375px;
+}
+.main-banner__slider-item>img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.main-banner .slick-dots {
+    bottom: 10px !important;
+}
+
+.main-banner .slick-dots li {
+    width: 12px;
+    height: 12px;
+    margin: 0px;
+    margin-right: 7px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.main-banner .slick-dots li button {
+    width: 12px;
+    height: 12px;
+    padding: 0px;
+}
+
+.main-banner .slick-dots li button:before {
+    font-size: 12px;
+    opacity: 1;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+}
+
+.main-banner .slick-dots li:not(.slick-active) button:before {
+    color: #fff;
+}
+
+.main-banner .slick-dots li.slick-active button:before {
+    color: #ff7500;
+    text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+}
+
+.main-banner .slick-slide img {
+    transition: all 1.3s;
+}
+
+.main-banner .slick-slide.slick-active img {
+    min-height: 480px;
+}
+
+.main-banner .slick-slide.slick-active {
+    z-index: 9999 !important;
+}
+
+.carousel-indicators {
+    bottom: 5px;
+}
+
+.carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    background: #313131;
+    opacity: 0.8;
+    border-radius: 50%;
+    border-top: unset;
+    border-bottom: unset;
+    margin-right: 16px;
+}
+
+.carousel-indicators .active {
+    background: #fff;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    display: none;
+}
+
+.product-carousel .slick-list {
+    width: 100%;
+}
+.main-banner .dummy{
+    height: 100%;
+}
+@media (max-width: 575px) {
+    .main-banner {
+        min-height: 100px;
+    }
+    /* .main-banner .slick-list {
+        height: 200px;
+    } */
+    .main-banner .slick-dots {
+        bottom: 7.3px !important;
+    }
+    .main-banner img {
+        height: 210px;
+    }
+    .main-banner .dummy{
+        height: 210px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .main-banner {
+        min-height: 210px;
+    }
+    .main-banner .slick-dots {
+        bottom: 8.3px !important;
+    }
+    .main-banner .slick-list {
+        height: 239px;
+    }
+    .main-banner img {
+        height: 239px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .main-banner {
+        min-height: 210px;
+    }
+    .main-banner .slick-dots {
+        bottom: 8.3px !important;
+    }
+    .main-banner .slick-list {
+        height: 239px;
+    }
+    .main-banner img {
+        height: 239px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+@media (min-width: 1200px) {}
+
+.product-banner .slick-list {
+    margin-right: -44px;
+    padding-bottom: 5px;
+}
+
+.product-banner .slick-slide {
+    margin: 0 22px 0px 20px;
+}
+
+.product-banner4 .slick-list {
+    padding-bottom: 5px;
+    margin-right: -44px;
+}
+
+.product-banner4 .slick-slide {
+    margin: 0 21px 0px 22px;
+}
+
+.product-banner4 .slick-track {
+    margin: 0px 0px 0px 16px;
+}
+
+.product-banner .slick-track {
+    margin-left: 5px;
+}
+@media screen and (max-width: 640px) {
+    .product-banner .slick-slide {
+        margin: 0px 10px 0px 0px;
+    }  
+    .product-banner4 .slick-slide {
+        margin: 0px 10px 0px 0px;
+    }
+    .product-banner .slick-track {
+        margin-left: 16px;
+    }
+    /* .product-banner4 .slick-track{
+        margin: 0 auto;
+        max-width: 95vw;
+    } */
+    .main-banner .slick-dots li button:before {
+        font-size: 9px;
+        opacity: 1;
+        width: 12px;
+        height: 12px;
+        line-height: 12px;
+    }
+    .main-banner .slick-slide.slick-active img {
+        min-height: auto;
+    }
+}

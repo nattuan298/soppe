@@ -1,0 +1,24 @@
+@import "tailwindcss/base";
+@import "./base/font.css";
+@import "./base/input.css";
+@import "./utilities/typography.css";
+
+
+@import "tailwindcss/components";
+@import "./component/app.css";
+@import "./component/slick_custom.css";
+@import "./component/header.css";
+@import "./component/footer.css";
+@import "./component/loading-indicator.css";
+@import "./component/select.css";
+@import "./component/date-picker.css";
+@import "./component/date-range.css";
+@import "tailwindcss/utilities";
+
+@layer components {
+    .ring-customer {
+        border-color: #EBEBEB;
+        border-width: 1px;
+        border-radius: 5px;
+    }
+}

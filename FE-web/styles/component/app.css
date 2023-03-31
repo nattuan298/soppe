@@ -1,0 +1,263 @@
+.app {
+  min-height: calc(100vh - var(--header-desktop-h) - var(--footer-desktop-h));
+}
+
+:root {
+  --header-desktop-h: 58px;
+  --footer-desktop-h: 248px;
+}
+
+.breadcrumb {
+  background: transparent linear-gradient(180deg, #F8B61B -18%, #FF7500 79%, #FF7500 60%) 0% 0% no-repeat padding-box;
+}
+
+.body {
+  margin-top: 75px;
+}
+@media screen and (max-width: 640px) {
+  .body{
+    -webkit-text-size-adjust: none;
+  }
+}
+
+.button-login {
+  height: 50px;
+  box-shadow: 1px 1px 5px #00000033;
+  border-radius: 5px;
+}
+
+.button-facebook {
+  margin-bottom: 38px;
+}
+
+.back-icon {
+  margin-right: 50px;
+}
+
+.text-select-method {
+  margin-bottom: 25px;
+}
+@media screen and (max-width:576px) {
+  .text-select-method {
+    margin-top: 35px;
+  margin-bottom: 35px;
+  }
+}
+
+.class-or-text {
+  top: -13px;
+  right: 45%;
+  font-size: 13px;
+}
+
+.form-login-member-id-container {
+  padding: 0px 17px;
+}
+
+.link-to-signup {
+  margin-bottom: 38px;
+}
+
+.button-login-other {
+  width: 82px;
+  height: 50px;
+}
+.form-position {
+  top: 76px;
+  border-radius: 10px;
+  left: 50px;
+}
+
+.iconEye {
+  top: 50%;
+  transform: translateY(-50%);
+  right: 15px;
+}
+
+.errorMessage {
+  color: #FF0000;
+  margin-top: 5px;
+}
+
+.errorInput {
+  border-color: #FF0000;
+}
+
+.Toastify__toast--default {
+  color: #8DC900 !important;
+  background-color: #FFFFFF !important;
+}
+
+.Toastify__close-button--default {
+  color: #8DC900 !important;
+  opacity: 1 !important;
+}
+
+.Toastify__toast--error {
+  background-color: #FFFFFF !important;
+  color: #FF0000 !important;
+}
+
+.Toastify__close-button--error {
+  color: #FF0000 !important;
+  opacity: 1 !important;
+}
+
+.Toastify__toast-body {
+  font-family: 'Kanit', sans-serif;
+}
+
+.item-drag {
+  width: 170px;
+  height: 170px;
+  border: 2px dashed #ebebeb;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.item-drag img {
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.react-datepicker__month-text--keyboard-selected {
+  background-color: #ff7500;
+}
+
+.react-datepicker__month-text.react-datepicker__month--selected:hover {
+  background-color: #ffffff;
+  color: #231F20;
+  outline: 1px solid #ff7500;
+}
+
+.react-datepicker-ignore-onclickoutside {
+  outline: none;
+  width: 65px;
+}
+
+.react-datepicker__input-container input {
+  outline: none;
+  width: 85px;
+}
+
+.react-datepicker__navigation-icon {
+  top: 4px !important;
+}
+
+.react-datepicker__month-text:hover {
+  background-color: #ffffff;
+  color: #231F20;
+  outline: 1px solid #ff7500;
+}
+
+.jodit a {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.jodit h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.jodit h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.jodit h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+.jodit h4 {
+  font-weight: bold;
+}
+
+.jodit h5 {
+  font-size: 0.83em;
+  font-weight: bold;
+}
+
+.jodit h6 {
+  font-size: 0.67em;
+  font-weight: bold;
+}
+
+.jodit ol {
+  list-style-type: decimal;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  padding-inline-start: 40px;
+}
+
+.jodit ul {
+  list-style-type: disc;
+  padding-left: 40px;
+}
+
+.jodit b, .jodit strong {
+  font-weight: bold;
+}
+
+.MuiRating-iconEmpty {
+  color: #FF7500 !important;
+}
+
+.jodit table tr td {
+  border: 1px solid #bfbfbf;
+  min-width: 2em;
+  padding: 0.4em;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  vertical-align: middle;
+}
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.Toastify__toast-container--top-center {
+  min-width: 347px;
+}
+
+.enableBackground {
+  enable-background: new 0 0 852.3 343.9 ;
+}
+.modal-default-location{
+  width: 420px;
+}
+
+@media screen and (max-width: 640px){
+  main {
+     background-color: #FFFFFF;
+  }
+  .modal-default-location{
+    max-width: 355px;
+  }
+  .MuiDialog-paper{
+    margin: 0 !important;
+  }
+  .scm-picker .rdrMonth {
+    width: 100% !important;
+  }
+  .scm-picker{
+    width: 90% !important;
+  }
+  .back-icon {
+    margin-right: 5px;
+  }
+  
+}
+@media screen and (min-width: 640px){
+  .breadcrumb {
+    height: 101px;
+  }
+}
+
+
+

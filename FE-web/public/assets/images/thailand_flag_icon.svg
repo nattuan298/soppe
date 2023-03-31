@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 275 183">
+      <image width="275" height="183" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAaVBMVEXmGTj///8BXKvjACH71dvrGTiCESKVEiQAS6QAVKiSq8+TlJOnp6cCPW8AX64CN2RSDRmHDyOVABbpAB6CABWli5D929+QfIBgDRqcEiTwGjyVl5oAMWkATakAK1sAN21dcIZSY3ZLDBh1vt4sAAABpklEQVR4nO3dx1UDUQAEwY8RwoOQkPAu/yDRcXc7haoQ+j5vxsuamdfHsX5bMbMZ69VganWhyZImpUlpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJqVJaVKa1LHJ0/aMqe1uPO/Pmdofxu0JczeahCalSWlSmpQmpUlpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJqVJaVKalCb1Pj4umfn8Gnf3p0zdP2iypElpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJqVJaVKalCalSWlSmpQmdWzyfcXcw/i5Zu7XbjRsaUuT0qQ0KU1Kk9KkNClNSpPSpDQpTUqT0qQ0KU1Kk9KkNClNSpPSpDQpTUqTuvE3urQ/+KVd2u78Fy/5dC5NSpPSpDQpTUqT0qQ0KU1Kk9KkNClNSpPSpDQpTUqT0qQ0KU1Kk9KkNClNSpPSpDQpTUqT0qQ0qWOT1xVzm/G4uWBq8/cPHMQAe61EHtYAAAAASUVORK5CYII="/>
+    </pattern>
+  </defs>
+  <circle id="Thailand_Flag" data-name="Thailand Flag" cx="8" cy="8" r="8" fill="url(#pattern)"/>
+</svg>

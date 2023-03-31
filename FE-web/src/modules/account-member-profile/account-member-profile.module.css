@@ -1,0 +1,44 @@
+.swapper {
+    margin-top: -34.5px;
+}
+
+.avt {
+    width: 75px;
+    height: 75px;
+    background: #FFE2CB 0% 0% no-repeat padding-box;
+    border: 5px solid #FFFFFF;
+}
+
+.txtAvt {
+    color: #FF7500;
+    font-size: 42px;
+}
+
+.txtName {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 2px;
+    color: #FF7500;
+}
+
+.txtJoined {
+    color: #BCBCBC;
+    font-size: 12px;
+}
+
+.txtInformation {
+    margin-top: 25px;
+    color: #231F20;
+    font-size: 16px;
+    margin-bottom: 494px;
+}
+
+.txtAvt {
+    font-size: 42px;
+}
+
+.imgAvatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 32.5px;
+}

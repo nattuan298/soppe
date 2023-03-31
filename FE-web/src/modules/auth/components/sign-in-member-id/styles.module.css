@@ -1,0 +1,4 @@
+.inputPassword::-ms-clear {
+  display: none;
+}
+

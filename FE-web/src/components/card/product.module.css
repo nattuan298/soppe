@@ -1,0 +1,8 @@
+
+.product_container{
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px #0000001A;
+  background: #FFFFFF;
+  height: 100%;
+  position: relative;;
+}

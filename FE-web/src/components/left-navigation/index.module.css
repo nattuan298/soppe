@@ -1,0 +1,36 @@
+.container {
+  color: #231F20;
+  font-weight: 400;
+}
+
+.item {
+  margin-bottom: 0.65rem;
+}
+ 
+.badge3 {
+  top: -7px;
+  right: 15px;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+}
+@media screen and (max-width: 640px){
+  .badge3 {
+    top: -7px;
+    right: 12px;
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
+  }  
+}
+ 
+@media (min-width: 1440px) {
+  .item {
+    margin-bottom: 1.5rem;
+  }
+}
+@media (max-width: 640px){
+  .item{
+    margin-bottom: 25px;
+  }
+}

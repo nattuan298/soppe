@@ -1,0 +1,8 @@
+.inputSearch::placeholder {
+    font-size: 14px;
+    color: red
+}
+
+.inputSearch {
+    font-size: 14px;
+}

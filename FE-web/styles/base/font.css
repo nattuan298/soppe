@@ -1,0 +1,16 @@
+html,
+body {
+  font-size: 16px;
+  /* https://bitsofco.de/the-new-system-font-stack/ */
+  font-family: -apple-system, "Kanit", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}

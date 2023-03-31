@@ -1,0 +1,5 @@
+.line_column{
+  width: 2px;
+  background-color: #414A59;
+  flex-grow: 1;
+}

@@ -1,0 +1,30 @@
+.chevron {
+  fill: #ff7500;
+}
+
+.selectClassName {
+  height: fit-content !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  justify-content: flex-end !important;
+}
+
+.selectClassName span {
+  font-size: 14px !important;
+}
+
+.searchResult {
+  color: #231F20;
+  font-weight: 500;
+display: inline-block;
+max-width: max-content;
+}
+
+
+.LoadingIndicator circle {
+  color: #FF7500;
+}
+
+.InfiniteScroll {
+  overflow: inherit !important;
+}

@@ -1,0 +1,14 @@
+.signup-confirm-container::-webkit-scrollbar, .select-custom ul::-webkit-scrollbar {
+  width: 5px;
+  /* padding-right: 30px; */
+  /* display: none; */
+}
+
+.signup-confirm-container::-webkit-scrollbar-track, .select-custom ul::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 10px;
+}
+.signup-confirm-container::-webkit-scrollbar-thumb, .select-custom ul::-webkit-scrollbar-thumb {
+  background: #ebebeb;
+  border-radius: 10px;
+}

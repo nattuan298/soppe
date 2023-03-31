@@ -1,0 +1,87 @@
+.skeleton_sections {
+  width: 100%;
+  display: grid;
+  grid-gap: 37px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  margin-left: 3px;
+}
+
+.product {
+  width: 270px !important;
+  min-height: 415px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 6px #0000001a;
+  border-radius: 10px;
+}
+
+.image_product {
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  background-color: #F4F5FA;
+  margin-bottom: 7px;
+}
+
+.main {
+  min-height: 145px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nameStar {
+  height: 80px;
+  float: left;
+}
+
+.title {
+  width: 85%;
+  margin-bottom: 7px;
+  height: 18px !important;
+}
+
+.stars {
+  margin-bottom: 21px;
+}
+
+.spacer2 {
+  flex-grow: 1;
+}
+
+.price_line {
+  float: left;
+  align-items: center;
+}
+
+.price_line>* {
+  flex-grow: 0;
+}
+
+.member_price {
+  margin-right: 5.5px;
+  height: 18px !important;
+  width: 45%;
+}
+
+.personal_price {
+  float: left;
+  height: 14px !important;
+  width: 45%;
+}
+
+.pv {
+  margin-right: 6px;
+  height: 16px !important;
+  width: 45%;
+}
+
+.icon_cart {
+  float: right;
+  flex: 0 0 22px;
+  cursor: pointer;
+}
+
+.price {
+  height: 14px !important;
+  width: 85%;
+}

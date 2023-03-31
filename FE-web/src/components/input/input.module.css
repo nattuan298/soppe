@@ -1,0 +1,46 @@
+.inputWrapper {
+  position: relative;
+}
+
+.input {
+  border-radius: 4px;
+  display: block;
+  width: 100%;
+  background: white;
+  transition: all 0.15s linear;
+  outline: none;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #FF7500;
+}
+
+.errorMessage {
+  color: #FF0000;
+  margin-top: 6px;
+  line-height: 1.375rem;
+  font-size: 14px;
+}
+
+.iconWrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 13px;
+}
+
+.inputNumberFormat {
+  width: 125px;
+  height: 30px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .inputNumberFormat {
+    width: fit-content;
+    min-width: 125px;
+    height: 30px;
+    text-align: center;
+  }
+}

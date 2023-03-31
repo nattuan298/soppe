@@ -1,0 +1,15 @@
+
+
+.dateContainer{
+	border-radius: 10px;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 10px #0000001A;
+}
+
+.backgroundColor{
+	background-color: #ff7500 !important;
+}
+
+.color{
+	color: #ff7500 !important;
+}

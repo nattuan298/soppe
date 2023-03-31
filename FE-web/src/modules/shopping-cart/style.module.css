@@ -1,0 +1,14 @@
+.container{
+  width: 425px;
+  background: #FFFFFF;
+  box-shadow: -1px -1px 10px #0000001A;
+  border-radius: 10px 10px 0px 0px;
+} 
+.footer {
+  height: 60px;
+}
+@media screen and (max-width: 640px) {
+  .container{
+    width: 100vw;
+  } 
+}

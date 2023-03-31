@@ -1,0 +1,10 @@
+
+.button_cancel{
+  margin-left: 15px;
+}
+
+@media (max-width: 640px) {
+  .button_cancel{
+    margin-left: 0px;
+  }
+}

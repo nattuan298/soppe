@@ -1,0 +1,39 @@
+.articles {
+  width: 100%;
+  display: grid;
+  grid-gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  margin-bottom: 45px;
+}
+
+.article {
+  min-height: 291px;
+
+  background: #ffffff 0% 0% no-repeat padding-box;
+}
+
+.title {
+  margin-top: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #231F20;
+  height: 47px;
+}
+
+.info_line {
+  display: flex;
+}
+
+.date_icon, .view_icon{
+  margin-right: 5px;
+}
+
+
+.date, .view {
+  margin-right: 20px;
+  color: #707070;
+  font-size: 14px;
+}
+
+
+

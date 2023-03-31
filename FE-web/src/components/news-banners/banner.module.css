@@ -1,0 +1,17 @@
+.d_block {
+  display: block;
+}
+
+.w_100 {
+  width: 100%;
+}
+
+.acticleTitle {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  width: 100%;
+}

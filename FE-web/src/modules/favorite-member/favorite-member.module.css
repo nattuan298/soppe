@@ -1,0 +1,23 @@
+.noData {
+  margin-top: 28.5px;
+  font-size: 16px;
+  color: #231F20;
+}
+
+.organizaIcon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.userName {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.LoadingIndicator circle {
+  color: #FF7500;
+}

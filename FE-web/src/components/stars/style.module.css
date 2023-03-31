@@ -1,0 +1,14 @@
+.star {
+  display: inline-block !important;
+  margin-right: 4px;
+  width: 14px;
+  height: 14px;
+}
+@media screen and (max-width: 640px) {
+  .star {
+    display: inline-block !important;
+    margin-right: 4px;
+    width: 10px;
+    height: 10px;
+  }
+}

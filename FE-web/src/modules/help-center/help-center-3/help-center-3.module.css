@@ -1,0 +1,48 @@
+.txtInformation {
+    font-size: 10px;
+    font-weight: lighter;
+}
+
+.txtDate {
+    margin-left: 6.5px;
+    margin-right: 10.5px;
+    color: #BCBCBC;
+}
+
+.txtView {
+    margin-left: 5.5px;
+    margin-right: 10px;
+    color: #BCBCBC;
+}
+
+.txtLike {
+    margin-left: 2.5px;
+    color: #BCBCBC;
+}
+
+.txtCount {
+    margin-left: 5px;
+    color: #FF7500;
+}
+
+.iconEye {
+    float: left;
+    margin-top: 1.5px;
+}
+
+.iconEllipse {
+    float: left;
+    margin-top: 7.5px;
+}
+
+.crossbar {
+    height: 1px;
+    background-color: #EBEBEB;
+}
+
+.txtEllipsis {
+    float: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

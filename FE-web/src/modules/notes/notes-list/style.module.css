@@ -1,0 +1,16 @@
+.add_button {
+  width: 55px;
+  height: 55px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 1px 15px #00000033;
+  padding: 11px;
+  right: 158px;
+  bottom:100px;
+}
+@media screen and (max-width: 640px) {
+  .add_button {
+    z-index: 10000;
+    right: 16px;
+    bottom:93px;
+  }
+}

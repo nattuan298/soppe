@@ -1,0 +1,10 @@
+
+.image_delivery{
+    top: 174px;
+}
+@media screen and (max-width: 640px) {
+    .image_delivery{
+        top: 96px;
+        left: -316px;
+    }
+}
