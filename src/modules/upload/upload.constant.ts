@@ -1,4 +1,4 @@
 export enum ModuleName {
-  User = 'user',
-  Post = 'post',
+  Product = 'product',
+  Avatar = 'avatar',
 }
