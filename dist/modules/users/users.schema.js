@@ -42,10 +42,6 @@ const UserSchema = new mongoose.Schema({
         enum: Object.values(common_constants_1.Role),
         default: common_constants_1.Role.User,
     },
-    createRequest: {
-        type: String,
-        enum: Object.values(common_constants_1.CreateRequest),
-    },
     updatedPasswordAt: Date,
     code: String,
 }, {

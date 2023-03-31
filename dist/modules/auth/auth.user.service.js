@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthUserService = void 0;
 const common_1 = require("@nestjs/common");
-const common_constants_1 = require("../../common/common.constants");
 const users_service_1 = require("../users/users.service");
 const auth_constant_1 = require("./auth.constant");
 const jwt_1 = require("@nestjs/jwt");
@@ -29,36 +28,28 @@ let AuthUserService = class AuthUserService {
         password = password.trim();
         const user = await this.usersService.getUserByUsername(username);
         if (user) {
-            if (user.createRequest === common_constants_1.CreateRequest.Wait) {
-                throw new common_1.BadRequestException(auth_constant_1.UserSignInResponseMessage.Waiting);
-            }
-            if (user.createRequest === common_constants_1.CreateRequest.Reject) {
-                throw new common_1.BadRequestException(auth_constant_1.UserSignInResponseMessage.Reject);
-            }
-            if (user.createRequest === common_constants_1.CreateRequest.Approve) {
-                const checkPassword = await this.usersService.validatePassword(password, user.password);
-                if (checkPassword) {
-                    const payload = {
-                        email: user.email,
-                        username: user.username,
-                        role: user.role,
-                        salt: user.salt,
-                        updatedPasswordAt: user.updatedPasswordAt,
-                    };
-                    const jwtAccessToken = await this.jwtService.signAsync(payload);
-                    const { _id, firstName, lastName, email, username, updatedPasswordAt, } = user;
-                    return {
-                        jwtAccessToken,
-                        user: {
-                            _id,
-                            firstName,
-                            lastName,
-                            username,
-                            email,
-                            updatedPasswordAt,
-                        },
-                    };
-                }
+            const checkPassword = await this.usersService.validatePassword(password, user.password);
+            if (checkPassword) {
+                const payload = {
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    salt: user.salt,
+                    updatedPasswordAt: user.updatedPasswordAt,
+                };
+                const jwtAccessToken = await this.jwtService.signAsync(payload);
+                const { _id, firstName, lastName, email, username, updatedPasswordAt } = user;
+                return {
+                    jwtAccessToken,
+                    user: {
+                        _id,
+                        firstName,
+                        lastName,
+                        username,
+                        email,
+                        updatedPasswordAt,
+                    },
+                };
             }
         }
         throw new common_1.BadRequestException(auth_constant_1.UserSignInResponseMessage.Invalid_Credentials);

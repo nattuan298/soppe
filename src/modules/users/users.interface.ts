@@ -1,10 +1,5 @@
 import { Document } from 'mongoose';
-import {
-  CreateRequest,
-  Gender,
-  Role,
-  Status,
-} from 'src/common/common.constants';
+import { Gender, Role, Status } from 'src/common/common.constants';
 export interface IUser {
   username: string;
   password: string;
@@ -17,7 +12,6 @@ export interface IUser {
   avatar: string;
   dateOfBirth: Date;
   status?: Status;
-  createRequest?: CreateRequest;
   role?: Role;
   updatedPasswordAt?: Date;
   code: string;

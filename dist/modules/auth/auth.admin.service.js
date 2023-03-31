@@ -29,8 +29,7 @@ let AuthAdminService = class AuthAdminService {
         password = password.trim();
         const user = await this.usersService.getUserByUsername(username);
         if (user) {
-            if ((user.createRequest === common_constants_1.CreateRequest.Approve,
-                user.status === common_constants_1.Status.Active && user.role === common_constants_1.Role.Admin)) {
+            if (user.status === common_constants_1.Status.Active && user.role === common_constants_1.Role.Admin) {
                 const checkPassword = await this.usersService.validatePassword(password, user.password);
                 if (checkPassword) {
                     const payload = {

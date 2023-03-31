@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateRequest, Role, Status } from 'src/common/common.constants';
+import { Role, Status } from 'src/common/common.constants';
 import { UsersService } from '../users/users.service';
 import { AdminSignInResponseMessage } from './auth.constant';
 import { JwtService } from '@nestjs/jwt';
@@ -24,10 +24,7 @@ export class AuthAdminService {
 
     const user = await this.usersService.getUserByUsername(username);
     if (user) {
-      if (
-        (user.createRequest === CreateRequest.Approve,
-        user.status === Status.Active && user.role === Role.Admin)
-      ) {
+      if (user.status === Status.Active && user.role === Role.Admin) {
         const checkPassword = await this.usersService.validatePassword(
           password,
           user.password,

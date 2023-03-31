@@ -1,11 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
-import {
-  Status,
-  Gender,
-  Role,
-  CreateRequest,
-} from 'src/common/common.constants';
+import { Status, Gender, Role } from 'src/common/common.constants';
 import { defaultAvatar } from './user.constant';
 
 const USER_MODEL = 'users';
@@ -45,10 +40,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       enum: Object.values(Role),
       default: Role.User,
-    },
-    createRequest: {
-      type: String,
-      enum: Object.values(CreateRequest),
     },
     updatedPasswordAt: Date,
     code: String,

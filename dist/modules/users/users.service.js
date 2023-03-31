@@ -48,7 +48,6 @@ let UsersService = class UsersService {
         const { salt, hashPassword } = await this.hashPassword(createUserDto.password);
         user.salt = salt;
         user.password = hashPassword;
-        user.createRequest = common_constants_1.CreateRequest.Wait;
         user.updatedPasswordAt = Date.now();
         user.code = '';
         const options = {
@@ -122,9 +121,6 @@ let UsersService = class UsersService {
         filters.role = common_constants_1.Role.User;
         if (findUserDto.status) {
             filters.status = findUserDto.status;
-        }
-        if (findUserDto.createRequest) {
-            filters.createRequest = findUserDto.createRequest;
         }
         if (findUserDto.keyword) {
             const keyword = new RegExp(findUserDto.keyword.trim(), 'i');
@@ -221,19 +217,6 @@ let UsersService = class UsersService {
         return {
             message: `Recovery password successful.`,
         };
-    }
-    async updateCreateRequest(id, createRequestDto) {
-        const user = await this.userModel.findByIdAndUpdate({ _id: id }, { createRequest: createRequestDto.createRequest });
-        if (!user) {
-            throw new common_1.NotFoundException(user_constant_1.UserResponseMessage.NotFound);
-        }
-        if (createRequestDto.createRequest === common_constants_1.CreateRequest.Approve) {
-            const options = {
-                subject: 'Approve Account!',
-                template: 'approve-account',
-            };
-            await this.sendMailToUser(user.email, options);
-        }
     }
     async getUserByUsername(username) {
         return this.userModel.findOne({ username });

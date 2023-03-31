@@ -22,7 +22,6 @@ const roles_decorator_1 = require("../../common/decorators/roles.decorator");
 const jwt_guard_1 = require("../../common/guards/jwt-guard");
 const role_guard_1 = require("../../common/guards/role.guard");
 const find_user_dto_1 = require("./dto/find-user.dto");
-const update_request_dto_1 = require("./dto/update-request.dto");
 const users_service_1 = require("./users.service");
 let AdminController = class AdminController {
     constructor(usersService) {
@@ -33,9 +32,6 @@ let AdminController = class AdminController {
     }
     findOne(commonIdParams) {
         return this.usersService.findById(commonIdParams.id);
-    }
-    updateRequest(commonIdParams, createRequestDto) {
-        return this.usersService.updateCreateRequest(commonIdParams.id, createRequestDto);
     }
     delete(commonIdParams) {
         return this.usersService.delete(commonIdParams.id);
@@ -57,16 +53,6 @@ __decorate([
     __metadata("design:paramtypes", [common_dto_1.CommonIdParams]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.Put)('user-request/:id'),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)()),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [common_dto_1.CommonIdParams,
-        update_request_dto_1.CreateRequestDto]),
-    __metadata("design:returntype", void 0)
-], AdminController.prototype, "updateRequest", null);
 __decorate([
     (0, common_1.Delete)('user/:id'),
     openapi.ApiResponse({ status: 200 }),

@@ -40,17 +40,6 @@ export class AdminController {
     return this.usersService.findById(commonIdParams.id);
   }
 
-  @Put('user-request/:id')
-  updateRequest(
-    @Param() commonIdParams: CommonIdParams,
-    @Body() createRequestDto: CreateRequestDto,
-  ) {
-    return this.usersService.updateCreateRequest(
-      commonIdParams.id,
-      createRequestDto,
-    );
-  }
-
   @Delete('user/:id')
   delete(@Param() commonIdParams: CommonIdParams) {
     return this.usersService.delete(commonIdParams.id);

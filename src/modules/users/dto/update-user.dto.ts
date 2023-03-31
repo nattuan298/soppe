@@ -10,7 +10,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { BeltLevel, Gender } from 'src/common/common.constants';
+import { Gender } from 'src/common/common.constants';
 
 export class UpdateUserDto {
   @IsString()
@@ -33,11 +33,6 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   generation: string;
-
-  @IsOptional()
-  @IsEnum(BeltLevel)
-  @IsString()
-  beltLevel: BeltLevel;
 
   @IsOptional()
   @IsEnum(Gender)

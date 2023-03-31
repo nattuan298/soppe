@@ -4,7 +4,6 @@ import { UserDocument } from './users.interface';
 import { MailerService } from '@nestjs-modules/mailer';
 import { PaginateModel } from 'mongoose-paginate-v2';
 import { CreateAdminDto } from './dto/create-admin.dto';
-import { CreateRequestDto } from './dto/update-request.dto';
 import { AdminFindUserDto } from './dto/find-user.dto';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -30,7 +29,6 @@ export declare class UsersService {
     recoveryPass(recoveryPassword: RecoveryPassword): Promise<{
         message: string;
     }>;
-    updateCreateRequest(id: string, createRequestDto: CreateRequestDto): Promise<void>;
     getUserByUsername(username: string): Promise<any>;
     hashPassword(password: string): Promise<{
         salt: string;

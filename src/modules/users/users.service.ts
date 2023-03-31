@@ -21,7 +21,7 @@ import { PaginateModel } from 'mongoose-paginate-v2';
 import * as bcrypt from 'bcrypt';
 import { paginationTransformer } from 'src/common/helpers';
 import { defaultAvatar, UserResponseMessage } from './user.constant';
-import { CreateRequest, Role, Status } from 'src/common/common.constants';
+import { Role, Status } from 'src/common/common.constants';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { CreateRequestDto } from './dto/update-request.dto';
 import { AdminFindUserDto } from './dto/find-user.dto';
@@ -61,7 +61,6 @@ export class UsersService {
     );
     user.salt = salt;
     user.password = hashPassword;
-    user.createRequest = CreateRequest.Wait;
     user.updatedPasswordAt = Date.now();
     user.code = '';
 
@@ -145,9 +144,6 @@ export class UsersService {
     filters.role = Role.User;
     if (findUserDto.status) {
       filters.status = findUserDto.status;
-    }
-    if (findUserDto.createRequest) {
-      filters.createRequest = findUserDto.createRequest;
     }
     if (findUserDto.keyword) {
       const keyword = new RegExp(findUserDto.keyword.trim(), 'i');
@@ -309,23 +305,23 @@ export class UsersService {
     };
   }
 
-  async updateCreateRequest(id: string, createRequestDto: CreateRequestDto) {
-    const user = await this.userModel.findByIdAndUpdate(
-      { _id: id },
-      { createRequest: createRequestDto.createRequest },
-    );
-    if (!user) {
-      throw new NotFoundException(UserResponseMessage.NotFound);
-    }
-    if (createRequestDto.createRequest === CreateRequest.Approve) {
-      const options = {
-        subject: 'Approve Account!',
-        template: 'approve-account',
-      };
+  // async updateCreateRequest(id: string, createRequestDto: CreateRequestDto) {
+  //   const user = await this.userModel.findByIdAndUpdate(
+  //     { _id: id },
+  //     { createRequest: createRequestDto.createRequest },
+  //   );
+  //   if (!user) {
+  //     throw new NotFoundException(UserResponseMessage.NotFound);
+  //   }
+  //   if (false) {
+  //     const options = {
+  //       subject: 'Approve Account!',
+  //       template: 'approve-account',
+  //     };
 
-      await this.sendMailToUser(user.email, options);
-    }
-  }
+  //     await this.sendMailToUser(user.email, options);
+  //   }
+  // }
 
   async getUserByUsername(username: string): Promise<any> {
     return this.userModel.findOne({ username });

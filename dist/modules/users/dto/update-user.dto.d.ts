@@ -1,11 +1,10 @@
-import { BeltLevel, Gender } from 'src/common/common.constants';
+import { Gender } from 'src/common/common.constants';
 export declare class UpdateUserDto {
     firstName: string;
     lastName: string;
     email: string;
     phoneNumber: string;
     generation: string;
-    beltLevel: BeltLevel;
     gender: Gender;
     dateOfBirth: Date;
     avatar: string;

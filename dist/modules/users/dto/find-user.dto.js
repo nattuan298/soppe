@@ -17,7 +17,7 @@ const common_constants_1 = require("../../../common/common.constants");
 const pagination_dto_1 = require("../../../common/pagination.dto");
 class AdminFindUserDto extends pagination_dto_1.CommonPaginationDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { status: { required: false, enum: require("../../../common/common.constants").Status }, startDate: { required: false, type: () => Date }, endDate: { required: false, type: () => Date }, createRequest: { required: false, enum: require("../../../common/common.constants").CreateRequest }, keyword: { required: false, type: () => String } };
+        return { status: { required: false, enum: require("../../../common/common.constants").Status }, startDate: { required: false, type: () => Date }, endDate: { required: false, type: () => Date }, keyword: { required: false, type: () => String } };
     }
 }
 __decorate([
@@ -37,11 +37,6 @@ __decorate([
     (0, class_validator_1.IsDateString)(),
     __metadata("design:type", Date)
 ], AdminFindUserDto.prototype, "endDate", void 0);
-__decorate([
-    (0, class_validator_1.IsEnum)(common_constants_1.CreateRequest),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], AdminFindUserDto.prototype, "createRequest", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),

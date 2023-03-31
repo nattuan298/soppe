@@ -15,7 +15,7 @@ const class_validator_1 = require("class-validator");
 const common_constants_1 = require("../../../common/common.constants");
 class UpdateUserDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { firstName: { required: true, type: () => String }, lastName: { required: true, type: () => String }, email: { required: true, type: () => String }, phoneNumber: { required: true, type: () => String }, generation: { required: true, type: () => String }, beltLevel: { required: true, enum: require("../../../common/common.constants").BeltLevel }, gender: { required: true, enum: require("../../../common/common.constants").Gender }, dateOfBirth: { required: true, type: () => Date }, avatar: { required: true, type: () => String } };
+        return { firstName: { required: true, type: () => String }, lastName: { required: true, type: () => String }, email: { required: true, type: () => String }, phoneNumber: { required: true, type: () => String }, generation: { required: true, type: () => String }, gender: { required: true, enum: require("../../../common/common.constants").Gender }, dateOfBirth: { required: true, type: () => Date }, avatar: { required: true, type: () => String } };
     }
 }
 __decorate([
@@ -44,12 +44,6 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateUserDto.prototype, "generation", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(common_constants_1.BeltLevel),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], UpdateUserDto.prototype, "beltLevel", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(common_constants_1.Gender),
