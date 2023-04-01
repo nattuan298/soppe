@@ -1,0 +1,59 @@
+DONE
+------------------------------
+1. Module User: 
+  1.1: User:
+    - Login, Register
+    - View profile
+    - Update profile
+    - Change password
+    - Reset password by verify code via email
+  1.2 Admin:
+    - Login, Register
+    - View all, one user
+    - Delete user
+
+2. Product:
+  2.1 User: 
+    - View all ( filter ), detail product
+    - POPULAR KEY: has been delete every mid night by cronjob
+  2.2 Admin:
+    - Add category
+    - Add, Update, Delete, View all product
+
+3. Upload media:
+  - Add only one media per time.
+  - Save media at AWS S3 bucket
+
+4. Favorite Product:
+  4.1 User: 
+    - Add product to favorite list one by one
+    - View all list favorite
+    - Delete favorite product one by one
+----------------------
+
+5. Banner
+  5.1: User
+    - View Banner
+  5.2 Admin: 
+    - Add, Update to use, Delete, Get all banner
+
+6. Product Section:
+  6.1: User
+    - View top 5 hot product in slide section ( count sold )
+
+7. Order:
+    Order Flow
+    - Can order product by COD ( but need to verify address by email first )
+    - Check stock first => return can make order or not
+    - If able to make, when order success then the status change to WAITING APPROVE
+    - When admin approve this order => order status change to DELIVERY
+    - When user receipt this order => order status change to RECEIPTED
+
+8. Review product
+    Flow:
+    - When user receipt this order => order status change to RECEIPTED => user can review this product
+    - User only review a product only 1 time.
+
+
+
+

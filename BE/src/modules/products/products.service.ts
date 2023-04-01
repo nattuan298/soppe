@@ -16,7 +16,6 @@ import { IProductDoc } from './interfaces/product.interface';
 import { PRODUCT_MODEL } from './entities/product.schema';
 import { POPULAR_KEY_MODEL } from './entities/popular-key.schema';
 import { IPopularKeyDoc } from './interfaces/popular-key.interface';
-import { FavouriteProductsService } from '../favourite-products/favourite-products.service';
 import { PaginateModel } from 'mongoose-paginate-v2';
 import { CommonIdParams } from 'src/common/common.dto';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -24,6 +23,7 @@ import { PRODUCT_CATEGORY_MODEL } from './entities/product-category.schema';
 import { IProductCategoryDoc } from './interfaces/product-category.interface';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { paginationTransformer } from 'src/common/helpers';
+import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 // import { ReviewStatus } from '../reviews/review.constant';
 
 @Injectable()
@@ -37,17 +37,20 @@ export class ProductsService {
     private readonly productCategoryModel: PaginateModel<IProductCategoryDoc>,
     @Inject(forwardRef(() => UploadService))
     private readonly uploadService: UploadService,
-    @Inject(forwardRef(() => FavouriteProductsService))
-    private readonly favouriteProductsService: FavouriteProductsService,
+    private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
-  // handleCron() {
-  //   if (process.env.POPULAR_KEY_CRON_JOB === FALSE) {
-  //     const job = this.schedulerRegistry.getCronJob(DELETE_POPULAR_KEY);
-  //     return job.stop();
-  //   }
-  //   this.deletePopularKey();
-  // }
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
+    name: DELETE_POPULAR_KEY,
+  })
+  handleCron() {
+    if (process.env.SCM_API_CRON_JOB === FALSE) {
+      const job = this.schedulerRegistry.getCronJob(DELETE_POPULAR_KEY);
+      return job.stop();
+    }
+    this.deletePopularKey();
+  }
+
   async create(createProductDto: CreateProductDto) {
     const { productName } = createProductDto;
     const existProductName = await this.productModel.findOne({
