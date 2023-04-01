@@ -11,7 +11,11 @@ import { Model } from 'mongoose';
 import { UploadService } from '../upload/upload.service';
 import { FindProductsDto } from './dto/find-products.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { DELETE_POPULAR_KEY, FALSE } from './product.constant';
+import {
+  DELETE_POPULAR_KEY,
+  FALSE,
+  ProductResponseMessage,
+} from './product.constant';
 import { IProductDoc } from './interfaces/product.interface';
 import { PRODUCT_MODEL } from './entities/product.schema';
 import { POPULAR_KEY_MODEL } from './entities/popular-key.schema';
@@ -57,7 +61,7 @@ export class ProductsService {
       productName: productName.trim(),
     });
     if (existProductName) {
-      throw new BadRequestException(`Product name already existed.`);
+      throw new BadRequestException(ProductResponseMessage.NameExist);
     }
     await this.productModel.create(createProductDto);
   }
@@ -208,9 +212,17 @@ export class ProductsService {
   }
 
   async deleteProduct({ id }: CommonIdParams) {
-    const user = await this.productModel.findByIdAndDelete(id);
-    if (!user) {
-      throw new NotFoundException(`Not found product with id ${id}`);
+    const product = await this.productModel.findByIdAndDelete(id);
+    if (!product) {
+      throw new NotFoundException(ProductResponseMessage.NotFound);
     }
+  }
+
+  async getTopProduct() {
+    const productList = await this.productModel
+      .find()
+      .sort({ rating: -1 })
+      .limit(5);
+    return productList;
   }
 }

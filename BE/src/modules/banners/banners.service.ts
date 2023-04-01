@@ -7,7 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginateModel } from 'mongoose-paginate-v2';
 import { UploadService } from '../upload/upload.service';
-import { BannerStatus } from './banner.constant';
+import { BannerResponseMessage, BannerStatus } from './banner.constant';
 import { IBannerDoc } from './banner.interface';
 import { BANNER_MODEL } from './banner.schema';
 import { CreateBannerDto } from './dto/create-banner.dto';
@@ -29,7 +29,7 @@ export class BannersService {
       name: { $regex: regex, $options: 'i' },
     });
     if (existingBanner) {
-      throw new ConflictException(`Banner name already exist`);
+      throw new ConflictException(BannerResponseMessage.NameExist);
     }
 
     if (createBannerDto.status === BannerStatus.Active) {
@@ -74,7 +74,7 @@ export class BannersService {
   async findOne(id: string) {
     const existingBanner = await this.bannerModel.findById(id);
     if (!existingBanner) {
-      throw new NotFoundException(`Banner not found.`);
+      throw new NotFoundException(BannerResponseMessage.NotFound);
     }
     if (existingBanner.url) {
       existingBanner.url = this.uploadService.getSignedUrl(existingBanner.url);
@@ -87,7 +87,7 @@ export class BannersService {
       status: BannerStatus.Active,
     });
     if (!existingBanner) {
-      throw new NotFoundException(`No banner has status is active`);
+      throw new NotFoundException(BannerResponseMessage.NoActiveBanner);
     }
     if (existingBanner.url) {
       existingBanner.url = this.uploadService.getSignedUrl(existingBanner.url);
@@ -103,7 +103,7 @@ export class BannersService {
       name: { $regex: regex, $options: 'i' },
     });
     if (existingBanner) {
-      throw new BadRequestException(`Banner name already exist`);
+      throw new BadRequestException(BannerResponseMessage.NameExist);
     }
 
     if (updateBannerDto.status === BannerStatus.Active) {
@@ -120,7 +120,7 @@ export class BannersService {
     if (updateBannerDto.status === BannerStatus.Inactive) {
       const currentBanner = await this.findOne(id);
       if (currentBanner && currentBanner.status === BannerStatus.Active) {
-        throw new BadRequestException(`Can not update this banner to inactive`);
+        throw new BadRequestException(BannerResponseMessage.CannotInactive);
       }
     }
     const existingBannerLoop = await this.bannerModel.findByIdAndUpdate(
@@ -129,18 +129,18 @@ export class BannersService {
       { new: true },
     );
     if (!existingBannerLoop) {
-      throw new NotFoundException(`Banner not found.`);
+      throw new NotFoundException(BannerResponseMessage.NotFound);
     }
   }
 
   async remove(id: string) {
     const banner = await this.findOne(id);
     if (banner.status === BannerStatus.Active) {
-      throw new BadRequestException(`Can not delete an active banner.`);
+      throw new BadRequestException(BannerResponseMessage.CannotDeleteBanner);
     }
     const deletedBanner = await this.bannerModel.findByIdAndDelete(id);
     if (!deletedBanner) {
-      throw new NotFoundException(`Banner not found.`);
+      throw new NotFoundException(BannerResponseMessage.NotFound);
     }
     return deletedBanner;
   }
