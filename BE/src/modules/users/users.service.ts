@@ -3,16 +3,13 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   RecoveryPassword,
-  SendVerifyCode,
   UpdatePasswordDto,
   UpdateUserDto,
-  VerifyEmail,
 } from './dto/update-user.dto';
 import { UserDocument } from './users.interface';
 import { USER_MODEL } from './users.schema';
@@ -23,7 +20,6 @@ import { paginationTransformer } from 'src/common/helpers';
 import { defaultAvatar, UserResponseMessage } from './user.constant';
 import { Role, Status } from 'src/common/common.constants';
 import { CreateAdminDto } from './dto/create-admin.dto';
-import { CreateRequestDto } from './dto/update-request.dto';
 import { AdminFindUserDto } from './dto/find-user.dto';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -146,8 +142,7 @@ export class UsersService {
       filters.status = findUserDto.status;
     }
     if (findUserDto.keyword) {
-      const keyword = new RegExp(findUserDto.keyword.trim(), 'i');
-      filters.username = keyword;
+      filters.username = { $regex: '.*' + findUserDto.keyword.trim() + '.*' };
     }
 
     if (findUserDto.startDate && findUserDto.endDate) {

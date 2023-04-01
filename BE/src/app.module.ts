@@ -8,6 +8,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { UploadModule } from './modules/upload/upload.module';
 import { ProductsModule } from './modules/products/products.module';
 import { FavouriteProductsModule } from './modules/favourite-products/favourite-products.module';
+import { BannersModule } from './modules/banners/banners.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -47,6 +48,7 @@ import { FavouriteProductsModule } from './modules/favourite-products/favourite-
     UploadModule,
     ProductsModule,
     FavouriteProductsModule,
+    BannersModule,
   ],
 })
 export class AppModule {}

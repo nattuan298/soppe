@@ -68,8 +68,7 @@ export class ProductsService {
     const options: Record<string, unknown> = {};
 
     if (keyword) {
-      const regex = new RegExp(`^${input.key_search}$`);
-      input.productName = { $regex: regex, $options: 'i' };
+      input.productName = { $regex: '.*' + input.key_search + '.*' };
       await this.popularKeyModel.create({
         keyword: keyword.toLowerCase().trim(),
       });
