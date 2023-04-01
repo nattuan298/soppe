@@ -29,7 +29,6 @@ DONE
     - Add product to favorite list one by one
     - View all list favorite
     - Delete favorite product one by one
-----------------------
 
 5. Banner
   5.1: User
@@ -39,8 +38,10 @@ DONE
 
 6. Product Section:
   6.1: User
-    - View top 5 hot product in slide section ( count sold )
+    - View top 5 hot product in slide section ( base on Rating )
 
+  --------------------------------------------
+  
 7. Order:
     Order Flow
     - Can order product by COD ( but need to verify address by email first )
