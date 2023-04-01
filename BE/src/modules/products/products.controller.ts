@@ -25,6 +25,11 @@ export class ProductsController {
     return this.productsService.getAllCategory();
   }
 
+  @Get('/top-product')
+  getTopProduct() {
+    return this.productsService.getTopProduct();
+  }
+
   @Get(':id')
   @ApiResponse({ type: ResFindProductDto })
   findOne(@Param() commonIdParams: CommonIdParams) {

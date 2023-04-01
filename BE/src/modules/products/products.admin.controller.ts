@@ -6,8 +6,6 @@ import {
   Query,
   Put,
   UseGuards,
-  HttpStatus,
-  HttpCode,
   Post,
   Delete,
 } from '@nestjs/common';
