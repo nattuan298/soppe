@@ -2,7 +2,6 @@ import {
   CommonPaginationDto,
   PaginationResDto,
 } from 'src/common/pagination.dto';
-import { KeySort } from '../product.constant';
 import {
   IsDefined,
   IsMongoId,
@@ -12,8 +11,8 @@ import {
   Min,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { IProductLegacy } from '../interfaces/product.interface';
 import { ApiProperty } from '@nestjs/swagger';
+import { IProduct } from '../interfaces/product.interface';
 
 export class FindProductsDto extends CommonPaginationDto {
   @IsOptional()
@@ -34,9 +33,6 @@ export class FindProductsDto extends CommonPaginationDto {
   @Min(0)
   maxPrice?: number;
 
-  @IsOptional()
-  keySort?: KeySort;
-
   @ApiProperty({ default: 1 })
   @Type(() => Number)
   @IsPositive()
@@ -49,17 +45,9 @@ export class FindProductsDto extends CommonPaginationDto {
   @IsDefined()
   pageSize: number;
 }
-export class ResFindProductDto implements IProductLegacy {
+export class ResFindProductDto implements IProduct {
   productName: string;
-  pv: number;
-  memberPrice: number;
-  personalPrice: number;
-  weight: number;
   categoryId: string;
-  categoryName: string;
-  sdate: string;
-  edate: string;
-  flag: string;
   status: string;
   rating: number;
   stock: number;
@@ -67,10 +55,8 @@ export class ResFindProductDto implements IProductLegacy {
   mediaUrl: string;
   description: string;
   isNewProduct: boolean;
-  isFavourite: boolean;
-  favouriteId: any;
-  memberId: string;
-  countApprovedReviews: number;
+  ratingCount: number;
+  _id: string;
 }
 
 export class ResFindProductsDto extends PaginationResDto {

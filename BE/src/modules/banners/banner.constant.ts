@@ -4,8 +4,9 @@ export enum BannerStatus {
 }
 
 export enum BannerResponseMessage {
-  NotFound = 'Banner loop is not found.',
-  TooManyBanner = 'You can only activate 10 banners at the same time.',
+  NotFound = 'Banner is not found.',
+  NameExist = 'Banner name already exist.',
+  NoActiveBanner = 'No banner has active status.',
   NameUnique = 'Banner name must be unique in a Loop.',
   CannotInactive = 'You cannot inactive this banner right now.',
   CannotDeleteBanner = `You cannot delete this banner right now.`,
