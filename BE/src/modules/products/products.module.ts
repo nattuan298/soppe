@@ -10,11 +10,11 @@ import {
   POPULAR_KEY_MODEL,
 } from './entities/popular-key.schema';
 import { PopularKeywordController } from './popular-key.controller';
-import { FavouriteProductsModule } from '../favourite-products/favourite-products.module';
 import {
   PRODUCT_CATEGORY_MODEL,
   ProductCategorySchema,
 } from './entities/product-category.schema';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import {
       },
     ]),
     forwardRef(() => UploadModule),
-    forwardRef(() => FavouriteProductsModule),
+    ScheduleModule.forRoot(),
   ],
   controllers: [
     ProductsController,
