@@ -11,7 +11,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # OS
-.DS_Store
+../DS_Store
 
 # Tests
 /coverage
@@ -27,7 +27,7 @@ lerna-debug.log*
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
+../vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
