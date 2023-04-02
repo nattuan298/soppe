@@ -3,8 +3,7 @@ import { ADDRESS_MODEL } from './address.schema';
 import { Model } from 'mongoose';
 import { IAddressDocument } from './address.interface';
 import { CreateAddressDto } from './dto/create-adrress.dto';
-import { UpdateAddressDto } from './dto/update-adress.dto';
-import { error } from 'console';
+
 import { NotFoundException } from '@nestjs/common';
 
 export class AddressService {
@@ -41,7 +40,7 @@ export class AddressService {
     }
     return address;
   }
-  async update(id: string, updateAddressDto: UpdateAddressDto) {
+  async update(id: string, updateAddressDto: CreateAddressDto) {
     updateAddressDto.address = updateAddressDto.address.trim();
     updateAddressDto.firstName = updateAddressDto.firstName.trim();
     updateAddressDto.lastName = updateAddressDto.lastName.trim();
