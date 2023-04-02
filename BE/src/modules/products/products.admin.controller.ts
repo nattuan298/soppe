@@ -48,7 +48,7 @@ export class ProductsAdminController {
   @Get(':id')
   @ApiResponse({ type: ResFindProductDto })
   findOne(@Param() commonIdParams: CommonIdParams) {
-    return this.productsService.findOne(commonIdParams);
+    return this.productsService.findOne(commonIdParams.id);
   }
 
   @Put(':id')

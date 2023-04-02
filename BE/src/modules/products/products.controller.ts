@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 
 import {
@@ -8,6 +8,7 @@ import {
 } from './dto/find-products.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommonIdParams } from 'src/common/common.dto';
+import { CheckStockDto } from './dto/check-stock.dto';
 
 @ApiTags('products')
 @Controller('products')
@@ -33,6 +34,11 @@ export class ProductsController {
   @Get(':id')
   @ApiResponse({ type: ResFindProductDto })
   findOne(@Param() commonIdParams: CommonIdParams) {
-    return this.productsService.findOne(commonIdParams);
+    return this.productsService.findOne(commonIdParams.id);
+  }
+
+  @Post('/check-stock')
+  checkStock(@Body() products: CheckStockDto) {
+    return this.productsService.checkStock(products);
   }
 }

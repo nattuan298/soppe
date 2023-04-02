@@ -4,7 +4,7 @@ import {
   IsDefined,
   IsEmail,
   IsNotEmpty,
-  IsNumberString,
+  IsPhoneNumber,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -30,7 +30,8 @@ export class CreateAdminDto {
   email: string;
 
   @IsNotEmpty()
-  @IsNumberString()
+  @IsDefined()
+  @IsPhoneNumber()
   phoneNumber: string;
 
   @ApiProperty({ example: 'avatar/avatar1.png' })

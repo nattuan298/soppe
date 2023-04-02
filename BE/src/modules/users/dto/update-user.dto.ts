@@ -5,8 +5,8 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
-  IsNumberString,
   IsOptional,
+  IsPhoneNumber,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -27,7 +27,8 @@ export class UpdateUserDto {
   email: string;
 
   @IsOptional()
-  @IsNumberString()
+  @IsDefined()
+  @IsPhoneNumber()
   phoneNumber: string;
 
   @IsOptional()

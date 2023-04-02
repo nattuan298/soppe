@@ -10,6 +10,7 @@ import { ProductsModule } from './modules/products/products.module';
 import { FavouriteProductsModule } from './modules/favourite-products/favourite-products.module';
 import { BannersModule } from './modules/banners/banners.module';
 import { AddressModule } from './modules/address/address.module';
+import { OrdersModule } from './modules/orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -51,6 +52,7 @@ import { AddressModule } from './modules/address/address.module';
     FavouriteProductsModule,
     BannersModule,
     AddressModule,
+    OrdersModule,
   ],
 })
 export class AppModule {}
