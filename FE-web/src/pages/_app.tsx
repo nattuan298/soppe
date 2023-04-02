@@ -6,8 +6,8 @@ import { NextSeo } from "next-seo";
 import useTranslation from "next-translate/useTranslation";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
-import { Cookies, useCookies } from "react-cookie";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import "react-datepicker/dist/react-datepicker.css";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { Footer } from "src/components/footer";
@@ -111,16 +111,9 @@ import { theme } from "src/theme";
 import "styles/tailwind.css";
 import { updatePreUrl } from "src/feature/user/slice";
 import ConfigAxios from "src/feature/signin/sign-in-slice";
-import { ButtonMui, Modal, Title } from "src/components";
-import { LogoConnextIcons } from "src/components/svgs";
-import SelectCountry from "src/components/select/country";
-import { SelectLanguage } from "src/components/select/select-language";
-import setLanguage from "next-translate/setLanguage";
-import { CountryPhoneCodeType } from "src/constants/country_phone_code";
+
 import { getCategoriesDispatch } from "src/feature/categories/category.action";
 import { getPopularKeyWordsDispatch } from "src/feature/searching/searching.actions";
-
-const cookies = new Cookies();
 
 const ECOM_APP_PATHS = new Set([
   routeHomeBase,
@@ -318,12 +311,10 @@ type ECommerceAppProps = Pick<AppProps, "Component" | "pageProps" | "router"> & 
 };
 function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceAppProps) {
   const dispatch = useDispatch();
-  const [isModalOpen, setModalOpen] = useState(false);
   const { isLoggedIn } = useLoggedIn();
   const [cookiesObject] = useCookies();
-  const { t, lang } = useTranslation("common");
-  const [languageSelect, setLanguageSelect] = useState(lang);
-  const [countrySelect, setCountrySelect] = useState("Thailand");
+
+
 
   useEffect(() => {
     const member = cookiesObject.member;
@@ -335,11 +326,7 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
     dispatch(loadListProducts());
     dispatch(fetchPostProductInCart());
   }, [dispatch, isLoggedIn, cookiesObject]);
-  useEffect(() => {
-    if (!cookiesObject.LocationBase && !cookiesObject.member) {
-      setModalOpen(true);
-    }
-  }, [cookiesObject.LocationBase, cookiesObject.member]);
+
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchGetTopic());
@@ -393,19 +380,7 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
   const resetKeySort = () => {
     dispatch(updateKeySort(""));
   };
-  const closeModal = useCallback(() => {}, []);
 
-  const handleSubmit = async () => {
-    await setLanguage(languageSelect);
-    cookies.set("LocationBase", countrySelect);
-    setModalOpen(false);
-    if (router.pathname === routeHelpCenter3Base) {
-      cookies.set("LocationBase", countrySelect, { path: "/" });
-    } else {
-      cookies.set("LocationBase", countrySelect);
-    }
-    window.location.reload();
-  };
 
   return (
     <>
@@ -430,45 +405,6 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
           </div>
           <Footer hasSmallCart={hasSmallCart} />
           <ToastContainer />
-          <Modal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            className="modal-default-location h-auto rounded-2xl font-kanit"
-          >
-            <div className="text-center px-11 py-[35px] sm:px-12 sm:py-12">
-              <div className="mb-[29px] sm:mb-9">
-                {" "}
-                <LogoConnextIcons className="mx-auto" />
-              </div>
-              <p className="text-[13px] sm:text-base mb-[27px] sm:mb-5">{t`select_location_base_and_language`}</p>
-              <div className="mb-4 sm:mb-5">
-                <Title title={t`location_base`} className="text-[11px] sm:text-sm" />
-                <SelectCountry
-                  country={countrySelect}
-                  onSelect={({ name }: CountryPhoneCodeType) => {
-                    setCountrySelect(name);
-                  }}
-                  classNameTextField={"text-[11px]"}
-                />
-              </div>
-              <div className="mb-[25px] sm:mb-8">
-                <Title title={t`language`} className="text-[11px] sm:text-sm" />
-                <SelectLanguage
-                  defaultValue={lang}
-                  onChange={(language: { title: string; value: string; flag: string }) => {
-                    const newLanguage = language.value;
-                    if (lang !== newLanguage) {
-                      setLanguageSelect(newLanguage);
-                    }
-                  }}
-                  classNameTextField={"text-[11px]"}
-                />
-              </div>
-              <ButtonMui onClick={() => handleSubmit()}>
-                <div className="text-[13px] sm:text-base">{t`submit`}</div>
-              </ButtonMui>
-            </div>
-          </Modal>
         </div>
       </div>
     </>

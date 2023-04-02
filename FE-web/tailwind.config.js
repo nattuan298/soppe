@@ -38,7 +38,7 @@ module.exports = {
           light: "#3391D4",
         },
         orange: {
-          DEFAULT: "#FF7500",
+          DEFAULT: "rgba(220, 38, 38, 0.5)",
           orangeLight: "#FFF1E5",
         },
         orangeYellow: {
@@ -139,7 +139,7 @@ module.exports = {
       },
       textColor: {
         lighterGray: "#BCBCBC",
-        orange: "#FF7500",
+        orange: "#980804",
         lightestGray: "#EBEBEB",
         greenLight: "#8DC900",
       },

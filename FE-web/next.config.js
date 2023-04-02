@@ -26,7 +26,7 @@ module.exports = {
   poweredByHeader: false,
   publicRuntimeConfig: {
     // Will be available to both server and browser
-    apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "",
+    apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000",
     appID: process.env.NEXT_PUBLIC_APP_ID || "",
     urlReferralLink: process.env.NEXT_PUBLIC_BASE_URL || "",
     referralRedirectUrl: process.env.NEXT_PUBLIC_REFERRAL_URL || "",

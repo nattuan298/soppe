@@ -7,12 +7,15 @@ export interface SignupState {
   phoneNumber: string;
   email: string;
   showOtpPage: boolean;
+  password: string;
   otp: string;
   prefixName: string;
   firstName: string;
+  userName:string;
   lastName: string;
   birth: string;
   gender: string;
+  avatar:string;
   citizenship: string;
   city: AddresObjectType;
   district: AddresObjectType;
@@ -129,6 +132,7 @@ export const FETCH_POST_PHONE_NUMBER_SIGNUP = "signup/sms/sendOtp";
 export const FETCH_POST_OTP_SIGNUP = "sms/verifyOtp";
 export const FETCH_POST_VERIFY_ID_CARD = "signup/verifyIdCard";
 export const FETCH_POST_PAYMENT_SIGN_UP = "signup/paymentSignUp";
+export const FETCH_POST_SIGN_UP = "signup/signUp";
 export interface WatcherFetchGetSponserInfo {
   type: string;
   payload: string;
@@ -164,4 +168,20 @@ export interface PaymentSignUpPayload {
 export interface WatcherFetchPaymentSignUpType {
   type: string;
   payload: PaymentSignUpPayload;
+}
+export interface WatcherFetchSignUpType {
+  type: string;
+  payload: PayloadSignUp;
+}
+
+export interface PayloadSignUp {
+  avatar: string,
+  firstName: string,
+  lastName: string,
+  username: string,
+  password: string,
+  email: string,
+  phoneNumber: string,
+  gender: string,
+  dateOfBirth: string,
 }

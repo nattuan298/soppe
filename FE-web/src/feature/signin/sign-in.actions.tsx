@@ -54,18 +54,14 @@ export const loginUser = async ({
   OSName: string;
 }) => {
   /* @ts-ignore */
-  const ip = await publicIp.v4();
   const bodyRequest = {
-    memberId: userID?.trim(),
+    username: userID?.trim(),
     password,
-    OS: OSName,
-    IP: ip,
-    channel: "WebApp",
   };
   try {
     const response = await axiosCutome.post(`${apiRoute.signIn.MEMBER_ID}`, bodyRequest);
     const data = await response;
-    if (response.status === 200) {
+    if (response.status === 201) {
       return Promise.resolve(data);
     }
     return Promise.reject(data);

@@ -2,7 +2,7 @@
 import useTranslation from "next-translate/useTranslation";
 // import { ReactChild  } from "react";
 import { useSelector } from "react-redux";
-import { StepHorizontal } from "src/components";
+import { ButtonMui, StepHorizontal } from "src/components";
 import { ImageDelivery } from "src/components/image-delivery";
 import { steps } from "src/constants/signup";
 import { RootState } from "src/state/store";
@@ -68,52 +68,8 @@ export function SignUpForm() {
               <div
                 className={`text-xl mb-4 font-medium ${!classStepSuccess && "hidden sm:block"}`}
               >{t`sign-up`}</div>
-              {mainStep < 5 && (
-                <div className="pl-2 pr-2">
-                  <StepHorizontal steps={steps} activeStep={mainStep} />
-                  <div className="mt-6 mb-6">
-                    {payment && <Step5 />}
-                    {!payment && (
-                      <>
-                        {mainStep === 0 && <Step1 />}
-                        {mainStep === 1 && <Step2 />}
-                        {mainStep === 2 && <Step3 />}
-                        {mainStep === 3 && <Step4 />}
-                        {mainStep === 4 && <Step5 />}
-                      </>
-                    )}
-                  </div>
-                  <Footer />
-                </div>
-              )}
-              {mainStep === 6 && (
-                <div className="w-full">
-                  <SignUpSuccess />
-                  <div className="flex my-7 items-center">
-                    <div className="w-1/2 h-[1px] bg-[#F4F5FA]"></div>
-                    <span className="mx-2 text-[#BCBCBC] text-[13px]">Or</span>
-                    <div className="w-1/2 h-[1px] bg-[#F4F5FA]"></div>
-                  </div>
-                  <div className="text-[#231F20] text-[18px] font-medium m-auto w-max mb-10">
-                    Download the mobile app
-                  </div>
-                  <GetAppFooter className="sm:space-x-9" />
-                </div>
-              )}
-              {mainStep === 7 && (
-                <div className="w-full">
-                  <SignUpPending />
-                  <div className="flex my-7 items-center">
-                    <div className="w-1/2 h-[1px] bg-[#F4F5FA]"></div>
-                    <span className="mx-2 text-[#BCBCBC] text-[13px]">Or</span>
-                    <div className="w-1/2 h-[1px] bg-[#F4F5FA]"></div>
-                  </div>
-                  <div className="text-[#231F20] text-[18px] font-medium m-auto w-max mb-10">
-                    Download the mobile app
-                  </div>
-                  <GetAppFooter className="sm:space-x-9" />
-                </div>
-              )}
+            <Step1 />
+
             </div>
           </div>
         </div>
