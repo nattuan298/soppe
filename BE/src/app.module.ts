@@ -9,6 +9,7 @@ import { UploadModule } from './modules/upload/upload.module';
 import { ProductsModule } from './modules/products/products.module';
 import { FavouriteProductsModule } from './modules/favourite-products/favourite-products.module';
 import { BannersModule } from './modules/banners/banners.module';
+import { AddressModule } from './modules/address/address.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -49,6 +50,7 @@ import { BannersModule } from './modules/banners/banners.module';
     ProductsModule,
     FavouriteProductsModule,
     BannersModule,
+    AddressModule,
   ],
 })
 export class AppModule {}
