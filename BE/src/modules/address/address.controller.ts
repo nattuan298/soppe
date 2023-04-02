@@ -15,6 +15,7 @@ import IJwtPayload from '../auth/payloads/jwt-payload';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/common/guards/jwt-guard';
 import { CommonIdParams } from 'src/common/common.dto';
+import { UpdateAddressDto } from './dto/update-address.dto';
 
 @ApiTags('address')
 @ApiBearerAuth()
@@ -37,16 +38,14 @@ export class AddressController {
   }
 
   @Get(':id')
-  findOne(@GetUser() { id }: IJwtPayload) {
-    return this.addressService.findOne(id);
+  findOne(@Param() commonIdParams: CommonIdParams) {
+    return this.addressService.findOne(commonIdParams.id);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
   @Put(':id')
   update(
     @Param() commonIdParams: CommonIdParams,
-    @Body() updateAddressDto: CreateAddressDto,
+    @Body() updateAddressDto: UpdateAddressDto,
   ) {
     this.addressService.update(commonIdParams.id, updateAddressDto);
   }

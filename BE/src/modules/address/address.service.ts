@@ -5,6 +5,8 @@ import { IAddressDocument } from './address.interface';
 import { CreateAddressDto } from './dto/create-adrress.dto';
 
 import { NotFoundException } from '@nestjs/common';
+import { UpdateAddressDto } from './dto/update-address.dto';
+import { AddressResponseMessage } from './address.constant';
 
 export class AddressService {
   constructor(
@@ -40,26 +42,17 @@ export class AddressService {
     }
     return address;
   }
-  async update(id: string, updateAddressDto: CreateAddressDto) {
+  async update(id: string, updateAddressDto: UpdateAddressDto) {
     updateAddressDto.address = updateAddressDto.address.trim();
     updateAddressDto.firstName = updateAddressDto.firstName.trim();
     updateAddressDto.lastName = updateAddressDto.lastName.trim();
-    const address = await this.addressModel.findOne({
-      _id: { $ne: id },
-      address: { $options: 'i' },
-      firstName: { $options: 'i' },
-      lastName: { $options: 'i' },
-    });
-    if (address) {
-      throw new NotFoundException(`Not found address.`);
-    }
     const existingAddressLoop = await this.addressModel.findByIdAndUpdate(
       { _id: id },
       updateAddressDto,
       { new: true },
     );
     if (!existingAddressLoop) {
-      throw new NotFoundException(`Not found address.`);
+      throw new NotFoundException(AddressResponseMessage.NotFound);
     }
   }
   async remove(id: string) {
@@ -67,7 +60,7 @@ export class AddressService {
       _id: id,
     });
     if (!addressDelete) {
-      throw new NotFoundException(`Not found address.`);
+      throw new NotFoundException(AddressResponseMessage.NotFound);
     }
   }
 }
