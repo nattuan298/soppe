@@ -29,7 +29,7 @@ export default function Home({
   return (
     <div className="w-full">
       <NextSeo
-        title={t`SCM CONNEXT : Connect to success with  Successmore Being`}
+        title="SOPPE"
         description="Home desc need for SEO"
       />
       <main className="w-full flex flex-wrap justify-center">
@@ -63,46 +63,46 @@ export default function Home({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  let banners = [];
-  let products = []; // more from our store session
-  let templateSections = [];
-  let articles = [];
+  const banners: never[] = [];
+  const products: never[] = []; // more from our store session
+  const templateSections: never[] = [];
+  const articles: never[] = [];
 
   const cookie = req.headers.cookie;
   const locationBase = getLocationBaseFromCookieSever(cookie);
   const memberIdCookies = getMemberIDFromCookieSever(cookie);
-  try {
-    const resp = await axios.get(`/banners?countryCode=${locationBase}`);
-    banners = resp.data;
-  } catch (err) {}
+  // try {
+  //   const resp = await axios.get(`/banners?countryCode=${locationBase}`);
+  //   banners = resp.data;
+  // } catch (err) {}
 
-  try {
-    const respPrice = await axios.get(
-      `/products/max-price-location/country?country=${locationBase}&type=Product`,
-    );
-    const maxRangePrice = respPrice.data.maxPrice;
-    const url =
-      memberIdCookies !== ""
-        ? `/products?page=1&pageSize=12&countryCode=${locationBase}&memberId=${memberIdCookies}&minPrice=0&maxPrice=${maxRangePrice}&place=MORE_FROM_OUT_STORE`
-        : `/products?page=1&pageSize=12&countryCode=${locationBase}&minPrice=0&maxPrice=${maxRangePrice}&place=MORE_FROM_OUT_STORE`;
-    const resp = await axios.get(url);
-    products = resp.data.data;
-  } catch (err: any) {
-    console.log(err);
-  }
+  // try {
+  //   const respPrice = await axios.get(
+  //     `/products/max-price-location/country?country=${locationBase}&type=Product`,
+  //   );
+  //   const maxRangePrice = respPrice.data.maxPrice;
+  //   const url =
+  //     memberIdCookies !== ""
+  //       ? `/products?page=1&pageSize=12&countryCode=${locationBase}&memberId=${memberIdCookies}&minPrice=0&maxPrice=${maxRangePrice}&place=MORE_FROM_OUT_STORE`
+  //       : `/products?page=1&pageSize=12&countryCode=${locationBase}&minPrice=0&maxPrice=${maxRangePrice}&place=MORE_FROM_OUT_STORE`;
+  //   const resp = await axios.get(url);
+  //   products = resp.data.data;
+  // } catch (err: any) {
+  //   console.log(err);
+  // }
 
-  try {
-    const url = `/admin/home-templates/sections-list?countryCode=${locationBase}`;
-    const resp = await axios.get(url);
-    templateSections = resp.data;
-  } catch (err: any) {}
+  // try {
+  //   const url = `/admin/home-templates/sections-list?countryCode=${locationBase}`;
+  //   const resp = await axios.get(url);
+  //   templateSections = resp.data;
+  // } catch (err: any) {}
 
-  try {
-    const now = new Date();
-    const resp = await axios.get(`/articles?page=1&pageSize=10&currentDate=${now.toISOString()}`);
-    // const resp = await axios.get("/articles?page=1&pageSize=10");
-    articles = resp.data.data;
-  } catch (err) {}
+  // try {
+  //   const now = new Date();
+  //   const resp = await axios.get(`/articles?page=1&pageSize=10&currentDate=${now.toISOString()}`);
+  //   // const resp = await axios.get("/articles?page=1&pageSize=10");
+  //   articles = resp.data.data;
+  // } catch (err) {}
 
   return {
     props: {

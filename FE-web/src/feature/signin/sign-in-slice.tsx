@@ -10,12 +10,12 @@ const cookies = new Cookies();
 
 export interface SigninType {
   payload: {
-    accessToken: string;
+    jwtAccessToken: string;
     refreshToken: string;
     statusCode: number;
     message: string;
     data: {
-      accessToken: string;
+      jwtAccessToken: string;
       refreshToken: string;
       memberType: number;
       firstName: string;
@@ -31,12 +31,12 @@ export interface SigninType {
 }
 const initialState: SigninType = {
   payload: {
-    accessToken: "",
+    jwtAccessToken: "",
     refreshToken: "",
     statusCode: 0,
     message: "",
     data: {
-      accessToken: cookies.get("token") as string,
+      jwtAccessToken: cookies.get("jwtToken") as string,
       refreshToken: cookies.get("refreshToken") as string,
       memberType: 0,
       firstName: "",
@@ -51,59 +51,10 @@ const initialState: SigninType = {
   tokenVerifyCode: "",
 };
 
-// export const loginUser = createAsyncThunk(
-//   "users/login",
-//   async (
-//     { userID, password, OSName }: { userID: string; password: string; OSName: string },
-//     thunkAPI,
-//   ) => {
-//     const ip = await publicIp.v4();
-//     const bodyRequest = {
-//       memberId: userID?.trim(),
-//       password,
-//       OS: OSName,
-//       IP: ip,
-//       channel: "WebApp",
-//     };
-//     try {
-//       const response = await axiosCutome.post(`${apiRoute.signIn.MEMBER_ID}`, bodyRequest);
-//       const data = await response;
-//       if (response.status === 200) {
-//         return data;
-//       }
-//       return thunkAPI.rejectWithValue(data);
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue(e.response.data);
-//     }
-//   },
-// );
+
 const ConfigAxios = axios.create({ ...getHeaderConfig() });
 export default ConfigAxios;
 
-// export const login2FA = createAsyncThunk(
-//   "user/login2FA",
-//   async ({ code, OSName }: { code: string; OSName: string }, thunkAPI) => {
-//     const ip = await publicIp.v4();
-//     if (cookies.get("jwtToken")) {
-//       ConfigAxios.defaults.headers.common.Authorization = `Bearer ${cookies.get("jwtToken")}`;
-//     }
-//     try {
-//       const response = await ConfigAxios.post(`${apiRoute.signIn.TWOFA}`, {
-//         twoFactorAuthenticationCode: code,
-//         OS: OSName,
-//         IP: ip,
-//         channel: "WebApp",
-//       });
-//       const data = await response;
-//       if (data.status === 200) {
-//         return data;
-//       }
-//       return thunkAPI.rejectWithValue(data);
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.response.data);
-//     }
-//   },
-// );
 
 export const signInSlice = createSlice({
   name: "user",
@@ -116,12 +67,12 @@ export const signInSlice = createSlice({
     },
     resetSignin: (state) => {
       state.payload = {
-        accessToken: "",
+        jwtAccessToken: "",
         refreshToken: "",
         statusCode: 0,
         message: "",
         data: {
-          accessToken: "",
+          jwtAccessToken: "",
           refreshToken: "",
           memberType: 0,
           firstName: "",
@@ -141,8 +92,9 @@ export const signInSlice = createSlice({
     },
     loginUserFulfilled: (state, { payload }) => {
       state.payload = payload;
-      if (!getStr(payload, "data.accessToken", "")) {
-        state.payload.data.accessToken = "default";
+
+      if (!getStr(payload, "data.jwtAccessToken", "")) {
+        state.payload.data.jwtAccessToken = "default";
       }
       cookies.remove("LocationBase");
       state.status = "success";
@@ -160,8 +112,9 @@ export const signInSlice = createSlice({
       const token = getStr(payload, "data.accessToken", "default");
       const refreshToken = getStr(payload, "data.refreshToken", "default");
       state.payload = payload;
-      if (!getStr(payload, "data.accessToken", "")) {
-        state.payload.data.accessToken = "default";
+      console.log(payload);
+      if (!getStr(payload, "data.jwtAccessToken", "")) {
+        state.payload.data.jwtAccessToken = "default";
       }
       cookies.remove("LocationBase");
       cookies.set("member", payload.data);

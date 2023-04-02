@@ -105,6 +105,7 @@ import {
   watcherFetchPostOtpSignup,
   watcherFetchPostPaymentSignUp,
   watcherFetchPostPhoneNumberSignup,
+  watcherFetchPostSignup,
   watcherFetchPostVerifyIDCard,
 } from "src/feature/signup/action";
 import {
@@ -116,6 +117,7 @@ import {
   FETCH_POST_OTP_SIGNUP,
   FETCH_POST_PAYMENT_SIGN_UP,
   FETCH_POST_PHONE_NUMBER_SIGNUP,
+  FETCH_POST_SIGN_UP,
   FETCH_POST_VERIFY_ID_CARD,
 } from "src/feature/signup/type";
 import { GET_DETAIL_ADDRESS_BOOK, GET_LIST_ADDRESS_BOOK } from "src/feature/address-book/type";
@@ -174,6 +176,7 @@ export default function* rootSaga() {
     takeLatest(FETCH_GENERATE_SECURITY_2FA, watcherFetchGenerateSecurity2FA),
     takeLatest(FETCH_USER_INFORMATION, watcherFetchUserInfomation),
     takeLatest(FETCH_POINTS, watcherFetchGetPoints),
+    takeLatest(FETCH_POST_SIGN_UP, watcherFetchPostSignup),
     takeLatest(FETCH_ORGANIZATION_CHART, watcherFetchOrganizationChart),
     takeLatest(FETCH_ORGANIZATION_TREE, watcherFetchOrganizationTree),
     takeLatest(FETCH_SPONSOR_CHART, watcherFetchSponsorChart),

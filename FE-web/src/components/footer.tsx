@@ -50,23 +50,23 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
             <div className="sm:w-80">
               <div className="mb-6">
                 <Image
-                  src="/assets/images/SCM_Company_Logo.png"
+                  src="/assets/images/logo.png"
                   alt="image delivery"
-                  width={230}
-                  height={50}
+                  width={"auto"}
+                  height={"auto"}
                 />
               </div>
               <ul>
-                <li className="text-base mb-5">{t`successmore-being-public-company-limited`}</li>
-                <li className="text-base mb-5">{t`address-footer`}</li>
+                <li className="text-base mb-5">2 P. Phạm Văn Bạch, Dịch Vọng, Cầu Giấy, Hà Nội 100000</li>
                 <li className="flex justify-center sm:justify-start flex-wrap mb-5 text-sm">
                   <PhoneBlackIcon className="mr-2.5 w-[20px] sm:w-auto" />
                   <img
                     className="mr-1.5"
                     alt="thailand flag"
-                    src="/assets/images/thailand_flag_icon.svg"
+                    src="/assets/images/country/vietnam.svg"
+                    style={{ width: "20px", height: "20px" }}
                   />{" "}
-                  <span className="mt-1">+66 (0) 2 - 511 - 5951</span>
+                  <span className="mt-1">+84 (123) - 456 - 1234 </span>
                 </li>
                 <li className="mb-5 text-sm">
                   <div className="items-center flex sm:justify-start justify-center">
@@ -93,19 +93,19 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                     router.push("/help-center-1");
                   }}
                 >{t`help-center`}</li>
-                <Link href="https://scmconnext.com/help-center-3/61b18342c39242c05d523541">
+                <Link href="">
                   <a>
                     <li className="mb-4 sm:mb-6 text-base">{t`how-to-buy`}</li>
                   </a>
                 </Link>
 
-                <Link href="https://scmconnext.com/help-center-3/61b1836cc39242a2b4523556">
+                <Link href="">
                   <a>
                     <li className="mb-4 sm:mb-6 text-base">{t`shipping-delivery`}</li>
                   </a>
                 </Link>
 
-                <Link href="https://scmconnext.com/help-center-3/61b18399133b463e07c54462">
+                <Link href="">
                   <a>
                     <li className="mb-4 sm:mb-6 text-base">{t`return-refund`}</li>
                   </a>
@@ -120,43 +120,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
               </ul>
             </div>
           </div>
-          <div className={ITEM_CLASS}>
-            <div className="mx-auto text-center sm:text-left">
-              <div className="text-lg mb-4 sm:mb-6 text-orange">{t`about-success-more`}</div>
-              <ul>
-                <li
-                  className="mb-4 sm:mb-6 text-base"
-                  role="button"
-                  onClick={() => {
-                    router.push("/help-center-3/61b183cdc392422094523575");
-                  }}
-                >{t`about-us`}</li>
-                {/* <li className="mb-6">{t`careers`}</li> */}
-                <Link href="https://scmconnext.com/help-center-3/61b09e84e49b5a2cfdf1b5cc">
-                  <a>
-                    <li className="mb-4 sm:mb-6 text-base">{t`terms_codition`}</li>
-                  </a>
-                </Link>
-                <Link href="https://scmconnext.com/help-center-3/61b0a00816657045a987b643">
-                  <a>
-                    <li className="mb-4 sm:mb-6 text-base">{t`privacy_policy`}</li>
-                  </a>
-                </Link>
-                <li className="justify-center flex sm:block">
-                  <span className="text-base float-left">{t`location_base`}:</span>
-                  <CountryFooter
-                    disabled={!!member}
-                    country={LocationBase || country}
-                    onSelect={({ name }: CountryPhoneCodeType) => {
-                      cookies.set("LocationBase", name);
-                      window.location.reload();
-                      window.scrollTo(0, 0);
-                    }}
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
+
           <div className={ITEM_CLASS}>
             <div className="sm:text-center mt-7 sm:mt-0 text-center">
               <div className="text-lg mb-6 text-orange">{t`follow-us`}</div>
@@ -201,7 +165,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
       </div>
       <GetAppFooter />
       <div>
-        <div className="text-center text-base sm:text-lg mb-[44px] sm:mb-8 mt-[40px] sm:mt-2.5">{t`footer`}</div>
+        <div className="text-center text-base sm:text-lg mb-[44px] sm:mb-8 mt-[40px] sm:mt-2.5">@2023 You can do it!</div>
       </div>
     </div>
   );

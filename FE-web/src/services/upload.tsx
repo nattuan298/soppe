@@ -7,14 +7,18 @@ export const getImageByKey = async ({ key }: { key: string }) => {
 };
 
 export const getSignURL = async ({
-  moduleName = "user",
+  moduleName = "avatar",
   fileName,
 }: {
   moduleName?: string;
-  fileName: string;
+  fileName: File;
 }) => {
-  const res: { data: { key: string; preSignedUrl: string } } = await axios.get(
-    `${apiRoute.upload.getUploadSignURL}?moduleName=${moduleName}&fileName=${fileName}`,
+  const formData = new FormData();
+  formData.append("file", fileName);
+  formData.append("folder", moduleName);
+  const res: { data: { Key: string; Location: string } } = await axios.post(
+    `${apiRoute.upload.getUploadSignURL}`,
+    formData,
   );
   return res.data;
 };
@@ -40,8 +44,9 @@ export const uploadImageFull = async ({
   file: File;
   moduleName?: string;
 }) => {
-  const res = await getSignURL({ fileName: file.name, moduleName });
-  await putImageToSignURL({ file, signUrl: res.preSignedUrl });
-  const res2 = await getImageByKey({ key: res.key });
-  return { url: res2, key: res.key };
+  const res = await getSignURL({ fileName: file, moduleName });
+  // await putImageToSignURL({ file, signUrl: res.Location });
+  console.log(res);
+  const res2 = await getImageByKey({ key: res.Key });
+  return { url: res2, key: res.Key };
 };

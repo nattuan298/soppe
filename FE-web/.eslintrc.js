@@ -75,8 +75,6 @@ module.exports = {
     "no-undef-init": 2,
     "no-unneeded-ternary": 2,
     "no-unused-expressions": 2,
-    "no-unused-vars": [0, { vars: "all", args: "after-used" }],
-    "@typescript-eslint/no-unused-vars": [2, { vars: "all", args: "after-used" }],
     "no-var": 2,
     "no-void": 2,
     "no-whitespace-before-property": 2,

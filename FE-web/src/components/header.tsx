@@ -309,7 +309,7 @@ export function Header({
         selectClassName={"border-0 text-black-dark sm:w-36 justify-end select-category"}
         classHolder={"text-base text-black-dark"}
         options={optionCategories}
-        placeholder={t`product`}
+        placeholder="Categories"
         defaultValue={defaultValueSelect}
         onChange={redirectFilterCategory}
       />
@@ -326,7 +326,7 @@ export function Header({
             <input
               id="searchInput"
               ref={searchInputRef}
-              placeholder={t`search-by-name-sku`}
+              placeholder="Search Soppe"
               className="sm:w-26 h-10 border-0 focus:outline-none bg-lighterGray "
               value={valueSearch}
               onChange={(e) => setValueSearch(e.target.value)}
@@ -359,9 +359,9 @@ export function Header({
           <p className="hidden">search</p>
         </button>
       </div>
-      <ul className="flex items-center text-sm text-center col-span-5 justify-center w-full min-h-[58px]">
+      <ul className="flex items-center text-sm text-center col-span-4 justify-center w-full min-h-[58px]">
         <li
-          className={`${lang === "th" ? "mr-4" : "mr-2 sm:mr-6"} cursor-pointer w-1/5 sm:w-auto`}
+          className={`${lang === "th" ? "mr-4" : "mr-2 sm:mr-6"} cursor-pointer w-1/4 sm:w-auto`}
           onClick={handleAccount}
         >
           <AccountIcon className="mx-auto" />
@@ -372,25 +372,20 @@ export function Header({
           )}
         </li>
         <li
-          className={`${lang === "th" ? "mr-4" : "mr-2 sm:mr-6"} cursor-pointer w-1/5 sm:w-auto`}
+          className={`${lang === "th" ? "mr-4" : "mr-2 sm:mr-6"} cursor-pointer w-1/4 sm:w-auto`}
           onClick={handleFavorite}
         >
           <FavouriteIcon className="mx-auto" />
           <div className="text-xs	">{t`favourite`}</div>{" "}
         </li>
         <li
-          className={`${lang === "th" ? "mr-4" : "mr-2 sm:mr-6"} cursor-pointer w-1/5 sm:w-auto`}
+          className={`${lang === "th" ? "mr-4" : "mr-2 sm:mr-6"} cursor-pointer w-1/4 sm:w-auto`}
           onClick={handleClickMyOrder}
         >
           <MyOrderIcon className="mx-auto" />
           <div className="text-xs	">{t`my-order`}</div>
         </li>
-        <li
-          className={`${lang === "th" ? "mr-4" : "mr-2 sm:mr-6"} cursor-pointer w-1/5 sm:w-auto`}
-          onClick={handleClickNotification}
-        >
-          <ButtonNotification />
-        </li>
+
         <li
           className={`${
             lang === "th" ? "mr-4" : "mr-2 sm:mr-6"
@@ -406,7 +401,7 @@ export function Header({
             </span>
           )}
         </li>
-        <li className="w-1/5 sm:w-auto">
+        {/* <li className="w-1/5 sm:w-auto">
           <div
             onClick={showMenuSelectLanguage}
             className="ml-4 w-7 h-7 border-2 rounded-full border-lightestGray hover:cursor-pointer"
@@ -417,7 +412,7 @@ export function Header({
               className="w-full h-full"
             />
           </div>
-        </li>
+        </li> */}
 
         <Popover
           id="simple-menu"
@@ -665,8 +660,8 @@ export function Header({
               <div className="hidden sm:block sm:ml-0 ml-2 icon-nav w-6 h-6">
                 <ButtonNavagation />
               </div>
-              <div onClick={handleGoHome} className="cursor-pointer">
-                <LogoConnextIcons className="mr-4 w-16 sm:w-auto" />
+              <div onClick={handleGoHome} className="cursor-pointer text-4xl text-red-600">
+                SOPPE
               </div>
               {/* <a className="mr-5 text-base">{t`product`}</a> */}
             </div>
