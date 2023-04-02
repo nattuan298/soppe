@@ -18,4 +18,4 @@ const AddressSchema = new mongoose.Schema(
 );
 
 AddressSchema.plugin(mongoosePaginate);
-export {AddressSchema, ADDRESS_MODEL};
+export { AddressSchema, ADDRESS_MODEL };

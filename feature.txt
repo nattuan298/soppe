@@ -40,20 +40,24 @@ DONE
   6.1: User
     - View top 5 hot product in slide section ( base on Rating )
 
+7. Address: 
+  7.1: User
+    - Can add, update, delete, view addresses.
+
   --------------------------------------------
   
-7. Order:
+8. Order:
     Order Flow
-    - Can order product by COD ( but need to verify address by email first )
     - Check stock first => return can make order or not
     - If able to make, when order success then the status change to WAITING APPROVE
     - When admin approve this order => order status change to DELIVERY
     - When user receipt this order => order status change to RECEIPTED
 
-8. Review product
+9. Review product
     Flow:
     - When user receipt this order => order status change to RECEIPTED => user can review this product
     - User only review a product only 1 time.
+    
 
 
 

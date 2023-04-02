@@ -1,8 +1,8 @@
 import { IsEnum, IsString } from 'class-validator';
-import { ModuleName } from '../upload.constant';
+import { FolderName } from '../upload.constant';
 
 export class FolderUploadDto {
-  @IsEnum(ModuleName)
+  @IsEnum(FolderName)
   @IsString()
-  folder: ModuleName;
+  folder: FolderName;
 }
