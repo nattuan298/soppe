@@ -1,5 +1,5 @@
 import { IsNumberString, IsString } from 'class-validator';
-import { CreateAddressDto } from './create-adrress.dto';
+import { CreateAddressDto } from './create-address.dto';
 
 export class UpdateAddressDto extends CreateAddressDto {
   @IsString()

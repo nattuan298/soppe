@@ -9,7 +9,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { AddressService } from './address.service';
-import { CreateAddressDto } from './dto/create-adrress.dto';
+import { CreateAddressDto } from './dto/create-address.dto';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
