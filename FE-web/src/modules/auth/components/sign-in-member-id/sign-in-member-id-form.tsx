@@ -79,9 +79,9 @@ export function SignInMemberIdForm(props: props) {
   }, [isLoggedIn]);
   useEffect(() => {
     if (statusfb === "success") {
-      const { accessToken, refreshToken, ...member } = payloadfb.data;
-      if (accessToken) {
-        updateToken(accessToken, refreshToken);
+      const { jwtAccessToken, refreshToken, ...member } = payloadfb.data;
+      if (jwtAccessToken) {
+        updateToken(jwtAccessToken, refreshToken);
       }
       cookies.set("member", member);
       router.push("/");
@@ -138,21 +138,18 @@ export function SignInMemberIdForm(props: props) {
   useEffect(() => {
     if (status === "success") {
       setLoading(false);
-      const { accessToken, refreshToken, ...member } = payload.data;
-      if (accessToken && member.googleAuth) {
-        cookies.set("jwtToken", accessToken);
-        router.push(routeSignin2faBase);
-      } else {
-        if (accessToken) {
-          updateToken(accessToken, refreshToken);
-        }
-        cookies.set("member", member);
-        if (!cookies.get("member")) {
-          resaveCookie("member", member);
-        } else {
-          router.push("/");
-        }
+      const { jwtAccessToken, refreshToken, ...member } = payload.data;
+
+      if (jwtAccessToken) {
+        updateToken(jwtAccessToken, refreshToken);
       }
+      cookies.set("member", member);
+      if (!cookies.get("member")) {
+        resaveCookie("member", member);
+      } else {
+        router.push("/");
+      }
+
     } else if (status === "failed") {
       setLoading(false);
       if (payload.statusCode === 400) {

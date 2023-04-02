@@ -1,17 +1,18 @@
 import { browserConfig } from "src/constants/browser-config";
 
-const apiPrefix = `${browserConfig.apiBaseUrl}/auth/members`;
+const apiPrefix = `${browserConfig.apiBaseUrl}`;
 // const apiPrefixPayment = browserConfig.kbankApiURL;
 
 export const apiRoute = {
   signIn: {
-    MEMBER_ID: `${apiPrefix}/signIn`,
+    MEMBER_ID: `${apiPrefix}/signin`,
     FACEBOOK: `${apiPrefix}/facebook`,
     PHONENUMBER: `${apiPrefix}/phone/verify`,
     SENDOTP: `${apiPrefix}/phone/verifyOtp`,
     TWOFA: `${apiPrefix}/2fa`,
   },
   signup: {
+    signUp: "/signup",
     postPhoneNumber: "/sms/send-otp",
     postOTP: "/sms/verify-otp",
     getCity: "/provinces/find-by-country",
@@ -49,8 +50,8 @@ export const apiRoute = {
     organizationTree: "/members/organization-tree",
   },
   upload: {
-    getUploadSignURL: "/upload/upload-signed-url",
-    getSignURL: "/upload/signed-url",
+    getUploadSignURL: "/upload",
+    getSignURL: "/upload",
   },
   products: {
     getProductDetail: "/products/productCode",

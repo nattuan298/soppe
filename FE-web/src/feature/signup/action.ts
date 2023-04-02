@@ -14,7 +14,9 @@ import {
   FETCH_POST_OTP_SIGNUP,
   FETCH_POST_PAYMENT_SIGN_UP,
   FETCH_POST_PHONE_NUMBER_SIGNUP,
+  FETCH_POST_SIGN_UP,
   FETCH_POST_VERIFY_ID_CARD,
+  PayloadSignUp,
   PaymentSignUpPayload,
   SignupPhonePayload,
   SignupState,
@@ -23,6 +25,7 @@ import {
   WatcherFetchGetSubDistrict,
   WatcherFetchPaymentSignUpType,
   WatcherFetchPostOTPSignup,
+  WatcherFetchSignUpType,
 } from "./type";
 import {
   actionCallAPIPending,
@@ -84,6 +87,7 @@ const postNumberPhone = async ({ phoneNumber, phoneCode }: SignupPhonePayload) =
     return Promise.reject(e);
   }
 };
+
 
 export function* watcherFetchGetSponserInfo(action: WatcherFetchGetSponserInfo) {
   try {
@@ -378,6 +382,26 @@ export function* watcherFetchPostPaymentSignUp(action: WatcherFetchPaymentSignUp
     }
   }
 }
+
+
+export function* watcherFetchPostSignup(action: WatcherFetchSignUpType) {
+  try {
+    const { phoneNumber, phoneCode, requestIdPhone } = yield selectState<SignupState>(getSignup);
+    let newPhoneNumber = phoneNumber;
+    if (["66", "84"].includes(phoneCode) && phoneNumber.charAt(0) === "0") {
+      newPhoneNumber = phoneNumber.slice(1);
+    }
+    yield put(actionCallAPIPending());
+    const response: Promise<any> = yield call(() =>
+      axios.post(apiRoute.signup.signUp, action.payload),
+    );
+    yield put(postOTPFulfilled());
+  } catch (e: any) {
+    const message = e.response?.data?.message || "";
+    yield put(actionSetErrors({ otp: message }));
+  }
+}
+
 export const fetchGetSponserInfo = (payload: string) => ({
   type: FETCH_GET_SPONSER_INFO,
   payload,
@@ -418,3 +442,9 @@ export const fetchPostPaymentSignup = (payload: PaymentSignUpPayload) => ({
   type: FETCH_POST_PAYMENT_SIGN_UP,
   payload,
 });
+
+export const fetchSignup = (payload: PayloadSignUp) => (
+  {
+    type: FETCH_POST_SIGN_UP,
+    payload,
+  });

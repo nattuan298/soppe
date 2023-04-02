@@ -110,38 +110,11 @@ export function SignInForm() {
                     </div>
                   ) : (
                     <div className="flex justify-center">
-                      <LogoMember className="mr-1.5" />
                       <div>{t`with-member-id`}</div>
                     </div>
                   )}
                 </Button>
-                <Button
-                  onClick={() => handleClick("phoneNumber")}
-                  className="button-login hover:bg-whiteHover mb-5 w-[280px] mx-auto sm:w-23.5 "
-                >
-                  <div>
-                    {loading.phoneNumber ? (
-                      <div className="m-auto">
-                        <CircularProgress size={30} />
-                      </div>
-                    ) : (
-                      <div className="flex justify-center">
-                        <PhoneIcon className="mr-2" />
-                        <div>{t`with-phone-number`}</div>
-                      </div>
-                    )}
-                  </div>
-                </Button>
-                <Button
-                  type="button"
-                  onClick={clickLoginFacebook}
-                  className="button-login button-facebook hover:bg-whiteHover w-[280px] sm:w-23.5"
-                >
-                  <div className="flex justify-center">
-                    <Facebook className="mr-2" />
-                    <div>{t`with-facebook`}</div>
-                  </div>
-                </Button>
+                {/*  */}
                 <div className="hidden" id="facebook">
                   <ReactFacebookLogin
                     appId={browserConfig.appID}
