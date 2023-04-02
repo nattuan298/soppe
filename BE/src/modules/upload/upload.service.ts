@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 @Injectable()
 export class UploadService {
   private readonly EXPIRES = 60 * 10;
@@ -17,7 +17,7 @@ export class UploadService {
       .upload({
         Bucket: process.env.S3_BUCKET_NAME,
         Body: dataBuffer,
-        Key: `${folder}/${uuid()}-${filename}`,
+        Key: `${folder}/${v4()}-${filename}`,
         ContentType: mimetype,
       })
       .promise();
