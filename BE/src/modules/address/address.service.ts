@@ -2,7 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ADDRESS_MODEL } from './address.schema';
 import { Model } from 'mongoose';
 import { IAddressDocument } from './address.interface';
-import { CreateAddressDto } from './dto/create-adrress.dto';
+import { CreateAddressDto } from './dto/create-address.dto';
 
 import { NotFoundException } from '@nestjs/common';
 import { UpdateAddressDto } from './dto/update-address.dto';
