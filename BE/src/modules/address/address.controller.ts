@@ -36,7 +36,7 @@ export class AddressController {
     return this.addressService.findAll(id);
   }
 
-  @Get()
+  @Get(':id')
   findOne(@GetUser() { id }: IJwtPayload) {
     return this.addressService.findOne(id);
   }
