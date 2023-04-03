@@ -125,90 +125,6 @@ export function LeftNavination({
       </div>
       <div
         className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeReportAnalysisBase) ? "text-orange" : ""
-        }`}
-        onClick={isMobile ? handleClickReport : handleClick(routeReportAnalysisBase, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <AnalysisIcon />
-          </div>
-          <div>{t`report-analysis`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeSponsorBase) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routeSponsorBase, true, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <SponsorIcon />
-          </div>
-          <div>{t`invite_friend`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeOrganizationChart) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routeOrganizationChart, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <OrganizationIcon />
-          </div>
-          <div>{t`my-organization`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeFavoriteMemberBase) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routeFavoriteMemberBase, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <HeartIcon />
-          </div>
-          <div>{t`favorite-member`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeTransferBmcPvPointBase) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routeTransferBmcPvPointBase, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <ArrowBackNavigation />
-          </div>
-          <div>{t`transfer_BMC_PV_point`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex cursor-pointer justify-between items-center ${cls.item} ${
-          router.route.startsWith(routePointTopupBase) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routePointTopupBase, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <PointTopupIcon />
-          </div>
-          <div>{t`scm_point_topup`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
           router.route.startsWith(routeMyAccountBase) ? "text-orange" : ""
         }`}
         onClick={handleClick(routeMyAccountBase, true)}
@@ -237,34 +153,6 @@ export function LeftNavination({
       </div>
       <div
         className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeSecurityBase) ? "text-orange" : ""
-        }`}
-        onClick={handleClickSecurity}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <SecurityIcon />
-          </div>
-          <div>{t`security`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeNotesBase) ? "text-orange" : ""
-        } ${router.route.startsWith(routeCreateNoteBase) ? "text-orange" : ""}`}
-        onClick={handleClick(routeNotesBase, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <NoteIcon />
-          </div>
-          <div>{t`note`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
           router.route.startsWith(routeFavoriteProductBase) ? "text-orange" : ""
         }`}
         onClick={handleClick(routeFavoriteProductBase, true)}
@@ -280,41 +168,7 @@ export function LeftNavination({
       <div className={`flex justify-between items-center ${cls.item}`}>
         <div className="border-lightestGray border-t w-full"></div>
       </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeNotificationBase) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routeNotificationBase, true)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10 relative">
-            <NotificationsIcon />
-            {!!countUnreadCommon && (
-              <span
-                className={`${cls.badge3} absolute flex justify-center items-center rounded-full bg-red-500 text-white`}
-              >
-                {countUnreadCommon < 99 ? countUnreadCommon : "99+"}
-              </span>
-            )}
-          </div>
-          <div>{t`notification`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item}  ${cls.item} ${
-          router.route.startsWith(routeNewsArticleBase) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routeNewsArticleBase)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <TripPromotion />
-          </div>
-          <div>{t`trip-promotion`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
+
       <div
         className={`flex justify-between items-center cursor-pointer ${cls.item} ${
           router.route.startsWith(routeSettingsBase) ? "text-orange" : ""
@@ -329,22 +183,7 @@ export function LeftNavination({
         </div>
         <ArrowRightNavigation />
       </div>
-      <div
-        className={`flex justify-between items-center cursor-pointer ${cls.item} ${
-          router.route.startsWith(routeHelpCenter1Base) ? "text-orange" : ""
-        } ${router.route.startsWith(routeHelpCenter2Base) ? "text-orange" : ""} ${
-          router.route.startsWith(routeHelpCenter3Base) ? "text-orange" : ""
-        }`}
-        onClick={handleClick(routeHelpCenter1Base)}
-      >
-        <div className="flex justify-start">
-          <div className="w-10">
-            <HelpCenterIcon />
-          </div>
-          <div>{t`help-center`}</div>
-        </div>
-        <ArrowRightNavigation />
-      </div>
+
 
       <DialogCustome
         open={openModalSignIn}

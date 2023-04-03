@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 import useTranslation from "next-translate/useTranslation";
 // import { ReactChild  } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ButtonMui, StepHorizontal } from "src/components";
 import { ImageDelivery } from "src/components/image-delivery";
 import { steps } from "src/constants/signup";
@@ -20,10 +20,13 @@ import { useEffect, useMemo, useState } from "react";
 import useLoggedIn from "src/hooks/useLoggedIn";
 import { GetAppFooter } from "src/components/GetAppFooter";
 import { notifyToast } from "src/constants/toast";
+import { routeHomeUrl } from "../../../../constants/routes";
+import { resetState } from "../../../../feature/signup/slice";
 
 export function SignUpForm() {
   const { t } = useTranslation("common");
   const { isLoggedIn } = useLoggedIn();
+  const dispatch = useDispatch();
   const router = useRouter();
   const mainStep = useSelector((state: RootState) => state.signup.mainStep);
   const { totalPrice: totalPriceParam } = router.query;
@@ -39,7 +42,9 @@ export function SignUpForm() {
   }, [isLoggedIn, router]);
   useEffect(() => {
     if (mainStep === 6) {
-      notifyToast("default", "common:payment_successfully", t);
+      notifyToast("default", "Register successfully!");
+      dispatch(resetState());
+      router.push(routeHomeUrl);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainStep]);

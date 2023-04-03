@@ -267,21 +267,17 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
                     </div>
                     {categories.map((item) => (
                       <div
-                        id={category === item.categoryId ? "active" : "inactive"}
+                        id={category === item._id ? "active" : "inactive"}
                         key={item._id}
                         className={`cursor-pointer w-[71px] h-[20px] inline-block mx-2 ${
-                          category === item.categoryId ? "border-b border-orange pb-1" : ""
+                          category === item._id ? "border-b border-orange pb-1" : ""
                         }`}
                         onClick={() => {
-                          setCategory(item.categoryId);
-                          applyFilter(item.categoryId);
+                          setCategory(item._id);
+                          applyFilter(item._id);
                         }}
                       >
-                        <img
-                          src={item.bubble}
-                          alt="category"
-                          className="h-full w-full object-contain"
-                        />
+
                       </div>
                     ))}
                   </div>

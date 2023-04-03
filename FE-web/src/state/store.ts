@@ -36,6 +36,7 @@ import { travelPVHistorySlice } from "src/feature/travel-pv-history";
 import sponsorChartSlice from "src/feature/sponsor-chart/sponsor-chart.slice";
 import checkStatusQRSlice from "src/feature/checkQRFeature/qr-feature.slice";
 import saga from "./sagas";
+import { forgotSlice } from "../feature/forgot-password/forgot-password.slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -74,6 +75,7 @@ export const store = configureStore({
     travelPVHistory: travelPVHistorySlice.reducer,
     sponsorChart: sponsorChartSlice,
     checkStatusQR: checkStatusQRSlice,
+    forgotPassword: forgotSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
 });

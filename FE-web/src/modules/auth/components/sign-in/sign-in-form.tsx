@@ -47,9 +47,7 @@ export function SignInForm() {
   useEffect(() => {
     setOSName(getOSType());
   }, []);
-  const clickLoginFacebook = () => {
-    inputEl.current?.click();
-  };
+
   const handleClick = (name: "id" | "phoneNumber") => {
     if (name === "id") {
       setLoading({ ...loading, id: true });
@@ -91,11 +89,10 @@ export function SignInForm() {
 
   return (
     <div>
-      <div className="block min-h-[40rem] sm:min-h-62.5">
-        <div className="mx-auto w-auto sm:w-1216 relative">
-          <ImageDelivery />
+      <div className="block ">
+        <div className="mx-auto w-auto sm:w-1216 relative flex justify-center py-12">
 
-          <div className="relative sm:absolute top-7 sm:top-[76px] sm:left-[50px] rounded-0.625 bg-white w-[355px] mx-auto sm:w-signIn h-auto sm:z-0 z-10 shadow-full p-paddingLogin">
+          <div className=" rounded-0.625 bg-white w-[355px] mx-auto sm:w-signIn h-auto sm:z-0 z-10 shadow-full p-paddingLogin">
             <div className="text-xl mb-16 font-medium">{t`sign-in`}</div>
             <div className="text-center">
               <div className="text-select-method">{t`select-signin-method`}</div>

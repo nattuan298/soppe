@@ -35,6 +35,7 @@ import {
   routeExpiredMemberListBase,
   routeFavoriteMemberBase,
   routeFavoriteProductBase,
+  routeForgotPassBase,
   routeG1Analysis,
   routeHelpCenter1Base,
   routeHelpCenter2Base,
@@ -181,6 +182,7 @@ const ECOM_APP_PATHS = new Set([
   routeFavoriteMemberBase,
   routeOrganizationChart,
   routeSponsorChart,
+  routeForgotPassBase,
 ]);
 
 const SMALL_CART_PATHS = new Set([
