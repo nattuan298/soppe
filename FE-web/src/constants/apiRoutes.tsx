@@ -11,6 +11,10 @@ export const apiRoute = {
     SENDOTP: `${apiPrefix}/phone/verifyOtp`,
     TWOFA: `${apiPrefix}/2fa`,
   },
+  fotgot: {
+    SEND_EMAIL: "/users/forgot-password",
+    RECOVER: "users/recovery-password",
+  },
   signup: {
     signUp: "/signup",
     postPhoneNumber: "/sms/send-otp",
@@ -76,7 +80,7 @@ export const apiRoute = {
     branches: "/branches/help-center",
   },
   categories: {
-    getCategories: "/categories",
+    getCategories: "/products/category",
   },
   branch: {
     getBranchCheckout: "/branches/checkout",

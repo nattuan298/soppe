@@ -53,6 +53,7 @@ export function Header({
   updateSearchValue,
   resetKeySort,
 }: HeaderProps) {
+
   const { t, lang } = useTranslation("common");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [recentEl, setRecentEl] = useState<null | HTMLElement>(null);
@@ -187,8 +188,8 @@ export function Header({
   const optionCategories = useMemo(
     () =>
       categories.map((item: CategoryModel) => ({
-        title: item.categoryName,
-        value: item.categoryId,
+        title: item.category,
+        value: item._id,
       })),
     [categories],
   );
