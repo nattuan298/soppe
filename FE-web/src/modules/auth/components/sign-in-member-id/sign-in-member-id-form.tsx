@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import { Cookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { SigninType, resetSignin } from "src/feature/signin/sign-in-slice";
-import { routeSignin2faBase, routeSigninPhoneNumber, routeSignupUrl } from "src/constants/routes";
+import { routeForgotPassUrl, routeSignin2faBase, routeSigninPhoneNumber, routeSignupUrl } from "src/constants/routes";
 import { notifyToast } from "src/constants/toast";
 import ReactFacebookLogin from "react-facebook-login-typed";
 import { browserConfig } from "src/constants/browser-config";
@@ -176,12 +176,9 @@ export function SignInMemberIdForm(props: props) {
 
   return (
     <div>
-      <div className="block min-h-[647px] sm:min-h-62.5">
-        <div className="mx-auto w-auto sm:w-1216 relative">
-          <div className="hidden sm:block">
-            <ImageDelivery />
-          </div>
-          <div className="form-position sm:absolute bg-white w-auto sm:w-signIn h-auto sm:shadow-full sm:p-paddingLogin">
+      <div className="block ">
+        <div className="mx-auto w-auto sm:w-1216 relative flex justify-center py-12">
+          <div className=" bg-white w-auto sm:w-signIn h-auto sm:shadow-full sm:p-paddingLogin">
             <div className="text-xl mb-16 font-medium hidden sm:block">{t`sign-in`}</div>
             <div>
               <div className="text-select-method text-center font-kanit font-Regular ">{t`signin-to-your-account`}</div>
@@ -244,8 +241,11 @@ export function SignInMemberIdForm(props: props) {
                   </div>
                   <div
                     className="mb-4 text-lighterGray cursor-pointer w-2/4 hover:underline hover:text-orange text-[13px] sm:text-base"
-                    onClick={showModal}
-                  >{t`forgot-password`}</div>
+                  >
+                    <Link href={routeForgotPassUrl}>
+
+                      {t`forgot-password`}
+                    </Link></div>
                   <div>
                     <Button
                       type="submit"
@@ -266,52 +266,8 @@ export function SignInMemberIdForm(props: props) {
                     </p>
                   </Link>
                 </div>
-                <div className="relative h-9">
-                  <div className="border h-0.316  w-4/5 mx-auto bg-lighterGray"></div>
-                  <div className="class-or-text absolute w-9 h-9 bg-white text-lighterGray text-center text-[13px] text-base">
-                    {t`or`}
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <div>
-                    <Button
-                      onClick={clickLoginFacebook}
-                      className="button-login-other focus:ring-0 bg-white hover:bg-whiteHover shadow-full mr-5"
-                    >
-                      <Facebook className="mx-auto" />
-                      <p className="hidden">facebook</p>
-                    </Button>
-                  </div>
-                  <div className="hidden" id="facebook">
-                    {/* @ts-ignore */}
-                    <ReactFacebookLogin
-                      appId={browserConfig.appID}
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      callback={responseFacebook}
-                      render={(renderProps) => (
-                        <button ref={inputEl} onClick={renderProps.onClick}>
-                          Custom FB Button
-                        </button>
-                      )}
-                      disableMobileRedirect={true}
-                      onFailure={(responseGoogle) => {
-                        if (responseGoogle.status === "unknown") {
-                          removeToken();
-                          dispatch(resetSignin());
-                        }
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <Link href={routeSigninPhoneNumber}>
-                      <Button className="button-login-other focus:ring-0 bg-white hover:bg-whiteHover shadow-full">
-                        <PhoneIcon className="mx-auto" />
-                        <p className="hidden">phone</p>
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
+
+
               </div>
             </div>
           </div>

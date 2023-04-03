@@ -19,6 +19,9 @@ export const routeSigninPhoneNumberUrl = makeUrlObjectFromRouteBase(routeSigninP
 export const routeSignupBase = "/signup";
 export const routeSignupUrl = makeUrlObjectFromRouteBase(routeSignupBase);
 
+export const routeForgotPassBase = "/forgot-password";
+export const routeForgotPassUrl = makeUrlObjectFromRouteBase(routeForgotPassBase);
+
 export const routeCartBase = "/shopping-cart";
 export const routeCartUrl = makeUrlObjectFromRouteBase(routeCartBase);
 

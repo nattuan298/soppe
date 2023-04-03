@@ -40,6 +40,7 @@ import {
   getSubDistrictPending,
   handleChangeField,
   postOTPFulfilled,
+  postSignupfulfilled,
   postphoneNumberFulfilled,
   verifyIdCardFulfilled,
 } from "./slice";
@@ -386,16 +387,11 @@ export function* watcherFetchPostPaymentSignUp(action: WatcherFetchPaymentSignUp
 
 export function* watcherFetchPostSignup(action: WatcherFetchSignUpType) {
   try {
-    const { phoneNumber, phoneCode, requestIdPhone } = yield selectState<SignupState>(getSignup);
-    let newPhoneNumber = phoneNumber;
-    if (["66", "84"].includes(phoneCode) && phoneNumber.charAt(0) === "0") {
-      newPhoneNumber = phoneNumber.slice(1);
-    }
     yield put(actionCallAPIPending());
     const response: Promise<any> = yield call(() =>
       axios.post(apiRoute.signup.signUp, action.payload),
     );
-    yield put(postOTPFulfilled());
+    yield put(postSignupfulfilled());
   } catch (e: any) {
     const message = e.response?.data?.message || "";
     yield put(actionSetErrors({ otp: message }));

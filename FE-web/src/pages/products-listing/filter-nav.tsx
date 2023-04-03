@@ -70,10 +70,10 @@ export default function FilterNavination({
           <span className="ml-2.5 mr-2">{t`all-category`}</span>
         </label>
         <div className="ml-6">
-          {categories.map(({ categoryName, categoryId }) => (
-            <label key={categoryId} htmlFor={categoryId} className="flex items-center mt-2.5">
-              <CheckBox name={categoryId} checked={checkedOption(categoryId)} onChange={onChange} />
-              <span className="ml-2.5 mr-2">{categoryName}</span>
+          {categories.map(({ category, _id }) => (
+            <label key={_id} htmlFor={_id} className="flex items-center mt-2.5">
+              <CheckBox name={_id} checked={checkedOption(_id)} onChange={onChange} />
+              <span className="ml-2.5 mr-2">{category}</span>
             </label>
           ))}
         </div>
