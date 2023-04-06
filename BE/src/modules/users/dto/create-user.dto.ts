@@ -6,6 +6,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumberString,
+  IsPhoneNumber,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -38,7 +39,8 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
-  @IsNumberString()
+  @IsDefined()
+  @IsPhoneNumber()
   phoneNumber: string;
 
   @IsEnum(Gender)
