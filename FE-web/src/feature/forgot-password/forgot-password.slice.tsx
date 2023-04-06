@@ -1,22 +1,20 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
 
 export interface ForgotType {
-  username:string,
-  email:string,
-  code:string,
-  newPassword:string,
+  statusSendCode: string,
   status:string,
+  errrorMessageCode:string,
   errrorMessage:string,
-  loadingSendEmail: boolean
+  loadingSendEmail: boolean,
+  loadingSendCode: boolean,
 }
 const initialState:ForgotType = {
-  username: "",
-  email: "",
-  code: "",
-  newPassword: "",
+  statusSendCode: "",
   status: "",
   errrorMessage: "",
+  errrorMessageCode: "",
   loadingSendEmail: false,
+  loadingSendCode: false,
 };
 export const handleChangeField = createAction<Partial<ForgotType>>(
   "forgotPassword/handleChangeField",
@@ -26,10 +24,6 @@ export const forgotSlice = createSlice({
   initialState,
   reducers: {
     resetForgot: (state) => {
-      state.username = "";
-      state.email = "";
-      state.code = "";
-      state.newPassword = "";
       state.status = "";
       state.errrorMessage = "";
       state.loadingSendEmail = false;
@@ -50,6 +44,22 @@ export const forgotSlice = createSlice({
       state.errrorMessage = payload.message;
       return state;
     },
+    recoverPending: (state) => {
+      state.statusSendCode = "loading";
+      state.loadingSendCode = true;
+      return state;
+    },
+    recoverFulfilled: (state) => {
+      state.statusSendCode = "success";
+      state.loadingSendCode = false;
+      return state;
+    },
+    recoverRejected: (state, { payload }) => {
+      state.statusSendCode = "failed";
+      state.loadingSendCode = false;
+      state.errrorMessageCode = payload.message;
+      return state;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(handleChangeField, (state, action) => {
@@ -62,4 +72,7 @@ export const {
   forgotFulfilled,
   forgotRejected,
   resetForgot,
+  recoverPending,
+  recoverFulfilled,
+  recoverRejected,
 } = forgotSlice.actions;

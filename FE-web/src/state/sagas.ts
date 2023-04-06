@@ -151,13 +151,14 @@ import { FETCH_POST_PRODUCT_REVIEW } from "src/feature/review-product/types";
 import { watcherFetchPostProductReview } from "src/feature/review-product/review-product.action";
 import { FETCH_LIST_PRODUCT_IN_CART } from "src/feature/shopping-cart/type";
 import { watcherFetchPostProductInCart } from "src/feature/shopping-cart/action";
-import { FORGOT_ACTION } from "../feature/forgot-password/forgot-password.type";
-import { watcherForgotAction } from "../feature/forgot-password/forgot-password.action";
+import { FORGOT_ACTION, RECOVER_ACTION } from "../feature/forgot-password/forgot-password.type";
+import { watcherForgotAction, watcherRecoverAction } from "../feature/forgot-password/forgot-password.action";
 
 export default function* rootSaga() {
   yield all([
     takeLatest(SIGNIN_ACTION, watcherSigninAction),
     takeLatest(FORGOT_ACTION, watcherForgotAction),
+    takeLatest(RECOVER_ACTION, watcherRecoverAction),
     takeLatest(FETCH_SIGNIN_2FA, watcherFetchSignin2FA),
     takeLatest(GET_SPONSORED_USER_HISTORY, getSponsoredUserHistoryAction),
     takeLatest(FAVORITE_PRODUCT_GET_DATA, favoriteProductAction),

@@ -134,9 +134,7 @@ export function ModalUserSummaryInfo({
                     <span className="text-0.875 font-light text-blue">{t`common:verified`}</span>
                   )}
                 </div>
-                <span className="text-0.875 font-light">
-                  {t`common:scm-business`} ({t`id`}: {sponsorId})
-                </span>
+
               </div>
               <div
                 className="ml-6"

@@ -5,25 +5,20 @@ import {
   Button,
 } from "src/components";
 import Input from "src/components/input/input";
-import { useFormInput } from "src/hooks/use-form-input-sign-in";
 import classnames from "classnames";
 import { useRouter } from "next/router";
-import { Cookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { SigninType, resetSignin } from "src/feature/signin/sign-in-slice";
-import { routeForgotPassUrl, routeSignin2faBase, routeSigninPhoneNumber, routeSignupUrl } from "src/constants/routes";
+import { SigninType } from "src/feature/signin/sign-in-slice";
+
 import { notifyToast } from "src/constants/toast";
 import styles from "./styles.module.css";
 import useLoggedIn from "src/hooks/useLoggedIn";
-import { setCookie } from "src/lib/cookie";
-import { getOSType, removeToken, updateToken } from "src/lib/common.lib";
-import { fetchSigninFacebook, signinAction } from "src/feature/signin/sign-in.actions";
+
 import { forgotAction } from "../../../../feature/forgot-password/forgot-password.action";
 import { ForgotType, handleChangeField, resetForgot } from "../../../../feature/forgot-password/forgot-password.slice";
+import { route } from "next/dist/next-server/server/router";
+import { routeRecoverBase } from "../../../../constants/routes";
 
-
-
-const cookies = new Cookies();
 type forgotType = {
   username: string,
   email: string,
@@ -77,6 +72,7 @@ export function ForgotPassWordForm() {
     if (status === "success") {
       notifyToast("default", "sended code in your email!");
       dispatch(resetForgot());
+      router.push(routeRecoverBase);
 
     } else if (status === "failed") {
 

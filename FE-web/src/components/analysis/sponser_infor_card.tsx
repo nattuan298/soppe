@@ -43,9 +43,7 @@ export default function SponserInforCard({
               <span className="text-0.875 font-light text-blue">{t`common:verified`}</span>
             )} */}
           </div>
-          <span className="text-sm font-light">
-            {t`scm-business`} (ID: {sponsorId})
-          </span>
+
         </div>
       </div>
     </div>
