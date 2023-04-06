@@ -1,11 +1,12 @@
 export type BannersType = {
-  desktopBanner: string;
-  tabletBanner: string;
-  mobileBanner: string;
-  hyperlink: string;
-  position: number;
-  duration: number;
-}[];
+  status: string,
+  _id: string,
+  name: string,
+  url:string,
+  createdAt: string,
+  updatedAt: string;
+  __v: number
+};
 
 export interface Media {
   url: string;

@@ -60,6 +60,7 @@ import {
   routeProductsListing,
   routePvHistoryReportBase,
   routeQaCodePublicBase,
+  routeRecoverBase,
   routeReferrallinkBase,
   routeReportAnalysisBase,
   routeReviewProductBase,
@@ -183,6 +184,7 @@ const ECOM_APP_PATHS = new Set([
   routeOrganizationChart,
   routeSponsorChart,
   routeForgotPassBase,
+  routeRecoverBase,
 ]);
 
 const SMALL_CART_PATHS = new Set([
@@ -281,7 +283,6 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"
         />
-        <link rel="shortcut icon" href="/favicon.ico"></link>
       </Head>
       <NextSeo title="SCM" description="SCM Connext - Drive to Your Success" />
       <Provider store={store}>
@@ -323,32 +324,25 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
     if (isLoggedIn && member) {
       dispatch(fetchUserInformation());
       dispatch(fetchCheckoutGetListAddress());
-      dispatch(fetchCountNotificationUnread());
+      // dispatch(fetchCountNotificationUnread());
     }
     dispatch(loadListProducts());
     dispatch(fetchPostProductInCart());
   }, [dispatch, isLoggedIn, cookiesObject]);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(fetchGetTopic());
-    }
-  }, [dispatch, isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     dispatch(fetchGetTopic());
+  //   }
+  // }, [dispatch, isLoggedIn]);
 
   const { topic, notifyStatus } = useSelector((state: RootState) => state.notification);
 
-  useEffect(() => {
-    if (notifyStatus) {
-      const handlePushNotify = () => dispatch(pushNotification());
-      subscribeToTopic(topic, handlePushNotify);
-    } else if (topic) {
-      unSubscribeToTopic(topic);
-    }
-  }, [dispatch, notifyStatus, topic]);
+
 
   useEffect(() => {
     if (isLoggedIn && PathnameGetPoints.has(router.pathname)) {
-      dispatch(fetchPoints());
+      // dispatch(fetchPoints());
     }
   }, [dispatch, isLoggedIn, router.pathname]);
 

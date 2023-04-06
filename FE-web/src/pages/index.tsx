@@ -25,7 +25,7 @@ export default function Home({
     () => orderBy(templateSections, ["position"], ["asc"]),
     [templateSections],
   );
-
+  console.log(banners);
   return (
     <div className="w-full">
       <NextSeo
@@ -63,7 +63,7 @@ export default function Home({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const banners: never[] = [];
+  let banners = {};
   const products: never[] = []; // more from our store session
   const templateSections: never[] = [];
   const articles: never[] = [];
@@ -71,10 +71,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const cookie = req.headers.cookie;
   const locationBase = getLocationBaseFromCookieSever(cookie);
   const memberIdCookies = getMemberIDFromCookieSever(cookie);
-  // try {
-  //   const resp = await axios.get(`/banners?countryCode=${locationBase}`);
-  //   banners = resp.data;
-  // } catch (err) {}
+  try {
+    const resp = await axios.get(`/banners?countryCode=${locationBase}`);
+    banners = resp.data;
+  } catch (err) {}
 
   // try {
   //   const respPrice = await axios.get(

@@ -22,6 +22,9 @@ export const routeSignupUrl = makeUrlObjectFromRouteBase(routeSignupBase);
 export const routeForgotPassBase = "/forgot-password";
 export const routeForgotPassUrl = makeUrlObjectFromRouteBase(routeForgotPassBase);
 
+export const routeRecoverBase = "/recover-password";
+export const routeRecoverPassUrl = makeUrlObjectFromRouteBase(routeRecoverBase);
+
 export const routeCartBase = "/shopping-cart";
 export const routeCartUrl = makeUrlObjectFromRouteBase(routeCartBase);
 
