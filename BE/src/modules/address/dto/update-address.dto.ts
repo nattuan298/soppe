@@ -1,4 +1,9 @@
-import { IsNumberString, IsString } from 'class-validator';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
 import { CreateAddressDto } from './create-address.dto';
 
 export class UpdateAddressDto extends CreateAddressDto {
@@ -8,7 +13,9 @@ export class UpdateAddressDto extends CreateAddressDto {
   @IsString()
   lastName: string;
 
-  @IsNumberString()
+  @IsNotEmpty()
+  @IsDefined()
+  @IsPhoneNumber()
   phoneNumber: string;
 
   @IsString()

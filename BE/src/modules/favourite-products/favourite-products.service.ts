@@ -59,7 +59,7 @@ export class FavouriteProductsService {
     const listProduct = await Promise.all(
       favProducts.map(async (p) => {
         const id = p.productId;
-        const prod = await this.productsService.findOne({ id });
+        const prod = await this.productsService.findOne(id);
         return {
           ...p,
           mediaUrl: prod.mediaUrl,

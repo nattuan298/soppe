@@ -28,6 +28,7 @@ import { IProductCategoryDoc } from './interfaces/product-category.interface';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { paginationTransformer } from 'src/common/helpers';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
+import { CheckStockDto, ProductCheckDto } from './dto/check-stock.dto';
 // import { ReviewStatus } from '../reviews/review.constant';
 
 @Injectable()
@@ -104,7 +105,7 @@ export class ProductsService {
     }
   }
 
-  async findOne({ id }: CommonIdParams) {
+  async findOne(id: string) {
     try {
       const product = await this.productModel.findById(id).lean();
       if (product.mediaUrl) {
@@ -224,5 +225,22 @@ export class ProductsService {
       .sort({ rating: -1 })
       .limit(5);
     return productList;
+  }
+
+  async checkStock({ products }: CheckStockDto) {
+    const productOutStock: any[] = [];
+    await Promise.all(
+      products.map(async (prod: ProductCheckDto) => {
+        const product = await this.productModel.findById(prod.id).lean();
+        if (product && product.stock < prod.quantity) {
+          productOutStock.push(1);
+          throw new BadRequestException(product.productName, `Out of stock`);
+        }
+      }),
+    );
+    return {
+      statusCode: 200,
+      message: 'OK',
+    };
   }
 }
