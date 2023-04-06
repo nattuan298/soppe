@@ -257,7 +257,7 @@ export class UsersService {
 
   async sendForgotPassword(forgotPasswordDto: ForgotPasswordDto) {
     const user = await this.userModel.findOne({
-      username: forgotPasswordDto.username,
+      username: forgotPasswordDto.username.trim().toLowerCase(),
       email: forgotPasswordDto.email,
     });
     if (!user) {
