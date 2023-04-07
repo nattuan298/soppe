@@ -25,7 +25,7 @@ export default function Home({
     () => orderBy(templateSections, ["position"], ["asc"]),
     [templateSections],
   );
-  console.log(banners);
+  console.log(products);
   return (
     <div className="w-full">
       <NextSeo
@@ -36,15 +36,7 @@ export default function Home({
         <PageLayout>
           <BannerNoSSR height={screen === "Desktop" ? 484 : 164} banners={banners} />
           <Container>
-            {sectionsHome.map((item: TemplateSections) => (
-              <TemplateSection section={item} key={item._id} />
-            ))}
-            {articles.length > 0 && (
-              <Fragment>
-                <SeeAll isFlashSale={false} titleText={t`new_article`} link="/news-article" />
-                <SectionArcticleBanner articles={articles} hasNextArrow />
-              </Fragment>
-            )}
+
             {products.length > 0 && (
               <>
                 <SeeAll
@@ -64,7 +56,7 @@ export default function Home({
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let banners = {};
-  const products: never[] = []; // more from our store session
+  let products = []; // more from our store session
   const templateSections: never[] = [];
   const articles: never[] = [];
 
@@ -76,20 +68,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     banners = resp.data;
   } catch (err) {}
 
-  // try {
-  //   const respPrice = await axios.get(
-  //     `/products/max-price-location/country?country=${locationBase}&type=Product`,
-  //   );
-  //   const maxRangePrice = respPrice.data.maxPrice;
-  //   const url =
-  //     memberIdCookies !== ""
-  //       ? `/products?page=1&pageSize=12&countryCode=${locationBase}&memberId=${memberIdCookies}&minPrice=0&maxPrice=${maxRangePrice}&place=MORE_FROM_OUT_STORE`
-  //       : `/products?page=1&pageSize=12&countryCode=${locationBase}&minPrice=0&maxPrice=${maxRangePrice}&place=MORE_FROM_OUT_STORE`;
-  //   const resp = await axios.get(url);
-  //   products = resp.data.data;
-  // } catch (err: any) {
-  //   console.log(err);
-  // }
+  try {
+    const resp = await axios.get("/products?page=1&pageSize=10");
+    products = resp.data.data;
+  } catch (err: any) {
+    console.log(err);
+  }
 
   // try {
   //   const url = `/admin/home-templates/sections-list?countryCode=${locationBase}`;

@@ -70,7 +70,7 @@ export function* watcherRecoverAction(action: FetchRecoverAction) {
     const response: Promise<any> = yield call(() => recoverPassword({ code, newPassword }));
     yield put(recoverFulfilled());
   } catch (error) {
-    yield put(recoverRejecteds(error));
+    yield put(recoverRejected(error));
   }
 }
 export const forgotAction = (payload: ForgotPayloadType) => ({ type: FORGOT_ACTION, payload });

@@ -62,7 +62,7 @@ export function Products({
   };
 
   const handleRedirect = (id: string) => () => {
-    router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id, locationBase }));
+    router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id, locationBase: "Vietnam" }));
   };
 
   const imagePropperty = (product: ProductType) => {
@@ -82,10 +82,10 @@ export function Products({
       deleteProduct(id);
     }
   };
-  const hasOnlyVideo = (product: ProductType) => {
-    const { media } = product;
-    return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
-  };
+  // const hasOnlyVideo = (product: ProductType) => {
+  //   const { media } = product;
+  //   return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
+  // };
 
   return (
     <div
@@ -96,9 +96,9 @@ export function Products({
       }
     >
       {products.map((product) => {
-        const imageurl = imagePropperty(product);
-        const onlyVideo = hasOnlyVideo(product);
-        const image = get(product, imageurl);
+        // const imageurl = imagePropperty(product);
+        // const onlyVideo = hasOnlyVideo(product);
+        // const image = get(product, imageurl);
         const { isNewProduct } = product;
         return (
           <div
@@ -106,10 +106,10 @@ export function Products({
             className={`${cls.newProduct} ${
               type === "listing" ? STYLE_DESKTOP_PRODUCT_ITEM : STYLE_DESKTOP_PRODUCT
             }`}
-            key={product.productCode}
+            key={product._id}
           >
             <div className={cls.title}>
-              {onlyVideo ? (
+              {/* {false ? (
                 <Fragment>
                   <video
                     src={
@@ -133,19 +133,19 @@ export function Products({
                     }`}
                   />
                 </Fragment>
-              ) : (
-                <Image
-                  className={classnames(
-                    cls.image_product,
-                    image ? cls.image_White : cls.image_LightGray,
-                  )}
-                  width={type === "listing" ? 210 : 270}
-                  height={type === "listing" ? 210 : 270}
-                  src={image || imageDummy}
-                  alt=""
-                  onClick={handleRedirect(product.productCode)}
-                />
-              )}
+              ) : ( */}
+              <Image
+                className={classnames(
+                  cls.image_product,
+                  cls.image_White,
+                )}
+                width={type === "listing" ? 210 : 270}
+                height={type === "listing" ? 210 : 270}
+                src={product.mediaUrl || imageDummy}
+                alt=""
+                onClick={handleRedirect(product._id)}
+              />
+              {/* )} */}
 
               {favorite ? (
                 <div className={cls.favorite} onClick={handleFavorite(product._id)}>
@@ -162,22 +162,18 @@ export function Products({
                     cls.title,
                     type === "listing" ? cls.titleListing : cls.titleHome,
                   )}
-                  onClick={handleRedirect(product.productCode)}
+                  onClick={handleRedirect(product._id)}
                 >
                   {truncateStr(product.productName, 49)}
                 </div>
                 <div className="flex items-center">
                   <Stars numberOfStars={getStars(product.rating)} />
-                  <Tooltip title={product.productCode} placement="bottom-end">
-                    <div className="max-w-[100px] text-brown text-[10px] sm:text-sm ml-2 text-overflow-ellipsis">
-                      SKU: {product.productCode}
-                    </div>
-                  </Tooltip>
+
                 </div>
                 <div className={cls.spacer2}></div>
               </div>
 
-              <div className={`${cls.price_line} flex justify-between sm:justify-center`}>
+              <div className={`${cls.price_line} flex justify-between sm:justify-center mb-3`}>
                 <div className="w-auto sm:w-1/2 float-left">
                   <div
                     className={classnames(
@@ -185,8 +181,9 @@ export function Products({
                       type === "listing" ? cls.member_Listing : cls.member_priceHome,
                     )}
                   >
+                    {product.price?.toLocaleString()}
                     {symbol}
-                    {product[accessToken ? "memberPrice" : "personalPrice"]?.toLocaleString()}
+
                   </div>
                   {accessToken && (
                     <div
@@ -195,8 +192,8 @@ export function Products({
                         type === "listing" ? cls.personal_priceOther : cls.personal_priceHome,
                       )}
                     >
-                      {symbol}
-                      {product.personalPrice.toLocaleString()}
+                      {/* {symbol} */}
+                      {/* {product.personalPrice.toLocaleString()} */}
                     </div>
                   )}
                 </div>
@@ -211,14 +208,8 @@ export function Products({
                     alt=""
                     onClick={handleAddToCart(product)}
                   />
-                  {accessToken && (
-                    <div
-                      className={classnames(cls.pv, type === "listing" ? cls.pvOther : cls.pvHome)}
-                    >
-                      {product.pv?.toLocaleString()} PV
-                    </div>
-                  )}
-                  {/* <div className={cls.spacer}></div> */}
+
+                  <div className={cls.spacer}></div>
                 </div>
               </div>
             </div>
