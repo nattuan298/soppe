@@ -67,7 +67,7 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
     async (config: ParamUrlType) => {
       const params = paramsSerializer(config);
       const paramsURL =
-        params !== "" ? `?${params}&countryCode=${locationBase}&place=PRODUCT_LISTING` : "";
+        params !== "" ? `?${params}` : "";
       try {
         setLoading(true);
         const response = await axios.get(`${apiRoute.products.searchListProduct}${paramsURL}`);
@@ -89,7 +89,6 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
         ...defaultParams,
         keySort,
         ...router.query,
-        memberId,
       };
       const response = await getlistProduct(configParam);
       setProductPage(response.data);
@@ -192,11 +191,11 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
       delete newQuery.keyword;
     }
     if (isString(categoryParameter) && categoryParameter !== category) {
-      newQuery.category = categoryParameter;
+      newQuery.categoryId = categoryParameter;
     } else if (category && category !== "all-category") {
-      newQuery.category = category;
+      newQuery.categoryId = category;
     } else {
-      delete newQuery.category;
+      delete newQuery.categoryId;
     }
     if (minPrice !== start || maxPrice !== end) {
       if (start > MIN) {

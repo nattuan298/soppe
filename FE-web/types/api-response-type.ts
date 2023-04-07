@@ -21,54 +21,35 @@ export interface Description {
 }
 
 export type ProductsType = {
-  productCode: string;
-  productName: string;
-  pv: number;
-  memberPrice: number;
-  personalPrice: number;
-  weight: number;
-  categoryId: string;
-  categoryName: string;
-  sdate: string;
-  edate: string;
-  flag: string;
-  media: Media[];
-  status: string;
+  isNewProduct: boolean;
   rating: number;
+  ratingCount: number;
+  _id: string;
+  productName: string;
+  mediaUrl: string;
+  description: string;
   stock: number;
-  sold: number;
-  description: Description;
-  isNewProduct?: boolean;
-
-  createdAt?: string;
-  favouriteId?: number;
-  isFavourite?: boolean;
-  memberId?: number;
-  _id?: string;
+  price: number;
+  categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }[];
 
 export type ProductType = {
-  productCode: string;
-  productName: string;
-  pv: number;
-  memberPrice: number;
-  personalPrice: number;
-  weight: number;
-  categoryId: string;
-  categoryName: string;
-  sdate: string;
-  edate: string;
-  flag: string;
-  media: Media[];
-  status: string;
+  isNewProduct: boolean;
   rating: number;
+  ratingCount: number;
+  _id: string;
+  productName: string;
+  mediaUrl: string;
+  description: string;
   stock: number;
-  sold: number;
-  description: Description;
-  isNewProduct?: boolean;
-  isFavourite?: boolean;
-  favouriteId?: number;
-  _id?: string;
+  price: number;
+  categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 };
 
 export type ReviewProductType = {

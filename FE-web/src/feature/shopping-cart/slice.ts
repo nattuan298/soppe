@@ -45,7 +45,7 @@ export const cartSlice = createSlice({
         return;
       }
       const hasproduct = state.listProducts.find(
-        (item) => item.productCode === product.productCode,
+        (item) => item._id === product._id,
       );
 
       if (state.listProducts.length >= 30 && !hasproduct) {
@@ -55,7 +55,7 @@ export const cartSlice = createSlice({
 
       if (hasproduct) {
         state.listProducts = state.listProducts.map((item) =>
-          item.productCode === product.productCode
+          item._id === product._id
             ? { ...item, qty: item.qty + qty > 10000 ? 10000 : item.qty + qty }
             : item,
         );
