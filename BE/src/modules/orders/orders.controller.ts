@@ -5,16 +5,17 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 import { JwtGuard } from 'src/common/guards/jwt-guard';
+import { CommonPaginationDto } from 'src/common/pagination.dto';
+import { CommonIdParams } from 'src/common/common.dto';
 
 @ApiTags('Orders')
 @ApiBearerAuth()
@@ -32,22 +33,20 @@ export class OrdersController {
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(
+    @GetUser() payload: IJwtPayload,
+    @Query() commonPaginationDto: CommonPaginationDto,
+  ) {
+    return this.ordersService.findAll(commonPaginationDto, payload.id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ordersService.findOne(+id);
+  findOne(@Param() commonIdParams: CommonIdParams) {
+    return this.ordersService.findOne(commonIdParams.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(+id, updateOrderDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordersService.remove(+id);
+  @Patch('mark-received/:id')
+  markReceived(@Param() commonIdParams: CommonIdParams) {
+    return this.ordersService.markReceived(commonIdParams.id);
   }
 }

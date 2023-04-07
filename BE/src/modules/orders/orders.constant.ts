@@ -8,3 +8,7 @@ export enum OrderStatus {
   DELIVERY = 'delivery',
   RECEIPTED = 'receipted',
 }
+
+export enum ResponseOrderMessage {
+  NOT_FOUND = 'Not is not found.',
+}
