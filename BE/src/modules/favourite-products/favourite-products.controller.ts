@@ -15,7 +15,7 @@ import { JwtGuard } from 'src/common/guards/jwt-guard';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 
-@ApiTags('favourite-products')
+@ApiTags('Favourite-products')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('favourite-products')

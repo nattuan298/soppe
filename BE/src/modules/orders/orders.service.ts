@@ -1,6 +1,11 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ORDER_MODEL } from './entities/orders.schema';
 import { PaginateModel } from 'mongoose-paginate-v2';
@@ -8,6 +13,9 @@ import { UploadService } from '../upload/upload.service';
 import { IOrderDoc } from './orders.interface';
 import { UsersService } from '../users/users.service';
 import { ProductsService } from '../products/products.service';
+import { CommonPaginationDto } from 'src/common/pagination.dto';
+import { paginationTransformer } from 'src/common/helpers';
+import { OrderStatus, ResponseOrderMessage } from './orders.constant';
 
 @Injectable()
 export class OrdersService {
@@ -22,57 +30,89 @@ export class OrdersService {
 
   async create(createOrderDto: CreateOrderDto, userId: string) {
     let totalPrice = 0;
-    let totalProduct = 0;
+    let totalQuantity = 0;
     const products: any[] = [];
 
-    const [, getBuyer] = await Promise.all([
-      createOrderDto.products.map(async (prod) => {
-        const getProd = await this.productsService.findOne(prod.productId);
+    for (let i = 0; i < createOrderDto.products.length; i++) {
+      const prod = createOrderDto.products[i];
+      const getProd = await this.productsService.findOne(prod.productId);
 
-        totalPrice = totalPrice + prod.quantity * getProd.price;
-        totalProduct = totalProduct + prod.quantity;
+      totalPrice = totalPrice + prod.quantity * getProd.price;
+      totalQuantity = totalQuantity + prod.quantity;
 
-        return products.push({
-          mediaUrl: getProd.mediaUrl,
-          productId: getProd._id,
-          productName: getProd.productName,
-          price: getProd.price,
-          quantity: prod.quantity,
-          categoryId: getProd.categoryId,
-        });
-      }),
-      this.usersService.findById(userId),
-    ]);
-    const buyer = {
-      name: getBuyer.firstName + ' ' + getBuyer.lastName,
-      avatar: getBuyer.avatar,
-      phoneNumber: getBuyer.phoneNumber,
-      userId: getBuyer._id,
-    };
-
+      products.push({
+        mediaUrl: getProd.mediaUrl,
+        productId: getProd._id,
+        productName: getProd.productName,
+        price: getProd.price,
+        quantity: prod.quantity,
+        categoryId: getProd.categoryId,
+      });
+    }
     const dataCreate = {
       products,
       totalPrice,
-      totalProduct,
+      totalQuantity,
       shippingAddress: createOrderDto.shippingAddress,
-      buyer,
+      userId,
     };
     return await this.orderModel.create(dataCreate);
   }
 
-  findAll() {
-    return `This action returns all orders`;
+  async findAll(commonPaginationDto: CommonPaginationDto, userId: string) {
+    const options: Record<string, unknown> = {};
+
+    options.page = commonPaginationDto.page;
+    options.limit = commonPaginationDto.pageSize;
+    options.sort = { createdAt: -1 };
+    try {
+      const orders = await this.orderModel.paginate({ userId }, options);
+      if (!orders.docs.length) {
+        return paginationTransformer(orders);
+      }
+      return paginationTransformer(orders);
+    } catch (e) {
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: string) {
+    try {
+      const order = await this.orderModel.findById(id).lean();
+      if (!order) {
+        throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
+      }
+      return order;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async markReceived(id: string) {
+    const order = await this.orderModel.findByIdAndUpdate(
+      id,
+      {
+        completedAt: Date.now(),
+        orderStatus: OrderStatus.RECEIPTED,
+      },
+      { new: true },
+    );
+    if (!order) {
+      throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async adminApproveOrder(id: string, approveBy: string) {
+    const order = await this.orderModel.findByIdAndUpdate(
+      id,
+      {
+        approveBy,
+        orderStatus: OrderStatus.DELIVERY,
+      },
+      { new: true },
+    );
+    if (!order) {
+      throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
+    }
   }
 }

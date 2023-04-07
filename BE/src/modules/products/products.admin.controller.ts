@@ -25,7 +25,7 @@ import { RolesGuard } from 'src/common/guards/role.guard';
 import { CreateProductDto } from './dto/create-product.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
-@ApiTags('admin')
+@ApiTags('Products')
 @ApiBearerAuth()
 @Roles(Role.Admin)
 @UseGuards(JwtGuard, RolesGuard)

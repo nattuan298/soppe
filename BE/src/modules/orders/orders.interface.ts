@@ -1,12 +1,31 @@
 import { Document } from 'mongoose';
+import { OrderStatus, PaymentMethod } from './orders.constant';
+
+interface IAddress {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+}
+
+interface IProduct {
+  mediaUrl: string;
+  productId: string;
+  productName: string;
+  price: number;
+  quantity: number;
+  isReviewed: boolean;
+  categoryId: string;
+}
 
 export interface IOrder {
-  isNewProduct: boolean;
-  description: string;
-  rating: number;
-  categoryId: string;
-  ratingCount: number;
-  stock: number;
-  sold: number;
+  orderStatus: OrderStatus;
+  totalQuantity: number;
+  totalPrice: number;
+  paymentMethod: PaymentMethod;
+  products: [IProduct];
+  shippingAddress: IAddress;
+  userId: string;
+  approveBy: string;
+  completedAt: Date;
 }
 export type IOrderDoc = Document & IOrder;

@@ -6,6 +6,7 @@ import { UploadModule } from '../upload/upload.module';
 import { ORDER_MODEL, OrderSchema } from './entities/orders.schema';
 import { UsersModule } from '../users/users.module';
 import { ProductsModule } from '../products/products.module';
+import { AdminOrdersController } from './orders.admin.controller';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { ProductsModule } from '../products/products.module';
     ProductsModule,
     UsersModule,
   ],
-  controllers: [OrdersController],
+  controllers: [OrdersController, AdminOrdersController],
   providers: [OrdersService],
   exports: [OrdersService],
 })

@@ -1,8 +1,8 @@
 {
-  "name": "gvc-manage-api",
+  "name": "soppe-api",
   "version": "0.0.1",
-  "description": "API Backend for GVC Management - 2021",
-  "author": "nattuan298",
+  "description": "API Backend for Soppe - 2023",
+  "author": "Unknow",
   "private": true,
   "license": "UNLICENSED",
   "engines": {
