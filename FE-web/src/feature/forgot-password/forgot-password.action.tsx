@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axiosCutomse from "src/lib/client/request";
 import { apiRoute } from "../../constants/apiRoutes";
-import { FORGOT_ACTION, FetchForgotAction, ForgotPayloadType } from "./forgot-password.type";
+import { FORGOT_ACTION, FetchForgotAction, FetchRecoverAction, ForgotPayloadType, RECOVER_ACTION, RecoverPayloadType } from "./forgot-password.type";
 import { call, put } from "redux-saga/effects";
-import { forgotFulfilled, forgotPending, forgotRejected } from "./forgot-password.slice";
+import { forgotFulfilled, forgotPending, forgotRejected, recoverFulfilled, recoverPending, recoverRejected } from "./forgot-password.slice";
 
 export const forgotPassword = async ({
   username,
@@ -27,6 +27,32 @@ export const forgotPassword = async ({
     return Promise.reject(e?.response.data);
   }
 };
+
+export const recoverPassword = async ({
+  code,
+  newPassword,
+}:{
+  code:string,
+  newPassword: string,
+}) => {
+  const bodyRequest = {
+    code: code.trim(),
+    newPassword,
+  };
+  try {
+    const response = await axiosCutomse.put(`${apiRoute.fotgot.RECOVER}`, bodyRequest);
+
+    const data = await response;
+    if (response.status === 200) {
+      return Promise.resolve(data);
+    }
+    return Promise.reject(data);
+
+  } catch (e:any) {
+    return Promise.reject(e?.response.data);
+  }
+};
+
 export function* watcherForgotAction(action: FetchForgotAction) {
   try {
     yield put(forgotPending());
@@ -37,4 +63,16 @@ export function* watcherForgotAction(action: FetchForgotAction) {
     yield put(forgotRejected(error));
   }
 }
+export function* watcherRecoverAction(action: FetchRecoverAction) {
+  try {
+    yield put(recoverPending());
+    const { code, newPassword } = action.payload;
+    const response: Promise<any> = yield call(() => recoverPassword({ code, newPassword }));
+    yield put(recoverFulfilled());
+  } catch (error) {
+    yield put(recoverRejected(error));
+  }
+}
 export const forgotAction = (payload: ForgotPayloadType) => ({ type: FORGOT_ACTION, payload });
+export const RecoverAction = (payload: RecoverPayloadType) => ({ type: RECOVER_ACTION, payload });
+

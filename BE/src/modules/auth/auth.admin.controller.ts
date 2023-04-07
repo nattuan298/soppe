@@ -4,7 +4,7 @@ import { AuthAdminService } from './auth.admin.service';
 import { AdminSignInDto } from './dto/admin-sign-in-dto';
 import { AdminSignUpDto } from './dto/admin-sign-up.dto';
 
-@ApiTags('auth/admin')
+@ApiTags('Auth')
 @Controller('admin')
 export class AdminUserController {
   constructor(private readonly authAdminService: AuthAdminService) {}

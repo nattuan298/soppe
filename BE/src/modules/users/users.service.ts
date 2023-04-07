@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -273,13 +274,17 @@ export class UsersService {
         code,
       },
     };
-    await Promise.all([
-      user.save(),
-      this.sendMailToUser(forgotPasswordDto.email, options),
-    ]);
-    return {
-      message: `Send reset code successful.`,
-    };
+    try {
+      await Promise.all([
+        user.save(),
+        this.sendMailToUser(forgotPasswordDto.email, options),
+      ]);
+      return {
+        message: `Send reset code successful.`,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async recoveryPass(recoveryPassword: RecoveryPassword) {

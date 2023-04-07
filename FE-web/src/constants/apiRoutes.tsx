@@ -30,7 +30,7 @@ export const apiRoute = {
     temporaryAccounts: "/temporary-accounts",
   },
   members: {
-    accountInformation: "/members/account-information",
+    accountInformation: "/users/profile",
     mobileConnection: "/members/account-information/mobile-connection",
     facebookConnection: "/members/account-information/facebook-connection",
     documents: "/members/documents",

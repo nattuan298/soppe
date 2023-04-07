@@ -58,32 +58,12 @@ const productSchema = new mongoose.Schema(
   },
 );
 
-const BuyerSchema = new mongoose.Schema(
+const OrderSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
       default: '',
     },
-    name: {
-      type: String,
-      default: '',
-    },
-    phoneNumber: {
-      type: String,
-      default: '',
-    },
-    avatar: {
-      type: String,
-      default: '',
-    },
-  },
-  {
-    _id: false,
-  },
-);
-
-const OrderSchema = new mongoose.Schema(
-  {
     orderStatus: {
       type: String,
       enum: OrderStatus,
@@ -104,7 +84,6 @@ const OrderSchema = new mongoose.Schema(
     },
     products: [productSchema],
     shippingAddress: AddressSchema,
-    buyer: BuyerSchema,
     approveBy: {
       type: String,
       default: '',

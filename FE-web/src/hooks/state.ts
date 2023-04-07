@@ -51,9 +51,9 @@ export const useLocationBase = () => {
 
   return {
     locationBase,
-    symbol: currencySymbol[locationBase] || "฿",
-    currencyUnit: currencyUnit[locationBase] || "THB",
-    tax: TaxCountry[locationBase] ?? 0.07,
+    symbol: currencySymbol[locationBase] || "₫",
+    currencyUnit: currencyUnit[locationBase] || "VND",
+    tax: TaxCountry[locationBase] ?? 0.1,
   };
 };
 

@@ -66,7 +66,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                     src="/assets/images/country/vietnam.svg"
                     style={{ width: "20px", height: "20px" }}
                   />{" "}
-                  <span className="mt-1">+84 (123) - 456 - 1234 </span>
+                  <span>+84 (123) - 456 - 1234 </span>
                 </li>
                 <li className="mb-5 text-sm">
                   <div className="items-center flex sm:justify-start justify-center">

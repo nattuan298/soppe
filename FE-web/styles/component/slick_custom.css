@@ -2,11 +2,6 @@
   max-height: 600px;
 } */
 
-.main-banner img {
-    height: 100%;
-    width: 100%;
-}
-
 .main-banner .slick-list {
     /* height: 590px; */
     /* outline: 10px solid blue; */
