@@ -15,7 +15,7 @@ import { Express } from 'express';
 import { FolderUploadDto } from './dto/upload.dto';
 import { ApiFile } from 'src/common/helpers';
 
-@ApiTags('upload')
+@ApiTags('Upload')
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
