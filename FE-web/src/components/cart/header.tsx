@@ -50,7 +50,7 @@ export default function Header({
         </div>
         <div className="hidden sm:block col-span-2 text-center text-sm">{t`quantity`}</div>
 
-        {isLoggedIn && <p className="hidden sm:block col-span-2 text-center text-sm">{t`price`}</p>}
+        {isLoggedIn && <p className="hidden sm:block col-span-4 text-center text-sm">{t`price`}</p>}
         {!isLoggedIn && (
           <div
             key="price"
@@ -61,12 +61,12 @@ export default function Header({
         {/* <div
           className={`${isLoggedIn ? "col-span-2" : "col-span-4"} text-center text-sm`}
         >{t`auth:price`}</div> */}
-        {isLoggedIn && (
+        {/* {isLoggedIn && (
           <p
             key="received_PV"
             className=" hidden sm:block col-span-2 text-center text-sm ml-4"
           >{t`received_PV`}</p>
-        )}
+        )} */}
       </div>
       <div className="col-span-1" />
     </div>

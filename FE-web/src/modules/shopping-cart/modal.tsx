@@ -42,7 +42,7 @@ export default function ModalOrderSummary({
         </div>
       </div>
 
-      {isLoggedIn && screen === "Desktop" && (
+      {/* {isLoggedIn && screen === "Desktop" && (
         <div className="hidden sm:grid grid-cols-5 gap-4 mb-2.5 ">
           <div className="col-span-2">
             <span className="text-brown">{t`total_pv`}:</span>
@@ -53,7 +53,7 @@ export default function ModalOrderSummary({
             </span>
           </div>
         </div>
-      )}
+      )} */}
       {screen === "Desktop" && (
         <div className="grid grid-cols-5 gap-4 mb-2.5">
           <div className="col-span-2">

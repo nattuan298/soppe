@@ -66,7 +66,7 @@ export const apiRoute = {
     categories: "/categories",
   },
   userInfors: {
-    listAddress: "/address-books",
+    listAddress: "/address",
   },
   reviewProduct: {
     reviewProduct: "/reviews",
@@ -91,7 +91,7 @@ export const apiRoute = {
     draftOrders: "/orders/create-order-draft",
   },
   addressBook: {
-    listAddress: "/address-books",
+    listAddress: "/address",
   },
   sponsors: {
     sponsors: "/sponsors",

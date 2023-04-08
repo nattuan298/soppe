@@ -36,13 +36,15 @@ export default function RowCart({
   const { symbol, locationBase } = useLocationBase();
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
   const { isLoggedIn, priceFieldName } = useLoggedIn();
-  const disabled = product.status !== "Active" || (!isLoggedIn && product.personalPrice === 0);
+  const disabled =
+  // product.status !== "Active" ||
+   (!isLoggedIn && product.price === 0);
   const handleClickName = () => {
     if (disabled) {
       return;
     }
     router.push(
-      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product.productCode, locationBase }),
+      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product._id, locationBase }),
     );
   };
 
@@ -66,7 +68,7 @@ export default function RowCart({
               {!noSelect && (
                 <CheckBox
                   checked={disabled ? false : !!isSelected}
-                  onChange={(e) => !disabled && onClickSelect?.(product.productCode, e.checked)}
+                  onChange={(e) => !disabled && onClickSelect?.(product._id, e.checked)}
                   disabled={disabled}
                 />
               )}
@@ -75,10 +77,10 @@ export default function RowCart({
             <div className="flex pl-3">
               <div className={disabled ? "" : "cursor-pointer"} onClick={handleClickName}>
                 <Image
-                  src={getThumbimageFromMedia(product.media)?.urlPreSign}
+                  src={product.mediaUrl}
                   style={{ width: 75, height: 75 }}
                   className={`mr-4 ${disabled ? "opacity-70" : ""}`}
-                  fileType={getThumbimageFromMedia(product.media)?.fileType}
+                  fileType={"image"}
                   showIconVideo
                   sizeIcon={{ width: "60%", height: "60%" }}
                 />
@@ -98,25 +100,25 @@ export default function RowCart({
           </div>
           <div
             className={`${
-              isLoggedIn ? "sm:col-span-2 col-span-4" : "col-span-4"
+              isLoggedIn ? "col-span-4" : "col-span-4"
             } text-center text-orange ${disabled ? "text-lighterGray" : ""}`}
           >
-            <div className="m-auto ml-2">
+            <div className="m-auto ml-2 flex flex-col items-center">
               <NumberFormatCustome
-                value={product[priceFieldName]}
+                value={product.price}
                 prefix={symbol}
                 className={`${isLoggedIn && "float-left ml-2"}`}
               />
               {showPublicPrice && (
                 <NumberFormatCustome
                   className="text-lighterGray text-sm line-through pl-2 mt-1 float-left"
-                  value={product.personalPrice}
+                  value={product.price}
                   prefix={symbol}
                 />
               )}
             </div>
           </div>
-          {isLoggedIn && (
+          {/* {isLoggedIn && (
             <div
               className={`col-span-2 text-center text-xs sm:text-base text-brown ml-4 ${
                 disabled ? "text-lighterGray" : ""
@@ -124,7 +126,7 @@ export default function RowCart({
             >
               <NumberFormatCustome value={product.pv} suffix=" PV" />
             </div>
-          )}
+          )} */}
         </div>
         {!noSelect && (
           <div className="col-span-1 text-center">
@@ -136,12 +138,12 @@ export default function RowCart({
       </div>
 
       {/* Mobile */}
-      <div className="p-2 sm:hidden">
+      {/* <div className="p-2 sm:hidden">
         <div className="flex flex-row items-center gap-1">
           {!noSelect && (
             <CheckBox
               checked={disabled ? false : !!isSelected}
-              onChange={(e) => !disabled && onClickSelect?.(product.productCode, e.checked)}
+              onChange={(e) => !disabled && onClickSelect?.(product._id, e.checked)}
               disabled={disabled}
             />
           )}
@@ -202,14 +204,14 @@ export default function RowCart({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div></div>
       <Divider />
       <ModalConfirm
         open={isOpenConfirm}
         onClose={() => setIsOpenConfirm(false)}
         confirmType="delete-confirm"
-        onConfirm={() => onClickDelete?.(product.productCode)}
+        onConfirm={() => onClickDelete?.(product._id)}
       />
     </div>
   );

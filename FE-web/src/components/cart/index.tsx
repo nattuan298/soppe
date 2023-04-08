@@ -38,7 +38,7 @@ export default function ShoppingCart({
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       handleChangeSelected?.(
-        products.filter((item) => item.status === "Active").map((item) => item.productCode),
+        products.map((item) => item._id),
       );
     } else {
       handleChangeSelected?.([]);
@@ -59,31 +59,31 @@ export default function ShoppingCart({
       />
 
       {products.map((item) => {
-        const isSelected = selected.includes(item.productCode);
+        const isSelected = selected.includes(item._id);
         return (
           <RowCart
             product={item}
-            key={item.productCode}
+            key={item._id}
             noSelect={noSelect}
             onClickDelete={onClickDelete}
             isSelected={isSelected}
             onClickSelect={handleSelctRow}
-            onChange={onChange(item.productCode)}
+            onChange={onChange(item._id)}
             showPublicPrice={showPublicPrice}
           />
         );
       })}
       {productsError?.map((item) => {
-        const isSelected = selected.includes(item.productCode);
+        const isSelected = selected.includes(item._id);
         return (
           <RowCart
             product={item}
-            key={item.productCode}
+            key={item._id}
             noSelect={noSelect}
             onClickDelete={onClickDelete}
             isSelected={isSelected}
             onClickSelect={handleSelctRow}
-            onChange={onChange(item.productCode)}
+            onChange={onChange(item._id)}
             showPublicPrice={showPublicPrice}
           />
         );

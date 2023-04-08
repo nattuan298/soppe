@@ -11,11 +11,11 @@ export function getSubDistrictAPI(id: string | undefined): Promise<void> {
   return axios.get(`/sub-districts/get-by-district/${id}`);
 }
 export function createAddress(body: AddressModel) {
-  return axios.post("/address-books", { ...body });
+  return axios.post("/address", { ...body });
 }
 export function updateAddress(id: string | undefined | string[], body: AddressModel) {
-  return axios.patch(`/address-books/${id}`, { ...body });
+  return axios.patch(`/address/${id}`, { ...body });
 }
 export function deleteAddress(id: string | undefined | string[]) {
-  return axios.delete(`/address-books/${id}`);
+  return axios.delete(`/address/${id}`);
 }

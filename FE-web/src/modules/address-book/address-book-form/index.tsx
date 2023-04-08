@@ -4,15 +4,12 @@ import {
   ButtonMui,
   ButtonMuiDelete,
   ButtonMuiLight,
-  CheckBox,
   LeftNavination,
   ModalConfirm,
   Title,
 } from "src/components";
 import InputBasic from "src/components/input/input-basic";
-import SelectCountry from "src/components/select/country";
 import { Select } from "src/components/select/select-address-book";
-import InputOnlyNumber from "src/components/input/only-number";
 import TextArea from "src/components/input/text-area";
 import SelectPhoneCode from "src/components/select/phone_code";
 import styles from "./style.module.css";
@@ -21,22 +18,20 @@ import { AddressModel, ItemArrayConvert } from "src/feature/address-book/type";
 import {
   createAddress,
   deleteAddress,
-  getDistrictAPI,
-  getProvinceAPI,
-  getSubDistrictAPI,
   updateAddress,
 } from "src/services/address-book.services";
-import { CountryPhoneCodeType } from "src/constants/country_phone_code";
 import { useRouter } from "next/router";
 import { routeAddressBookBase } from "src/constants/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "src/state/store";
 import { changeRedirectUrl } from "src/feature/user/slice";
-import { notifyToast } from "src/constants/toast";
 import DeleteIcon from "src/components/svgs/deleteIcon";
 import { CircularProgress } from "@material-ui/core";
 import { handleChangeField } from "src/feature/checkout/thunkAction";
 import { getDetailAddressBook } from "src/feature/address-book/address-book.action";
+import { district } from "../../../services/District";
+import { provinces } from "../../../services/Province";
+import { subDistrict } from "../../../services/SubDistrict";
 // import { DeleteIcon } from "src/components/svgs";
 const initialErrors = {
   firstName: "",
@@ -66,7 +61,6 @@ export function AddressBookForm({ mode }: AddressFormProps) {
   const [confirmTypeCancel] = useState<"cancel">("cancel");
   const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
   const [error, setError] = useState(initialErrors);
-  const [listProvince, setListProvince] = useState<Array<ItemArrayConvert>>([]);
   const [listDistrict, setListDistrict] = useState<Array<ItemArrayConvert> | undefined>(undefined);
   const [listSubDistrict, setSubDistrict] = useState<Array<ItemArrayConvert> | undefined>(
     undefined,
@@ -86,26 +80,20 @@ export function AddressBookForm({ mode }: AddressFormProps) {
   //   },
   //   [lang],
   // );
+  const districtValueJson = Object.values(district);
+  const provinceValueJson = Object.values(provinces);
+  const subDistrictValueJson = Object.values(subDistrict);
+
 
   const [address, setAddress] = useState<AddressModel>({
-    _id: "",
-    category: "Other",
-    shipAddress: false,
-    billAddress: false,
     firstName: "",
     lastName: "",
-    country: "Thailand",
-    postalCode: "",
     province: "",
-    provinceEng: "",
     district: "",
-    districtEng: "",
     subDistrict: "",
-    subDistrictEng: "",
     address: "",
-    phoneCode: "66",
     phoneNumber: "",
-    provinceId: "",
+    phoneCode: "84",
   });
   const addressDetail = useSelector((state: RootState) => state.addressBook.addressDetail);
 
@@ -113,23 +101,13 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     if (mode === "edit") {
       const newValue = {
         _id: addressDetail._id,
-        category: addressDetail.category,
-        shipAddress: addressDetail.shipAddress,
-        billAddress: addressDetail.billAddress,
         firstName: addressDetail.firstName,
         lastName: addressDetail.lastName,
-        country: addressDetail.country,
-        postalCode: addressDetail.postalCode,
         province: addressDetail.province,
         district: addressDetail.district,
         subDistrict: addressDetail.subDistrict,
         address: addressDetail.address,
-        phoneCode: addressDetail.phoneCode,
         phoneNumber: addressDetail.phoneNumber,
-        provinceId: addressDetail.provinceId,
-        provinceEng: addressDetail.provinceEng,
-        districtEng: addressDetail.districtEng,
-        subDistrictEng: addressDetail.subDistrictEng,
       };
       setAddress(newValue);
     }
@@ -145,7 +123,6 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     if (mode === "edit") {
       setProvinceValue("");
       setDistrictValue("");
-      setListProvince([]);
       setListDistrict([]);
       setSubDistrict([]);
       setAddress({
@@ -161,50 +138,15 @@ export function AddressBookForm({ mode }: AddressFormProps) {
         district: "",
         subDistrict: "",
         address: "",
-        phoneCode: "66",
+        phoneCode: "84",
         phoneNumber: "",
         provinceId: "",
       });
     }
   }, [id, mode]);
 
-  function handleChangeCountry(value: CountryPhoneCodeType) {
-    setProvinceValue("");
-    setDistrictValue("");
-    setListDistrict([]);
-    setSubDistrict([]);
-    setAddress({
-      ...address,
-      country: value.value,
-      province: "",
-      district: "",
-      subDistrict: "",
-      address: "",
-      provinceEng: "",
-      districtEng: "",
-      subDistrictEng: "",
-    });
-    getProvince(value.value);
-  }
-  const getProvince = useCallback(
-    async (country: string | undefined) => {
-      setLoadingAddress(true);
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = (await getProvinceAPI(country)) as any;
-        setLoadingAddress(false);
-        const idProvince = response?.data?.find(
-          (list: { nameEng: string | undefined; name: string | undefined }) =>
-            list.nameEng === address.provinceEng,
-        );
-        setProvinceValue(idProvince?._id);
-        setListProvince(response.data);
-      } catch (e) {
-        setLoadingAddress(false);
-      }
-    },
-    [address.provinceEng],
-  );
+
+
   const handleConfirm = () => {
     setIsOpenModal(false);
   };
@@ -214,50 +156,45 @@ export function AddressBookForm({ mode }: AddressFormProps) {
         if (id) {
           setLoadingAddress(true);
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const response = (await getDistrictAPI(id)) as any;
-          setLoadingAddress(false);
-          const idDistrict = response.data.find(
-            (list: { nameEng: string | undefined; name: string | undefined }) =>
-              list.nameEng === address.districtEng,
+          // const response = (await getDistrictAPI(id)) as any;
+
+          const value = districtValueJson.filter((item) => item.parent_code === id);
+          const idDistrict = value.find(
+            (list: { name: string | undefined }) =>
+              list.name === address.district,
           );
-          setDistrictValue(idDistrict?._id);
-          setListDistrict(response.data);
+          setDistrictValue(idDistrict?.code);
+          setListDistrict(value);
+          setLoadingAddress(false);
+          if (!idDistrict?.code) {
+            getSubDistrict("abc");
+          }
         }
       } catch (e) {
         setLoadingAddress(false);
       }
     },
-    [address.districtEng],
+    [address.district, districtValueJson],
   );
 
   const getSubDistrict = useCallback(async (id: string | undefined) => {
     try {
       if (id) {
         setLoadingAddress(true);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = (await getSubDistrictAPI(id)) as any;
+        const value = subDistrictValueJson.filter((item) => item.parent_code === id);
         setLoadingAddress(false);
-        setSubDistrict(response.data);
+        setSubDistrict(value);
       }
     } catch (e) {
       setLoadingAddress(false);
     }
-  }, []);
+  }, [subDistrictValueJson]);
 
-  useEffect(() => {
-    const callAddressList = async () => {
-      if (address.country) {
-        await getProvince(address.country);
-      }
-    };
-    callAddressList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address.country]);
 
   useEffect(() => {
     const callAddressList = async () => {
       if (provinceValue) {
-        await getDistrict(provinceValue);
+         getDistrict(provinceValue);
       }
     };
     callAddressList();
@@ -265,14 +202,15 @@ export function AddressBookForm({ mode }: AddressFormProps) {
   }, [provinceValue]);
 
   useEffect(() => {
-    const callAddressList = async () => {
+    const callAddressList = () => {
       if (districtValue) {
-        await getSubDistrict(districtValue);
+         getSubDistrict(districtValue);
       }
     };
     callAddressList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [districtValue]);
+  console.log(districtValue);
 
   const handleChange =
     (name: "firstName" | "lastName" | "address" | "postalCode") =>
@@ -293,45 +231,33 @@ export function AddressBookForm({ mode }: AddressFormProps) {
           setAddress(newValue);
           setError({ ...error, address: "" });
         }
-        if (name === "postalCode") {
-          const newValue = { ...address, postalCode: e.target.value };
-          setAddress(newValue);
-          setError({ ...error, postalCode: "" });
-        }
       }
     };
   const handleChangeSelect =
     (name: "province" | "district" | "subDistrict") => (title: string, value: string) => {
       if (value) {
         if (name === "province") {
-          const { name, nameEng } = listProvince.find(({ _id }) => _id === value) || {
+          const { name } = provinceValueJson.find(({ code }) => code === value) || {
             name: "",
-            nameEng: "",
           };
 
           setAddress({
             ...address,
             province: name,
-            provinceEng: nameEng,
             provinceId: value,
             district: "",
             subDistrict: "",
-            districtEng: "",
-            subDistrictEng: "",
           });
           getDistrict(value);
           setError({ ...error, province: "" });
         } else if (name === "district") {
-          const { name, nameEng } = listDistrict?.find(({ _id }) => _id === value) || {
+          const { name } = districtValueJson.find(({ code }) => code === value) || {
             name: "",
-            nameEng: "",
           };
           const newDistrict = {
             ...address,
             district: name,
             subDistrict: "",
-            districtEng: nameEng,
-            subDistrictEng: "",
           } as AddressModel;
 
           setAddress(newDistrict);
@@ -342,15 +268,12 @@ export function AddressBookForm({ mode }: AddressFormProps) {
             subDistrict: "",
           });
         } else if (name === "subDistrict") {
-          const { name, nameEng } = listSubDistrict?.find(({ _id }) => _id === value) || {
+          const { name } = subDistrictValueJson.find(({ code }) => code === value) || {
             name: "",
-            nameEng: "",
           };
-
           const newSubDistrict = {
             ...address,
             subDistrict: name,
-            subDistrictEng: nameEng,
           } as AddressModel;
           setAddress(newSubDistrict);
           setError({ ...error, subDistrict: "" });
@@ -366,30 +289,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     setAddress(newValue);
     setError({ ...error, phoneNumber: "" });
   };
-  const onChange = ({ name }: { name?: string | undefined; checked: boolean }) => {
-    if (name) {
-      const newValue = { ...address, category: name };
-      setAddress(newValue);
-    }
-  };
-  const onChangeShipping = ({ name }: { name?: string | undefined; checked: boolean }) => {
-    const newName = name?.toLowerCase() === "true";
-    if (newName === false && addressDetail.shipAddress === true) {
-      notifyToast("error", "default_shipping_address_is_required", t);
-      return;
-    }
-    const newValue = { ...address, shipAddress: newName };
-    setAddress(newValue);
-  };
-  const onChangeBilling = ({ name }: { name?: string | undefined; checked: boolean }) => {
-    const newName = name?.toLowerCase() === "true";
-    if (newName === false && addressDetail.billAddress === true) {
-      notifyToast("error", "default_billing_address_is_required", t);
-      return;
-    }
-    const newValue = { ...address, billAddress: newName };
-    setAddress(newValue);
-  };
+
   const handleValidate = () => {
     let isValid = true;
     const newError = { ...error };
@@ -405,21 +305,16 @@ export function AddressBookForm({ mode }: AddressFormProps) {
       newError.phoneNumber = "required_fields";
       isValid = false;
     }
-    if (address.postalCode === "") {
-      newError.postalCode = "required_fields";
-      isValid = false;
-    }
-    if (address.province === "" && address.provinceEng === "") {
+    if (address.province === "") {
       newError.province = "required_fields";
       isValid = false;
     }
-    if (address.district === "" && address.districtEng === "") {
+    if (address.district === "") {
       newError.district = "required_fields";
       isValid = false;
     }
     if (
       address.subDistrict === "" &&
-      address.subDistrictEng === "" &&
       (!address.districtEng || listSubDistrict?.length)
     ) {
       newError.subDistrict = "required_fields";
@@ -460,8 +355,12 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     const isValid = handleValidate();
     !isValid && setLoadingAddress(false);
     if (isValid && mode === "create") {
+      const { subDistrict, phoneCode, provinceId, phoneNumber, ...addressNew } = address;
+
       const bodyRequest = {
-        ...address,
+        ...addressNew,
+        sub_district: address.subDistrict,
+        phoneNumber: `+${phoneCode}${phoneNumber}`,
       };
       delete bodyRequest._id;
       try {
@@ -481,8 +380,12 @@ export function AddressBookForm({ mode }: AddressFormProps) {
         setLoadingAddress(false);
       }
     } else if (isValid && mode === "edit") {
+      const { subDistrict, phoneCode, provinceId, phoneNumber, ...addressNew } = address;
+
       const bodyRequest = {
-        ...address,
+        ...addressNew,
+        sub_district: address.subDistrict,
+        phoneNumber: `+${phoneCode}${phoneNumber}`,
       };
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -527,18 +430,18 @@ export function AddressBookForm({ mode }: AddressFormProps) {
   const getListOptions = useCallback(
     (list: Array<ItemArrayConvert> | undefined) =>
       list?.map((item: ItemArrayConvert) => {
-        const { name, nameEng, _id } = item;
+        const { name, code } = item;
         if (lang === "en" || name === "") {
-          return { _id, nameEng, name: name || nameEng };
+          return { _id: code, nameEng: name, name };
         }
-        return { _id, nameEng: name, name: nameEng };
+        return { _id: code, nameEng: name, name };
       }),
     [lang],
   );
 
   const provinceOtions = useMemo(
-    () => getListOptions(listProvince),
-    [listProvince, getListOptions],
+    () => getListOptions(provinceValueJson),
+    [provinceValueJson, getListOptions],
   );
 
   const districtOptions = useMemo(
@@ -597,17 +500,10 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                   trans={true}
                 />
               </div>
-              <div className="col-span-1">
-                <Title title={t`country`} isRequired />
-                <SelectCountry
-                  onSelect={handleChangeCountry}
-                  country={address.country}
-                  disabled={country === "Thailand"}
-                />
-              </div>
             </div>
             <div className="md:grid-cols-2 grid gap-3.5 md:gap-8 mt-4">
-              <div className="col-span-1">
+
+              {/* <div className="col-span-1">
                 <Title title={t`postal-code`} isRequired />
                 <InputOnlyNumber
                   placeholder={t`postal-code`}
@@ -617,7 +513,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                   helperText={error.postalCode}
                   t={t}
                 />
-              </div>
+              </div> */}
               <div className="col-span-1">
                 <Title title={t`province` + " / " + t`city`} isRequired />
                 <Select
@@ -630,14 +526,12 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                   trans={t}
                 />
               </div>
-            </div>
-            <div className="md:grid-cols-2 grid gap-3.5 md:gap-8 mt-4">
               <div className="col-span-1">
                 <Title title={t`district`} isRequired={!(listDistrict?.length === 0)} />
                 <Select
                   options={districtOptions}
                   placeholder={t`district`}
-                  defaultValue={address.district || address.districtEng}
+                  defaultValue={address.district}
                   onChange={handleChangeSelect("district")}
                   disableClick={listDistrict?.length === 0}
                   country={address.country}
@@ -645,11 +539,14 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                   trans={t}
                 />
               </div>
+            </div>
+            <div className="md:grid-cols-2 grid gap-3.5 md:gap-8 mt-4">
+
               <div className="col-span-1">
                 <Title title={t`sub-district`} isRequired={!(listSubDistrict?.length === 0)} />
                 <Select
                   options={subDistrictOptions}
-                  defaultValue={address.subDistrict || address.subDistrictEng}
+                  defaultValue={address.subDistrict}
                   placeholder={t`sub-district`}
                   onChange={handleChangeSelect("subDistrict")}
                   disableClick={listSubDistrict?.length === 0}
@@ -674,87 +571,6 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                   <CircularProgress />
                 </div>
               )}
-            </div>
-            <div className="md:grid-cols-2 grid gap-3.5 md:gap-8 mt-4">
-              <div className="col-span-1">
-                <Title
-                  title={t`default-shipping-address`}
-                  // isRequired={!(listDistrict?.length === 0)}
-                />
-                <div className="flex">
-                  <label className="flex items-center mt-2.5 mr-9">
-                    <CheckBox
-                      name="true"
-                      checked={address.shipAddress === true}
-                      onChange={onChangeShipping}
-                    />
-                    <span className="ml-2.5 mr-2">{t`on`}</span>
-                  </label>
-                  <label className="flex items-center mt-2.5">
-                    <CheckBox
-                      name="False"
-                      checked={address.shipAddress === false}
-                      onChange={onChangeShipping}
-                    />
-                    <span className="ml-2.5 mr-2">{t`off`}</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-span-1">
-                <Title title={t`default-billing-address`} />
-                <div className="flex">
-                  <label className="flex items-center mt-2.5 mr-9">
-                    <CheckBox
-                      name="true"
-                      checked={address.billAddress === true}
-                      onChange={onChangeBilling}
-                    />
-                    <span className="ml-2.5 mr-2">{t`on`}</span>
-                  </label>
-                  <label className="flex items-center mt-2.5">
-                    <CheckBox
-                      name="False"
-                      checked={address.billAddress === false}
-                      onChange={onChangeBilling}
-                    />
-                    <span className="ml-2.5 mr-2">{t`off`}</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <div>
-                <Title
-                  title={t`address-category`}
-                  // isRequired={!(listDistrict?.length === 0)}
-                />
-                <div className="flex">
-                  <label className="flex items-center mt-2.5 mr-5">
-                    <CheckBox
-                      name="Home"
-                      checked={address.category === "Home"}
-                      onChange={onChange}
-                    />
-                    <span className="ml-2.5 mr-2">{t`home`}</span>
-                  </label>
-                  <label className="flex items-center mt-2.5 mr-5">
-                    <CheckBox
-                      name="Office"
-                      checked={address.category === "Office"}
-                      onChange={onChange}
-                    />
-                    <span className="ml-2.5 mr-2">{t`office`}</span>
-                  </label>
-                  <label className="flex items-center mt-2.5">
-                    <CheckBox
-                      name="Other"
-                      checked={address.category === "Other"}
-                      onChange={onChange}
-                    />
-                    <span className="ml-2.5 mr-2">{t`other`}</span>
-                  </label>
-                </div>
-              </div>
             </div>
             <div>
               {mode === "create" ? (

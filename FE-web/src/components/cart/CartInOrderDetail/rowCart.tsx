@@ -7,9 +7,10 @@ import { OrderProductDetailType } from "types/orders";
 import Image from "../../image";
 import NumberInputWithIcon from "../../input/number-with-icon";
 import NumberFormatCustome from "../../text/number-format";
+import { ProductTypeWithQty } from "../../../feature/shopping-cart/type";
 
 interface ShoppingCartType {
-  product: OrderProductDetailType & { hasChangeprice?: boolean; hasChangePV?: boolean };
+  product: ProductTypeWithQty & { hasChangeprice?: boolean; hasChangePV?: boolean };
   disabledClickProduct?: boolean;
 }
 
@@ -23,7 +24,7 @@ export default function RowCart({ product, disabledClickProduct }: ShoppingCartT
       makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product.productCode, locationBase }),
     );
   };
-
+  console.log(product);
   return (
     <div>
       <div className="grid grid-cols-10 mt-2 sm:mt-4 items-center min-h-[85px] mb-2">
@@ -31,9 +32,9 @@ export default function RowCart({ product, disabledClickProduct }: ShoppingCartT
           <div className="col-span-3 sm:col-span-6 mb-2.5 flex items-center">
             <div className="flex sm:pl-3 items-center justify-center">
               <Image
-                src={product.productImage}
+                src={product.mediaUrl}
                 className="mr-4 w-[75px] min-h-[75px]"
-                fileType={product.fileType}
+                fileType={"IMAGE"}
               />
               <div className="hidden sm:block">
                 {disabledClickProduct ? (
@@ -50,24 +51,19 @@ export default function RowCart({ product, disabledClickProduct }: ShoppingCartT
             <div className="block sm:hidden mb-[5px]">
               <span>{product.productName}</span>
             </div>
-            <div className="max-w-[125px] sm:max-w-0">
-              <NumberInputWithIcon value={product.quantity} disabled stillShowColorTextInput />
+            <div className="max-w-[125px]">
+              <NumberInputWithIcon value={product.qty} disabled stillShowColorTextInput />
             </div>
             <div className="flex justify-between items-center mt-[5px]">
               <div className="block sm:hidden  text-orange">
                 <NumberFormatCustome value={product.price} prefix={symbol} />
               </div>
-              <div className="block sm:hidden  text-brown text-xs">
-                <NumberFormatCustome value={product.pv} suffix=" PV" />
-              </div>
             </div>
           </div>
-          <div className="hidden sm:block col-span-2 text-center text-orange">
+          <div className="hidden sm:flex justify-center col-span-4  text-center text-orange">
             <NumberFormatCustome value={product.price} prefix={symbol} />
           </div>
-          <div className="hidden sm:block col-span-2 text-center text-brown">
-            <NumberFormatCustome value={product.pv} suffix=" PV" />
-          </div>
+
         </div>
       </div>
 

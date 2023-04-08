@@ -31,34 +31,32 @@ export default function ShoppingCart() {
   const router = useRouter();
   const [callingAPI, setcallingAPI] = useState(false);
   const [openModalSignIn, setopenModalSignIn] = useState(false);
-  const activeListProduct = listProducts.filter((item) => item.status === "Active");
-  const notActiveListProduct = listProducts.filter((item) => item.status !== "Active");
+  // const activeListProduct = listProducts.filter((item) => item.status === "Active");
+  // const notActiveListProduct = listProducts.filter((item) => item.status !== "Active");
 
   useEffect(() => {
-    dispatch(updateSelectedProduct(activeListProduct.map((item) => item.productCode)));
+    dispatch(updateSelectedProduct(listProducts.map((item) => item._id)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const total = useMemo(
     () =>
       listProducts.reduce(
-        ({ price, pv, qty }, item) => {
-          if (item.status !== "Active" || !selected.includes(item.productCode)) {
+        ({ price, qty }, item) => {
+          if (!selected.includes(item._id)) {
             return {
               price,
-              pv,
               qty,
             };
           }
           return {
-            price: price + item.qty * item[priceFieldName],
-            pv: pv + item.qty * item.pv,
+            price: price + item.qty * item.price,
             qty: qty + item.qty,
           };
         },
         { price: 0, pv: 0, qty: 0 },
       ),
-    [listProducts, priceFieldName, selected],
+    [listProducts, selected],
   );
 
   const handleChangeSelected = (val: string[]) => {
@@ -78,27 +76,28 @@ export default function ShoppingCart() {
     if (!isLoggedIn) {
       return setopenModalSignIn(true);
     }
-    setcallingAPI(true);
-    const checkoutProduct = listProducts.filter((item) => selected.includes(item.productCode));
-    const callbackCreateOrder = (res: {
-      error?: { message?: string };
-      payload?: string;
-      type?: string;
-    }) => {
-      if (res.type === "checkout/createOrder/fulfilled") {
-        localStorage.setItem(
-          "needToRemoveProduct",
-          JSON.stringify(checkoutProduct.map((item) => item.productCode)),
-        );
-        return router.push(routeCheckoutUrl);
-      }
+    router.push(routeCheckoutUrl);
+    // setcallingAPI(true);
+    // const checkoutProduct = listProducts.filter((item) => selected.includes(item._id));
+    // const callbackCreateOrder = (res: {
+    //   error?: { message?: string };
+    //   payload?: string;
+    //   type?: string;
+    // }) => {
+    //   if (res.type === "checkout/createOrder/fulfilled") {
+    //     localStorage.setItem(
+    //       "needToRemoveProduct",
+    //       JSON.stringify(checkoutProduct.map((item) => item._id)),
+    //     );
+    //     return;
+    //   }
 
-      if (res.error && res.payload) {
-        notifyToast("error", res.payload);
-      }
-      setcallingAPI(false);
-    };
-    dispatch(fetchCheckoutCreateOrder({ checkoutProduct, callback: callbackCreateOrder }));
+    //   if (res.error && res.payload) {
+    //     notifyToast("error", res.payload);
+    //   }
+    //   setcallingAPI(false);
+    // };
+    // dispatch(fetchCheckoutCreateOrder({ checkoutProduct, callback: callbackCreateOrder }));
 
     // const res = (await dispatch(createOrder(checkoutProduct))) as {
     //   error?: { message?: string };
@@ -135,13 +134,13 @@ export default function ShoppingCart() {
         <div className="col-span-10 sm:col-span-7 ">
           <div className="relative">
             <Cart
-              products={activeListProduct}
+              products={listProducts}
               onClickDelete={handleDeleteProduct}
               handleChangeQty={handleChangeQty}
               handleChangeSelected={handleChangeSelected}
               selected={selected}
               showPublicPrice={isLoggedIn}
-              productsError={notActiveListProduct}
+              productsError={[]}
             />
             {callingListProduct && (
               <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -174,7 +173,7 @@ export default function ShoppingCart() {
           <div className="relative -top-20" style={{ height: "calc(100% + 96px)" }}>
             <ModalOrderSummary
               totalPrice={total.price}
-              totalPV={total.pv}
+              totalPV={0}
               totalQty={total.qty}
               buttonTitle={t`make_payment`}
               disabledButton={selected.length === 0 || callingAPI}
