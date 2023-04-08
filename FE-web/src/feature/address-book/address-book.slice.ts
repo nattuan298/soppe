@@ -17,21 +17,18 @@ const initialState: addressType = {
   },
   loading: true,
   addressDetail: {
-    category: "",
-    shipAddress: false,
-    billAddress: false,
-    _id: "",
+    address: "",
+    createdAt: "",
+    district: "",
     firstName: "",
     lastName: "",
-    country: "",
-    postalCode: "",
-    province: "",
-    district: "",
-    subDistrict: "",
-    address: "",
-    phoneCode: "",
     phoneNumber: "",
-    provinceId: "",
+    province: "",
+    sub_district: "",
+    updatedAt: "",
+    userId: "",
+    __v: 0,
+    _id: "6431a13496b324412ccb3732",
   },
 };
 
@@ -43,8 +40,9 @@ export const AddressBookSlice = createSlice({
       state.loading = action.payload.loading;
     },
     setListAddress: (state, action) => {
+      console.log(action);
       state.loading = false;
-      state.listAddress = action.payload;
+      state.listAddress.data = action.payload.data.data;
     },
     setDetailAddress: (state, action) => {
       state.loading = false;

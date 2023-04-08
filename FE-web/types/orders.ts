@@ -29,15 +29,12 @@ export interface OrderProductDetailType {
   images: string;
   productCode: string;
   productName: string;
-  pv: number;
   price: number;
   quantity: number;
   unit: string;
-  weight: number;
   productImage: string;
   isReviewed: boolean;
   fileType: "IMAGE" | "VIDEO";
-  timesTransferLeft: number;
 }
 
 export interface OrderDetailType {
