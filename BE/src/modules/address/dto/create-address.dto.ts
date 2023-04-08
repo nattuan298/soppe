@@ -7,9 +7,11 @@ import {
 
 export class CreateAddressDto {
   @IsString()
+  @IsNotEmpty()
   firstName: string;
 
   @IsString()
+  @IsNotEmpty()
   lastName: string;
 
   @IsNotEmpty()
@@ -19,4 +21,16 @@ export class CreateAddressDto {
 
   @IsString()
   address: string;
+
+  @IsString()
+  @IsNotEmpty()
+  province: string;
+
+  @IsString()
+  @IsNotEmpty()
+  district: string;
+
+  @IsString()
+  @IsNotEmpty()
+  sub_district: string;
 }

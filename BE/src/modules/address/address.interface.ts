@@ -5,6 +5,9 @@ export interface IAddress {
   phoneNumber: string;
   address: string;
   userId: string;
+  province: string;
+  district: string;
+  sub_district: string;
 }
 
 export type IAddressDocument = IAddress & Document;
