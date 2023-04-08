@@ -13,6 +13,9 @@ const AddressSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'users',
     },
+    province: String,
+    district: String,
+    sub_district: String,
   },
   { timestamps: true },
 );
