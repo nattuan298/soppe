@@ -1,4 +1,11 @@
-import { Controller, Get, Patch, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Patch,
+  Param,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
@@ -18,7 +25,12 @@ import { RolesGuard } from 'src/common/guards/role.guard';
 export class AdminOrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Patch('mark-received/:id')
+  @Get()
+  findAll(@Query() commonPaginationDto: CommonPaginationDto) {
+    return this.ordersService.adminFindAll(commonPaginationDto);
+  }
+
+  @Patch('mark-approved/:id')
   markReceived(
     @Param() commonIdParams: CommonIdParams,
     @GetUser() payload: IJwtPayload,

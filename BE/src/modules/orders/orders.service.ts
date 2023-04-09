@@ -76,6 +76,23 @@ export class OrdersService {
     }
   }
 
+  async adminFindAll(commonPaginationDto: CommonPaginationDto) {
+    const options: Record<string, unknown> = {};
+
+    options.page = commonPaginationDto.page;
+    options.limit = commonPaginationDto.pageSize;
+    options.sort = { createdAt: -1 };
+    try {
+      const orders = await this.orderModel.paginate({}, options);
+      if (!orders.docs.length) {
+        return paginationTransformer(orders);
+      }
+      return paginationTransformer(orders);
+    } catch (e) {
+      throw new InternalServerErrorException(e);
+    }
+  }
+
   async findOne(id: string) {
     try {
       const order = await this.orderModel.findById(id).lean();
@@ -89,17 +106,13 @@ export class OrdersService {
   }
 
   async markReceived(id: string) {
-    const order = await this.orderModel.findByIdAndUpdate(
-      id,
-      {
-        completedAt: Date.now(),
-        orderStatus: OrderStatus.RECEIPTED,
-      },
-      { new: true },
-    );
-    if (!order) {
-      throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
-    }
+    const order = await this.findOne(id);
+    order.completedAt = Date.now();
+    order.orderStatus = OrderStatus.RECEIPTED;
+    order.products.forEach((el: any) => {
+      el.ableToReview = true;
+    });
+    await this.orderModel.findByIdAndUpdate(id, order);
   }
 
   async adminApproveOrder(id: string, approveBy: string) {
@@ -114,5 +127,25 @@ export class OrdersService {
     if (!order) {
       throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
     }
+  }
+
+  async updateReviewed(orderId: string, productId: string) {
+    await this.orderModel.findOneAndUpdate(
+      {
+        _id: orderId,
+        'products.productId': productId,
+      },
+      { 'products.$.isReviewed': true },
+      { new: true },
+    );
+  }
+
+  async findOrderReviewed(orderId: string, productId: string, userId: string) {
+    return await this.orderModel.findOne({
+      _id: orderId,
+      userId,
+      'products.productId': productId,
+      'products.isReviewed': true,
+    });
   }
 }

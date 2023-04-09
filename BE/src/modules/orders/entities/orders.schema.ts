@@ -52,6 +52,10 @@ const productSchema = new mongoose.Schema(
       default: false,
     },
     categoryId: String,
+    ableToReview: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     _id: false,
