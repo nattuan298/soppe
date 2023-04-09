@@ -49,6 +49,7 @@ export type ProductType = {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
+  isFavourite: boolean;
   __v: number;
 };
 

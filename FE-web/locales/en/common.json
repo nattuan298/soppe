@@ -606,5 +606,8 @@
   "invite_friend": "Invite Friend",
   "select_all": "Select All",
   "end_in": "End in",
-  "ecommission_statement_mobile": "Commission Statement"
+  "ecommission_statement_mobile": "Commission Statement",
+  "waiting_approve":"Waiting approve",
+  "delivery":"Delivery",
+  "receipted":"Receipted"
 }

@@ -1,8 +1,8 @@
 import { Divider, FormHelperText } from "@material-ui/core";
 import useTranslation from "next-translate/useTranslation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ButtonMui, Title } from "src/components";
+import { ButtonMui, Select, Title } from "src/components";
 import InputBasic from "src/components/input/input-basic";
 import { apiRoute } from "src/constants/apiRoutes";
 import { handleChangeField } from "src/feature/checkout/thunkAction";
@@ -66,6 +66,7 @@ export default function CouponInput() {
 
   return (
     <div className="mt-6">
+
       <p className="font-medium">{t`promotion`}</p>
       <Title title={t`coupon_code`} className="mt-2" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

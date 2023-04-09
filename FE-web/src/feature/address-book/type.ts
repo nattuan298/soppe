@@ -1,16 +1,17 @@
 export interface AddressModel {
   address: string;
-  createdAt: string;
+  createdAt?: string;
   district: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
   province: string;
   sub_district: string;
-  updatedAt: string;
-  userId: string;
-  __v: number;
-  _id: string;
+  updatedAt?: string;
+  userId?: string;
+  __v?: number;
+  _id?: string;
+  phoneCode?: string;
 }
 export type AddressModel2 = {
   category: string;

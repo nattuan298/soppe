@@ -42,7 +42,7 @@ export default function Image({
     setIsError(true);
   };
 
-  if (!src || isError) {
+  if (!src && isError) {
     return (
       <div
         ref={ref}
@@ -50,7 +50,7 @@ export default function Image({
         {...props}
       >
         <img
-          src={"/assets/images/dummy-image.svg"}
+          src={"/assets/images/dummy-image.png"}
           className={`w-auto max-w-full h-full ${classNameImage}`}
           alt="ecm"
         />
@@ -83,12 +83,7 @@ export default function Image({
             />
           )}
 
-          {!isControl && (
-            <VideoImage
-              src={src}
-              className={`w-auto h-auto max-w-full max-h-full ${classNameImage}`}
-            />
-          )}
+
           {showIconVideo && (
             <IconPlay
               className="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4"

@@ -28,7 +28,7 @@ interface RefObject<T> {
 
 interface ImagesSliderType {
   isNewProduct?: boolean;
-  images: Media[];
+  images: string[];
   isFavourite?: boolean;
   addToFavorite?: () => void;
   removeFavorite?: () => void;

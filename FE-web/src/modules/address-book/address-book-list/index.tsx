@@ -26,7 +26,6 @@ export function AddressBookList() {
   const handleEdit = (_id: string | undefined) => {
     router.push(`/edit-address-book/${_id}`);
   };
-  console.log(listAddress);
   const addressLocation = useCallback(
     (address: AddressModel) => {
       const { sub_district: subDistrict, district, province } = address;

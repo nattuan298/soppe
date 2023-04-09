@@ -71,6 +71,14 @@ export default function Checkout() {
   const stateCheckout = useSelector((state: RootState) => state.checkout);
   const { tax } = useLocationBase();
   const { scmPoint } = useSelector((state: RootState) => state.user);
+  const productCheckout = checkoutProducts.map((item) => {
+    return {
+      productId: item._id,
+      quantity: item.qty,
+    };
+  });
+  const addressCheckout = realAddress.find((item) => item._id === address);
+
 
   const router = useRouter();
   const {
@@ -129,27 +137,23 @@ export default function Checkout() {
   }, [token, dispatch, ref, t]);
 
   const handleClick = async () => {
-    if (mainStep === 1 && shippingType === "Ship to address") {
-      return await dispatch(fetchCheckoutgetShippingFees());
-    }
+    // if (mainStep === 1 && shippingType === "Ship to address") {
+    //   return await dispatch(fetchCheckoutgetShippingFees());
+    // }
 
-    if (mainStep === 1 && shippingType === "Pickup") {
-      return await dispatch(resetShippingFees());
-    }
+
     dispatch(clickNext());
   };
 
-  const handelSuccess = useCallback(
-    (notshowMessage?: boolean) => {
+  const handelSuccess =
+    (id: string) => {
       router.push(
         makeUrlObjectFromRouteBase(routeCheckoutSuccessBase, {
-          orderId: stateCheckout.orderId,
+          orderId: id,
         }),
       );
-      !notshowMessage && notifyToast("default", "common:payment_successfully", t);
-    },
-    [stateCheckout.orderId, router, t],
-  );
+      notifyToast("default", "Order successfully", t);
+    };
 
   const disabledAddress = useMemo(() => {
     if (mainStep === 1) {
@@ -171,162 +175,27 @@ export default function Checkout() {
 
   const onClickPayment = async () => {
     try {
-      await axios.get(`${apiRoute.orders.listOrders}/${stateCheckout.orderId}`);
+      const bodyCheckout = {
+        products: productCheckout,
+        shippingAddress: {
+          firstName: addressCheckout?.firstName,
+          lastName: addressCheckout?.lastName,
+          phoneNumber: addressCheckout?.phoneNumber,
+          address: addressCheckout?.address,
+        },
+      };
+      const response = await axios.post("/orders", bodyCheckout);
+      if (response.status === 201) {
+        localStorage.removeItem(
+          "listProducts_undefined");
+        handelSuccess(response.data._id);
+
+      }
     } catch (e: any) {
-      if (e.response.data.statusCode === 404) {
-        dispatch(handleChangeField({ isOpenModalTopay: true }));
-        return;
-      }
-    }
-    const finalPrice = totalPrice + shippingFee - couponRedeemAmount;
-    if (paymentMethod === "SCM Point" || finalPrice === 0) {
-      setLoading(true);
-      const callbackUpdated = (res2: { error?: { message?: string }; payload?: string }) => {
-        if (res2.error && res2.payload) {
-          notifyToast("error", res2.payload);
-          setLoading(false);
-        }
-        if (!res2.error) {
-          handelSuccess();
-        }
-      };
-      dispatch(fetchCheckoutUpdateOrder(callbackUpdated));
-      // const res = (await dispatch(updateOrder())) as {
-      //   error?: { message?: string };
-      //   payload?: string;
-      // };
-
-      // if (res.error && res.payload) {
-      //   notifyToast("error", res.payload);
-      //   setLoading(false);
-      //   axios.put(`${apiRoute.orders.listOrders}/${stateCheckout.orderId}/remove-coupon`);
-      // }
-      // if (!res.error) {
-      //   handelSuccess();
-      // }
-      return;
-    }
-    const url = new URL(window.location.href);
-    url.searchParams.delete("token");
-    url.searchParams.delete("mid");
-    url.searchParams.delete("paymentMethod");
-    url.searchParams.delete("orderIdForQR");
-    if (paymentMethod === "QR code") {
-      const shippingAddress = realAddress.find((item) => item._id === address);
-
-      try {
-        setLoading(true);
-        const res = await axios.post(`${apiRoute.payment.createOrderForQR}`, {
-          amount: finalPrice,
-          currency: "THB",
-          description: "Checkout payment by QR code",
-          source_type: "qr",
-          reference_order: orderNumber,
-          ref_1: "sale",
-          ref_2: "sale",
-          ref_3: "sale",
-          provinceId:
-            shippingType === "Ship to address" && shippingAddress ? shippingAddress.provinceId : "",
-          type: shippingType,
-          couponCode: coupon,
-        });
-
-        url.searchParams.set("orderIdForQR", res.data.id);
-        url.searchParams.set("paymentMethod", "qr");
-        setLoading(false);
-      } catch (e: any) {
-        dispatch(handleChangeField({ coupon: "" }));
-        dispatch(handleChangeField({ couponDraft: "" }));
-        dispatch(handleChangeField({ couponRedeemAmount: 0 }));
-        dispatch(handleChangeField({ discountCategory: "" }));
-
-        const message = e.response?.data?.message || "";
-        const scmStatusErrorCode = e.response?.data?.scmStatusErrorCode || "";
-        if (message) {
-          notifyToast("error", message);
-        }
-        if (scmStatusErrorCode !== "SCM_PAYMENT_CONFLICT") {
-          await axios.put(`${apiRoute.orders.listOrders}/${stateCheckout.orderId}/remove-coupon`);
-        }
-
-        setLoading(false);
-        return;
-      }
-    }
-    await dispatch(fetchCheckoutCreateDraftOrder());
-    localStorage.setItem(
-      "stateCheckout",
-      JSON.stringify({ ...stateCheckout, redirect_url: "", chargeId: "" }),
-    );
-    localStorage.setItem("isPaymentCheckout", "true");
-    url.searchParams.set("totalPrice", finalPrice.toString());
-    window.location.href = url.href;
-  };
-
-  const onClickRealpayment = () => {
-    localStorage.setItem("stateCheckout", JSON.stringify(stateCheckout));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const KPayment = (window as any).KPayment;
-    if (KPayment) {
-      // cancel order when click popup
-      const cancelOrder = () => {
-        const callApi = async () => {
-          const res = await axios.get(
-            `${apiRoute.payment.statePayment}?orderId=${stateCheckout.orderId}&orderPaymentId=${stateCheckout.orderIdForQR}&refType=sale`,
-          );
-          if (res.data.paymentState === "Failed") {
-            const cookies = new Cookies();
-            const tokenAuthen = cookies.get("token");
-            fetch(
-              `${browserConfig.apiBaseUrl}${apiRoute.orders.listOrders}/${stateCheckout.orderId}/remove-coupon`,
-              {
-                method: "PUT",
-                keepalive: true,
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${tokenAuthen}`,
-                },
-              },
-            );
-            dispatch(handleChangeField({ coupon: "" }));
-            dispatch(handleChangeField({ couponDraft: "" }));
-            dispatch(handleChangeField({ couponRedeemAmount: 0 }));
-            dispatch(handleChangeField({ discountCategory: "" }));
-          }
-
-          if (res.data.paymentState === "Succeeded" && res.data.transactionState === "Authorized") {
-            const callbackUpdated = (res2: { error?: { message?: string }; payload?: string }) => {
-              if (res2.error && res2.payload) {
-                notifyToast("error", res2.payload);
-                setLoading(false);
-              }
-              if (!res2.error) {
-                handelSuccess();
-              }
-            };
-            dispatch(fetchCheckoutUpdateOrder(callbackUpdated));
-            //   const res2 = (await dispatch(updateOrder())) as {
-            //     error?: { message?: string };
-            //     payload?: string;
-            //   };
-            //   if (res2.error && res2.payload) {
-            //     notifyToast("error", res2.payload);
-            //     setLoading(false);
-            //   }
-            //   if (!res2.error) {
-            //     handelSuccess();
-            //   }
-          }
-        };
-        if (orderIdForQR) {
-          callApi();
-        }
-        setModalPaymentShow(false);
-      };
-      KPayment.onClose(cancelOrder);
-      KPayment.show();
     }
   };
+
+
 
   useEffect(() => {
     setLoading(!!token);
@@ -379,188 +248,10 @@ export default function Checkout() {
   }, [stateCheckout.redirect_url, dispatch, stateCheckout.orderId, stateCheckout.chargeId, t]);
 
   // update order when payment qr success
-  useEffect(() => {
-    if (chargeId && stateCheckout.orderId && stateCheckout.orderIdForQR) {
-      let count = 0;
-      const callAPI = async () => {
-        setLoading(true);
-        try {
-          const res = await axios.get(
-            `${apiRoute.payment.statePayment}?orderId=${stateCheckout.orderId}&orderPaymentId=${stateCheckout.orderIdForQR}&refType=sale`,
-          );
-          count++;
-          if (res.data.paymentState === "Succeeded" && res.data.transactionState === "Authorized") {
-            interval && clearInterval(interval);
-            const callbackUpdated = (res2: { error?: { message?: string }; payload?: string }) => {
-              if (res2.error && res2.payload) {
-                notifyToast("error", res2.payload);
-                setLoading(false);
-              }
-              if (!res2.error) {
-                handelSuccess();
-              }
-            };
-            dispatch(fetchCheckoutUpdateOrder(callbackUpdated));
-            // const res = (await dispatch(updateOrder())) as {
-            //   error?: { message?: string };
-            //   payload?: string;
-            // };
-            // if (res.error && res.payload) {
-            //   notifyToast("error", res.payload);
-            //   setLoading(false);
-            // }
-            // if (!res.error) {
-            //   handelSuccess();
-            // }
-          }
 
-          if (res.data.paymentState === "Failed") {
-            interval && clearInterval(interval);
-            notifyToast("error", "common:can_not_process_payment", t);
-            setLoading(false);
-            axios.put(`${apiRoute.orders.listOrders}/${stateCheckout.orderId}/remove-coupon`);
-            dispatch(handleChangeField({ coupon: "" }));
-            dispatch(handleChangeField({ couponDraft: "" }));
-            dispatch(handleChangeField({ couponRedeemAmount: 0 }));
-            dispatch(handleChangeField({ discountCategory: "" }));
-          }
-          if (count === 5 && res.data.paymentState === "Pending") {
-            interval && clearInterval(interval);
-            handelSuccess(true);
-          }
-        } catch (e) {}
-      };
-      setTimeout(() => {
-        setLoading(true);
-      }, 500);
-      const interval = setInterval(() => {
-        callAPI();
-      }, 5000);
-    }
-  }, [chargeId, dispatch, t, stateCheckout.orderId, handelSuccess, stateCheckout.orderIdForQR]);
 
   // update order with payment card
-  useEffect(() => {
-    if (stateCheckout.orderId && stateCheckout.chargeId) {
-      setLoading(true);
-      if (stateCheckout.paymentStatusForNonSecure === "success") {
-        // use for non secure
-        // const callAPI = async () => {
-        //   const res = (await dispatch(updateOrder())) as {
-        //     error?: { message?: string };
-        //     payload?: string;
-        //   };
 
-        //   if (res.error && res.payload) {
-        //     notifyToast("error", res.payload);
-        //     setLoading(false);
-        //   }
-        //   if (!res.error) {
-        //     handelSuccess();
-        //   }
-        // };
-
-        // callAPI();
-        const callbackUpdated = (res2: { error?: { message?: string }; payload?: string }) => {
-          if (res2.error && res2.payload) {
-            notifyToast("error", res2.payload);
-            setLoading(false);
-          }
-          if (!res2.error) {
-            handelSuccess();
-          }
-        };
-        dispatch(fetchCheckoutUpdateOrder(callbackUpdated));
-      } else {
-        // use for secure
-        let count = 0;
-        const callAPI = async () => {
-          if (isOpenPopupOTP) {
-            return;
-          }
-          const res = await axios.get(
-            `${apiRoute.payment.statePayment}?orderId=${stateCheckout.orderId}&chargeId=${stateCheckout.chargeId}&refType=sale`,
-          );
-          count += 1;
-          if (res.data.paymentState === "Succeeded" && res.data.transactionState === "Authorized") {
-            clearInterval(interval);
-            const callbackUpdated = (res2: { error?: { message?: string }; payload?: string }) => {
-              if (res2.error && res2.payload) {
-                notifyToast("error", res2.payload);
-                setLoading(false);
-              }
-              if (!res2.error) {
-                handelSuccess();
-              }
-            };
-            dispatch(fetchCheckoutUpdateOrder(callbackUpdated));
-            // const res = (await dispatch(updateOrder())) as {
-            //   error?: { message?: string };
-            //   payload?: string;
-            // };
-
-            // if (res.error && res.payload) {
-            //   notifyToast("error", res.payload);
-            //   setLoading(false);
-            // }
-            // if (!res.error) {
-            //   handelSuccess();
-            // }
-          }
-
-          if (res.data.paymentState === "Failed") {
-            notifyToast("error", "common:can_not_process_payment", t);
-            clearInterval(interval);
-            setLoading(false);
-            axios.put(`${apiRoute.orders.listOrders}/${stateCheckout.orderId}/remove-coupon`);
-            dispatch(handleChangeField({ coupon: "" }));
-            dispatch(handleChangeField({ couponDraft: "" }));
-            dispatch(handleChangeField({ couponRedeemAmount: 0 }));
-            dispatch(handleChangeField({ discountCategory: "" }));
-          }
-          if (count === 5 && res.data.paymentState === "Pending") {
-            clearInterval(interval);
-            handelSuccess(true);
-          }
-        };
-        const interval = setInterval(() => {
-          callAPI();
-        }, 5000);
-
-        if (!isOpenPopupOTP && !stateCheckout.redirect_url) {
-          const callAPI2 = async () => {
-            const res = await axios.get(
-              `${apiRoute.payment.statePayment}?orderId=${stateCheckout.orderId}&chargeId=${stateCheckout.chargeId}&refType=sale`,
-            );
-
-            if (res.data.paymentState === "Failed") {
-              axios.put(`${apiRoute.orders.listOrders}/${stateCheckout.orderId}/remove-coupon`);
-              clearInterval(interval);
-              setLoading(false);
-              dispatch(handleChangeField({ coupon: "" }));
-              dispatch(handleChangeField({ couponDraft: "" }));
-              dispatch(handleChangeField({ couponRedeemAmount: 0 }));
-              dispatch(handleChangeField({ discountCategory: "" }));
-            }
-          };
-          callAPI2();
-        }
-
-        return () => {
-          clearInterval(interval);
-        };
-      }
-    }
-  }, [
-    stateCheckout.orderId,
-    stateCheckout.chargeId,
-    stateCheckout.paymentStatusForNonSecure,
-    dispatch,
-    t,
-    handelSuccess,
-    isOpenPopupOTP,
-    stateCheckout.redirect_url,
-  ]);
 
   // add orderIdForQR in state
   useEffect(() => {
@@ -685,53 +376,8 @@ export default function Checkout() {
         )}
       </div>
 
-      <form style={{ display: mainStep === 2 ? "block" : "none" }}>
-        <script
-          type="text/javascript"
-          src={`${KBANK_BASE_URL}/ui/v2/kpayment.min.js`}
-          data-apikey={API_KEY_PAYMENT}
-          data-amount={totalPriceParam || 0}
-          data-currency="THB"
-          data-payment-methods={paymentMethodParam === "qr" ? "qr" : "card"}
-          data-name="Checkout payment"
-          data-show-button="false"
-          data-order-id={orderIdForQR}
-          {...moreParams}
-        ></script>
 
-        <button type="button" ref={ref} style={{ display: "none" }} onClick={onClickRealpayment}>
-          Real Button Payment
-        </button>
-      </form>
 
-      <button
-        className="hidden"
-        ref={refButtonRedirect}
-        onClick={() => {
-          const redirect_url = stateCheckout.redirect_url;
-
-          if (redirect_url) {
-            setisOpenPopupOTP(true);
-            newWindow = window.open(
-              redirect_url,
-              "_blank",
-              "location=yes,height=600,width=1000,scrollbars=yes,status=yes,left=100,resizable=yes",
-            );
-            dispatch(handleChangeField({ redirect_url: "" }));
-            if (!newWindow) {
-              setisOpenPopupOTP(false);
-              dispatch(handleChangeField({ redirect_url: "", chargeId: "" }));
-              setLoading(false);
-              notifyToast(
-                "error",
-                "Pop-up Blocker is enabled! Please add this site to your exception list.",
-              );
-            }
-          }
-        }}
-      >
-        Button to redirect
-      </button>
     </div>
   );
 }

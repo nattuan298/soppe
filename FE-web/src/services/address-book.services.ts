@@ -14,7 +14,7 @@ export function createAddress(body: AddressModel) {
   return axios.post("/address", { ...body });
 }
 export function updateAddress(id: string | undefined | string[], body: AddressModel) {
-  return axios.patch(`/address/${id}`, { ...body });
+  return axios.put(`/address/${id}`, { ...body });
 }
 export function deleteAddress(id: string | undefined | string[]) {
   return axios.delete(`/address/${id}`);
