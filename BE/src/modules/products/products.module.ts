@@ -15,6 +15,7 @@ import {
   ProductCategorySchema,
 } from './entities/product-category.schema';
 import { ScheduleModule } from '@nestjs/schedule';
+import { FavouriteProductsModule } from '../favourite-products/favourite-products.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       },
     ]),
     forwardRef(() => UploadModule),
+    forwardRef(() => FavouriteProductsModule),
     ScheduleModule.forRoot(),
   ],
   controllers: [

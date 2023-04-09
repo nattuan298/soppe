@@ -25,9 +25,9 @@ export class CreateReviewDto {
 
   @IsString()
   @IsOptional()
-  describe: string;
+  describe?: string;
 
   @IsString()
   @IsOptional()
-  mediaUrl: string;
+  mediaUrl?: string;
 }
