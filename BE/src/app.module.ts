@@ -11,6 +11,7 @@ import { FavouriteProductsModule } from './modules/favourite-products/favourite-
 import { BannersModule } from './modules/banners/banners.module';
 import { AddressModule } from './modules/address/address.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -53,6 +54,7 @@ import { OrdersModule } from './modules/orders/orders.module';
     BannersModule,
     AddressModule,
     OrdersModule,
+    ReviewsModule,
   ],
 })
 export class AppModule {}
