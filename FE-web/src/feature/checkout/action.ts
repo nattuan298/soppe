@@ -372,31 +372,28 @@ export function* watcherCheckoutCreateOrder(action: WatcherFetchCheckoutCreateOr
     const memberCookies = cookies.get("member");
     const locationBase = memberCookies.locationBase || "Thailand";
     const productsBody = products.map((item) => {
-      const media = getThumbimageFromMedia(item.media);
-      const fileType: "VIDEO" | "IMAGE" = media?.fileType.toLowerCase().includes("video")
-        ? "VIDEO"
-        : "IMAGE";
+      const media = item.mediaUrl;
+      // const fileType: "VIDEO" | "IMAGE" = media?.fileType.toLowerCase().includes("video")
+      //   ? "VIDEO"
+      //   : "IMAGE";
       return {
-        images: media?.url || "",
-        fileType,
-        productCode: item.productCode,
+        images: media || "",
+        fileType: "IMAGE",
+        productCode: item._id,
         productName: item.productName,
-        pv: item.pv,
-        price: item.memberPrice,
+        price: item.price,
         quantity: item.qty,
         unit: currencyUnit[locationBase],
-        weight: item.weight,
         categoryId: item.categoryId,
       };
     });
 
     const total = products.reduce(
-      ({ price, pv, qty, weight }, item) => {
+      ({ price, qty }, item) => {
         return {
-          price: price + item.qty * item.memberPrice,
-          pv: pv + item.qty * item.pv,
+          price: price + item.qty * item.price,
+
           qty: qty + item.qty,
-          weight: weight + item.qty * item.weight,
         };
       },
       { price: 0, pv: 0, qty: 0, weight: 0 },

@@ -3,9 +3,10 @@ import { OrderProductDetailType } from "types/orders";
 import NoDataIcon from "../../svgs/no-data";
 import Header from "./header";
 import RowCart from "./rowCart";
+import { ProductTypeWithQty } from "../../../feature/shopping-cart/type";
 
 interface ShoppingCartType {
-  products: OrderProductDetailType[];
+  products: ProductTypeWithQty[];
   disabledClickProduct?: boolean;
 }
 
@@ -21,7 +22,7 @@ export default function ShoppingCart({ products, disabledClickProduct }: Shoppin
         return (
           <RowCart
             product={item}
-            key={item.productCode}
+            key={item._id}
             disabledClickProduct={disabledClickProduct}
           />
         );

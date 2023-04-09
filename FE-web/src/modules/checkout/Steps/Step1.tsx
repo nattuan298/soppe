@@ -4,13 +4,14 @@ import Cart from "src/components/cart/CartInOrderDetail";
 import { RootState } from "src/state/store";
 
 export default function Step1() {
-  const { checkoutProducts, callingListProduct } = useSelector(
-    (state: RootState) => state.checkout,
-  );
+  const {
+    listProducts,
+    callingListProduct,
 
+  } = useSelector((state: RootState) => state.cart);
   return (
     <div className="relative">
-      <Cart products={checkoutProducts} disabledClickProduct />
+      <Cart products={listProducts} disabledClickProduct />
       {callingListProduct && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
           <CircularProgress />

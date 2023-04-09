@@ -35,8 +35,7 @@ export const cartSlice = createSlice({
       const memberId = memberCookies.memberId;
       state.listProducts = JSON.parse(localStorage.getItem(`listProducts_${memberId}`) || "[]");
       state.selectedProduct = state.listProducts
-        .filter((item) => item.status === "Active")
-        .map((item) => item.productCode);
+        .map((item) => item._id);
     },
     addProductToCart: (state, action) => {
       const { qty, product, callBack, isLoggedIn } = action.payload;
@@ -84,7 +83,7 @@ export const cartSlice = createSlice({
     },
     updateQtyProduct: (state, { payload }) => {
       state.listProducts = state.listProducts.map((item) =>
-        item.productCode === payload.id ? { ...item, qty: payload.qty } : item,
+        item._id === payload.id ? { ...item, qty: payload.qty } : item,
       );
       const cookies = new Cookies();
       const memberCookies = cookies.get("member");
@@ -92,14 +91,14 @@ export const cartSlice = createSlice({
       localStorage.setItem(`listProducts_${memberId}`, JSON.stringify(state.listProducts));
     },
     deleteProduct: (state, { payload }) => {
-      state.listProducts = state.listProducts.filter((item) => item.productCode !== payload.id);
+      state.listProducts = state.listProducts.filter((item) => item._id !== payload.id);
       const cookies = new Cookies();
       const memberCookies = cookies.get("member");
       const memberId = memberCookies.memberId;
       localStorage.setItem(`listProducts_${memberId}`, JSON.stringify(state.listProducts));
     },
     deleteMultyProduct: (state, { payload }: PayloadAction<string[]>) => {
-      state.listProducts = state.listProducts.filter((item) => !payload.includes(item.productCode));
+      state.listProducts = state.listProducts.filter((item) => !payload.includes(item._id));
       const cookies = new Cookies();
       const memberCookies = cookies.get("member");
       const memberId = memberCookies.memberId;
@@ -115,7 +114,7 @@ export const cartSlice = createSlice({
 
       const newListProduct = state.listProducts.map((item) => {
         const newitem = payload.data.find(
-          (product: ProductTypeWithQty) => item.productCode === product.productCode,
+          (product: ProductTypeWithQty) => item._id === product._id,
         );
         if (newitem) {
           return {

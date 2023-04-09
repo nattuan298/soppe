@@ -26,13 +26,11 @@ export function AddressBookList() {
   const handleEdit = (_id: string | undefined) => {
     router.push(`/edit-address-book/${_id}`);
   };
-
+  console.log(listAddress);
   const addressLocation = useCallback(
     (address: AddressModel) => {
-      const { subDistrict, subDistrictEng, district, districtEng, province, provinceEng } = address;
-      if (lang === "en" || province === "") {
-        return [subDistrictEng, districtEng, provinceEng].filter((item) => item).join(", ");
-      }
+      const { sub_district: subDistrict, district, province } = address;
+
       return [subDistrict, district, province].filter((item) => item).join(", ");
     },
     [lang],
@@ -72,44 +70,16 @@ export function AddressBookList() {
                       {list.firstName} {list.lastName}
                     </div>
                     <div className="text-textSearch text-sm">
-                      {list.phoneNumber && phoneNumberFormatter2(list.phoneCode, list.phoneNumber)}
+                      {list.phoneNumber && list.phoneNumber}
                     </div>
                   </div>
                   <div
-                    className={`text-sm font-light mt-1.5 text-black-dark ${
-                      !(list.category !== "Other" || list.shipAddress || list.billAddress) && "mb-4"
-                    }`}
+                    className={"text-sm font-light mt-1.5 text-black-dark mb-4"}
                   >
-                    {list.address && `${list.address}, `}
-                    {addressLocation(list)} {list.postalCode}, {list.country}
+                    {list.address && `${list.address} - ${list.sub_district} - ${list.district} - ${list.province}  `}
+
                   </div>
-                  {(list.category !== "Other" || list.shipAddress || list.billAddress) && (
-                    <div className="flex mb-4">
-                      {list.category === "Other" ? (
-                        <></>
-                      ) : (
-                        <div
-                          className={`${styles.small_scm_logo} mt-4 text-orange bg-orange bg-opacity-10 text-center`}
-                        >
-                          <div>{list.category === "Home" ? t("home") : t("office")}</div>
-                        </div>
-                      )}
-                      {list.shipAddress && (
-                        <div
-                          className={`${styles.small_scm_logo} mt-4 text-orange bg-orange bg-opacity-10 text-center`}
-                        >
-                          <div>{t`default-shipping`}</div>
-                        </div>
-                      )}
-                      {list.billAddress && (
-                        <div
-                          className={`${styles.small_scm_logo} mt-4 text-orange bg-orange bg-opacity-10 text-center`}
-                        >
-                          <div>{t`default-billing`}</div>
-                        </div>
-                      )}
-                    </div>
-                  )}
+
                 </div>
                 <Divider />
               </div>

@@ -65,6 +65,9 @@ export default function Checkout() {
     realAddress,
     isOpenModalTopay,
   } = useSelector((state: RootState) => state.checkout);
+  const {
+    listProducts,
+  } = useSelector((state: RootState) => state.cart);
   const stateCheckout = useSelector((state: RootState) => state.checkout);
   const { tax } = useLocationBase();
   const { scmPoint } = useSelector((state: RootState) => state.user);
@@ -161,8 +164,8 @@ export default function Checkout() {
   }, [mainStep, branch, address, billingAddress, shippingType]);
 
   const disabledStep1 = useMemo(() => {
-    return mainStep === 0 && (callingListProduct || checkoutProducts.length === 0);
-  }, [mainStep, callingListProduct, checkoutProducts]);
+    return mainStep === 0 && (callingListProduct || listProducts.length === 0);
+  }, [mainStep, callingListProduct, listProducts]);
 
   const disabled = disabledAddress || disabledStep1 || callingAPI;
 
