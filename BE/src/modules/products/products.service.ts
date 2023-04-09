@@ -29,6 +29,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { paginationTransformer } from 'src/common/helpers';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { CheckStockDto, ProductCheckDto } from './dto/check-stock.dto';
+import { FavouriteProductsService } from '../favourite-products/favourite-products.service';
 // import { ReviewStatus } from '../reviews/review.constant';
 
 @Injectable()
@@ -42,6 +43,8 @@ export class ProductsService {
     private readonly productCategoryModel: PaginateModel<IProductCategoryDoc>,
     @Inject(forwardRef(() => UploadService))
     private readonly uploadService: UploadService,
+    @Inject(forwardRef(() => FavouriteProductsService))
+    private readonly favoriteProductsService: FavouriteProductsService,
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
@@ -105,11 +108,18 @@ export class ProductsService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, userId: string = null) {
     try {
       const product = await this.productModel.findById(id).lean();
       if (product.mediaUrl) {
         product.mediaUrl = this.uploadService.getSignedUrl(product.mediaUrl);
+      }
+      if (userId) {
+        const isFavorite = await this.favoriteProductsService.findOne(
+          id,
+          userId,
+        );
+        if (isFavorite) product.isFavorite = true;
       }
       return product;
     } catch (error) {

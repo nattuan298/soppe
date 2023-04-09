@@ -62,3 +62,9 @@ export class ResFindProductDto implements IProduct {
 export class ResFindProductsDto extends PaginationResDto {
   data: ResFindProductDto[];
 }
+
+export class FindOneProduct {
+  @IsOptional()
+  @IsMongoId()
+  userId?: string;
+}

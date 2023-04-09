@@ -15,35 +15,35 @@ import { Gender } from 'src/common/common.constants';
 export class UpdateUserDto {
   @IsString()
   @IsOptional()
-  firstName: string;
+  firstName?: string;
 
   @IsOptional()
   @IsString()
-  lastName: string;
+  lastName?: string;
 
   @IsOptional()
   @IsString()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsOptional()
   @IsDefined()
   @IsPhoneNumber()
-  phoneNumber: string;
+  phoneNumber?: string;
 
   @IsOptional()
   @IsEnum(Gender)
   @IsString()
-  gender: Gender;
+  gender?: Gender;
 
   @IsOptional()
   @IsString()
   @IsDateString()
-  dateOfBirth: Date;
+  dateOfBirth?: Date;
 
   @IsOptional()
   @IsString()
-  avatar: string;
+  avatar?: string;
 }
 
 export class UpdatePasswordDto {
