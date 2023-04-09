@@ -114,6 +114,7 @@ export class ProductsService {
       if (product.mediaUrl) {
         product.mediaUrl = this.uploadService.getSignedUrl(product.mediaUrl);
       }
+      product.isFavorite = false;
       if (userId) {
         const isFavorite = await this.favoriteProductsService.findOne(
           id,
