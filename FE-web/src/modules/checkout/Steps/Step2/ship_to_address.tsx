@@ -48,7 +48,7 @@ export default function ShipToAddress() {
       router.push(makeUrlObjectFromRouteBase(routeCreateAddressFormBase, { country: "Thailand" }));
     }, 150);
   };
-
+  console.log(address);
   return (
     <div>
       <p className="font-medium">{t`address`}</p>

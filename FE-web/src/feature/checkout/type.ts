@@ -47,7 +47,7 @@ export interface CheckoutState {
   listAddress: AddressTypeShort[];
   billingAddress: string;
   checkoutProducts: Array<
-    OrderProductDetailType & { hasChangeprice?: boolean; hasChangePV?: boolean }
+    OrderProductDetailType & { hasChangeprice?: boolean; hasChangePV?: boolean;qty?: number }
   >;
   callingListProduct: boolean;
   callingAPI: boolean;

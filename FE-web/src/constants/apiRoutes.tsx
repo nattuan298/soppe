@@ -58,7 +58,7 @@ export const apiRoute = {
     getSignURL: "/upload",
   },
   products: {
-    getProductDetail: "/products/productCode",
+    getProductDetail: "/products",
     searchListProduct: "/products",
     getReviews: "/reviews",
     getListProduct: "/products/list",

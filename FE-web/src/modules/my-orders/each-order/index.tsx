@@ -37,7 +37,7 @@ export default function EachOrder({
   const router = useRouter();
   const { t } = useTranslation("common");
 
-  const status: string = order.status;
+  const status: string = order.orderStatus;
   const dispatch = useDispatch();
   const { symbol } = useLocationBase();
   const total = order.products.reduce(
@@ -103,13 +103,13 @@ export default function EachOrder({
     <>
       <div className="sm:pt-4">
         <Header
-          id={order.orderNumber}
+          id={order._id}
           status={status}
           handleClickFullDetail={handleClickFullDetail}
         />
         {order.products.map((item) => (
           <EachProduct
-            key={item.productCode}
+            key={item._id}
             product={item}
             orderStatus={order.status}
             orderNumber={order._id}
@@ -124,10 +124,7 @@ export default function EachOrder({
             <NumberFormatCustome value={total.price} prefix={symbol} />
           </div>
 
-          <div className="flex sm:justify-start justify-end">
-            <span className="mr-3 text-brown">{t`total_pv`}:</span>
-            <NumberFormatCustome className="text-brown" value={total.pv} suffix=" PV" />
-          </div>
+
         </div>
 
         <div className="flex justify-between items-center mt-4">

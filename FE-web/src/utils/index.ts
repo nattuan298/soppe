@@ -74,12 +74,10 @@ export const getCookieFromReq = (cookieString: string, cookieKey: string) => {
 };
 
 const getAddressByLang = (orderAddress: OrderAddressType, lang?: string) => {
-  const { address, province, provinceEng, district, districtEng, subDistrict, subDistrictEng } =
+  const { address, province, district, sub_district } =
     orderAddress;
-  if (lang === "en" || !province) {
-    return [address, subDistrictEng, districtEng, provinceEng].filter((item) => item).join(", ");
-  }
-  return [address, subDistrict, district, province].filter((item) => item).join(", ");
+
+  return [address, sub_district, district, province].filter((item) => item).join(", ");
 };
 
 export const getAddressFromOrderAddress = (address: OrderAddressType | null, lang?: string) => {
@@ -92,10 +90,10 @@ export const getAddressFromOrderAddress = (address: OrderAddressType | null, lan
 
   const addressByLang = getAddressByLang(address, lang);
   return {
-    userInfor: `${address.firstName} ${address.lastName} (+${address.phoneCode}${formatPhoneNumber(
-      address.phoneNumber,
-    )})`,
-    address: `${addressByLang} ${address.postalCode} ${address.country}`,
+    userInfor: `${address.firstName} ${address.lastName} (
+      ${address.phoneNumber}
+    )`,
+    address: `${addressByLang} `,
   };
 };
 

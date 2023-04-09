@@ -147,7 +147,6 @@ export const checkoutSlice = createSlice({
     },
     getListAddressFulfilled: (state, { payload }: PayloadAction<AddressBook[]>) => {
       const convertData = payload
-        .filter((item) => item.country === "Thailand")
         .map((item) => ({
           infor: getAddressFromOrderAddress(item).userInfor,
           address: getAddressFromOrderAddress(item).address,
@@ -283,6 +282,7 @@ export const checkoutSlice = createSlice({
       state,
       { payload }: PayloadAction<{ data: AddressBook[] }>,
     ) => {
+      console.log(payload.data);
       const convertData = payload.data
         .map((item) => ({
           infor: getAddressFromOrderAddress(item).userInfor,

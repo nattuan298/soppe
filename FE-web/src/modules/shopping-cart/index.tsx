@@ -18,6 +18,7 @@ import {
 import useLoggedIn from "src/hooks/useLoggedIn";
 import { RootState } from "src/state/store";
 import ModalOrderSummary from "./modal";
+import { handleChangeField } from "../../feature/checkout/thunkAction";
 
 export default function ShoppingCart() {
   const { t } = useTranslation("common");
@@ -76,9 +77,18 @@ export default function ShoppingCart() {
     if (!isLoggedIn) {
       return setopenModalSignIn(true);
     }
-    router.push(routeCheckoutUrl);
+
+
     // setcallingAPI(true);
-    // const checkoutProduct = listProducts.filter((item) => selected.includes(item._id));
+    const checkoutProduct = listProducts.filter((item) => selected.includes(item._id));
+
+    dispatch(handleChangeField({
+      totalPrice: total.price,
+      totalQty: total.qty,
+      checkoutProducts: checkoutProduct,
+    }));
+    router.push(routeCheckoutUrl);
+
     // const callbackCreateOrder = (res: {
     //   error?: { message?: string };
     //   payload?: string;
@@ -87,7 +97,7 @@ export default function ShoppingCart() {
     //   if (res.type === "checkout/createOrder/fulfilled") {
     //     localStorage.setItem(
     //       "needToRemoveProduct",
-    //       JSON.stringify(checkoutProduct.map((item) => item._id)),
+    //       JSON.stringify(checkoutProduct.map((item) => item._id)),S
     //     );
     //     return;
     //   }

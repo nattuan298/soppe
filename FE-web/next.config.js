@@ -21,7 +21,7 @@ module.exports = {
       "prod-scm-ecommerce-pub.s3.amazonaws.com",
       "stg-scm-ecommerce-pub.scmconnext.com",
       "prod-scm-ecommerce-pub.scmconnext.com",
-      "minhduc-soppe.s3.ap-southeast-1.amazonaws.com",
+      "soppe.s3.ap-southeast-1.amazonaws.com",
     ],
   },
   poweredByHeader: false,

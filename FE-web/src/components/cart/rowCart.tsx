@@ -55,7 +55,7 @@ export default function RowCart({
     }
     return val;
   };
-
+  console.log(product.mediaUrl);
   return (
     <div>
       <div
@@ -80,7 +80,7 @@ export default function RowCart({
                   src={product.mediaUrl}
                   style={{ width: 75, height: 75 }}
                   className={`mr-4 ${disabled ? "opacity-70" : ""}`}
-                  fileType={"image"}
+                  fileType={"IMAGE"}
                   showIconVideo
                   sizeIcon={{ width: "60%", height: "60%" }}
                 />

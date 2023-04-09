@@ -144,9 +144,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params, quer
 
   try {
     const ress = await axios.get(
-      `${apiRoute.products.getProductDetail}?countryCode=${
-        locationBase || query.locationBase
-      }&productCode=${id}`,
+      `${apiRoute.products.getProductDetail}/${id}`,
     );
 
     productDetail = ress.data;

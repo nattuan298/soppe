@@ -38,13 +38,13 @@ export default function RowCart({
   return (
     <div>
       <div className="hidden sm:grid grid-cols-10 mt-4" style={{ height: 85 }}>
-        <div className="grid grid-cols-12 col-span-9 gap-[10px]">
-          <div className="col-span-6 mb-2.5 flex items-center">
+        <div className="grid grid-cols-12 col-span-10 gap-[10px]">
+          <div className="col-span-8 mb-2.5 flex items-center">
             <div className="flex pl-3">
               <Image
-                src={product.productImage}
+                src={product.mediaUrl}
                 className="mr-4 w-[75px] min-h-[75px]"
-                fileType={product.fileType}
+                fileType={"IMAGE"}
               />
               <div>
                 <span>{product.productName}</span>
@@ -53,10 +53,7 @@ export default function RowCart({
           </div>
           <div className="col-span-2 text-center">{product.quantity}</div>
           <div className="col-span-2 text-center text-orange">
-            <NumberFormatCustome value={product.quantity * product.price} prefix={symbol} />
-          </div>
-          <div className="col-span-2 text-center text-brown">
-            <NumberFormatCustome value={product.quantity * product.pv} suffix=" PV" />
+            <NumberFormatCustome value={(product?.quantity || 0) * product.price} prefix={symbol} />
           </div>
         </div>
 
@@ -81,9 +78,9 @@ export default function RowCart({
           <div className="col-span-3 mb-2.5 flex items-center">
             <div className="flex sm:pl-3">
               <Image
-                src={product.productImage}
+                src={product.mediaUrl}
                 className="mr-4 w-[75px] min-h-[75px]"
-                fileType={product.fileType}
+                fileType={"IMAGE"}
               />
             </div>
           </div>
@@ -98,7 +95,7 @@ export default function RowCart({
               <div className=" text-orange">
                 {" "}
                 <NumberFormatCustome
-                  value={product.quantity * product.price}
+                  value={(product.quantity || 0) * product.price}
                   prefix={symbol}
                 />{" "}
               </div>
@@ -122,9 +119,6 @@ export default function RowCart({
                     {isReviewed && <span className="text-lighterGray">{t`reviewed`}</span>}
                   </div>
                 )}
-              </div>
-              <div className="col-span-2 text-xs text-center text-brown">
-                <NumberFormatCustome value={product.quantity * product.pv} suffix=" PV" />
               </div>
             </div>
           </div>
