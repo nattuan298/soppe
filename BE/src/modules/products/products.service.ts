@@ -170,10 +170,14 @@ export class ProductsService {
     }
   }
 
-  async updateRatingAfterReview({ id }: CommonIdParams, rating: number) {
-    await this.productModel.updateOne(
-      { id },
-      { rating },
+  async updateRatingAfterReview(
+    id: string,
+    rating: number,
+    ratingCount: number,
+  ) {
+    await this.productModel.findByIdAndUpdate(
+      id,
+      { rating, ratingCount },
       { upsert: true, setDefaultsOnInsert: true },
     );
   }
