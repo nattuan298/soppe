@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 
 import {
+  FindOneProduct,
   FindProductsDto,
   ResFindProductDto,
   ResFindProductsDto,
@@ -33,8 +34,11 @@ export class ProductsController {
 
   @Get(':id')
   @ApiResponse({ type: ResFindProductDto })
-  findOne(@Param() commonIdParams: CommonIdParams) {
-    return this.productsService.findOne(commonIdParams.id);
+  findOne(
+    @Param() commonIdParams: CommonIdParams,
+    @Query() { userId }: FindOneProduct,
+  ) {
+    return this.productsService.findOne(commonIdParams.id, userId);
   }
 
   @Post('/check-stock')

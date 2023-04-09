@@ -4,9 +4,9 @@ import { BannerStatus } from '../banner.constant';
 export class UpdateBannerDto {
   @IsString()
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsEnum(BannerStatus)
-  status: BannerStatus;
+  status?: BannerStatus;
 }

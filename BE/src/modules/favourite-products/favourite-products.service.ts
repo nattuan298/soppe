@@ -80,4 +80,8 @@ export class FavouriteProductsService {
       throw new NotFoundException(`Not found favorite product.`);
     }
   }
+
+  async findOne(productId: string, userId: string) {
+    return await this.favouriteProductModel.findOne({ productId, userId });
+  }
 }
