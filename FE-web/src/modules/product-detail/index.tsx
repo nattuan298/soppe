@@ -72,7 +72,7 @@ export default function ProductDetail({
   }, [productDetail, isLoggedIn]);
 
   const realRelatedProducts = relatedProducts.filter(
-    (item) => item.productCode !== productDetail.productCode,
+    (item) => item._id !== productDetail._id,
   );
 
   const handleAddToCart = (product: ProductType, qty: number = 1) => {
@@ -108,22 +108,19 @@ export default function ProductDetail({
       }
       setcallingAPI(false);
     };
-    dispatch(
-      fetchCheckoutCreateOrder({
-        checkoutProduct: [
-          {
-            ...productDetail,
-            qty,
-            description: {
-              en: "",
-              th: "",
-            },
-            media: [getThumbimageFromMedia(productDetail.media)],
-          },
-        ],
-        callback: callbackCreateOrder,
-      }),
-    );
+    // dispatch(
+    //   fetchCheckoutCreateOrder({
+    //     checkoutProduct: [
+    //       {
+    //         ...productDetail,
+    //         qty,
+    //         description: "",
+    //         media: productDetail.mediaUrl,
+    //       },
+    //     ],
+    //     callback: callbackCreateOrder,
+    //   }),
+    // );
 
     // const res = (await dispatch(
     //   createOrder([
@@ -158,13 +155,13 @@ export default function ProductDetail({
       return seterrAddFavouriteProduct(true);
     }
     const res = await axios.post(`${apiRoute.favoriteProduct.getFavorites}`, {
-      productCode: productDetail.productCode,
+      productId: productDetail._id,
     });
     setProduct((preState) => ({ ...preState, isFavourite: true, favouriteId: res.data._id }));
   };
 
   const removeFavourite = async () => {
-    await axios.delete(`${apiRoute.favoriteProduct.getFavorites}/${productDetail.favouriteId}`);
+    await axios.delete(`${apiRoute.favoriteProduct.getFavorites}/${productDetail._id}`);
     setProduct((preState) => ({ ...preState, isFavourite: false }));
   };
 
@@ -187,22 +184,7 @@ export default function ProductDetail({
     notifyToast("default", "copy_success", t);
   };
 
-  const showDescriptionProduct = (en: string, th: string): string => {
-    let result: string = "";
-    if (lang === "en") {
-      if (en) {
-        result = en;
-      } else {
-        result = th;
-      }
-    } else if (th) {
-      result = th;
-    } else {
-      result = en;
-    }
-
-    return result;
-  };
+console.log(productDetail);
 
   return (
     <div className="mx-auto w-auto sm:w-1216 relative mb-8">
@@ -212,7 +194,7 @@ export default function ProductDetail({
             <div className="col-span-7 sm:col-span-3">
               <ImagesSlider
                 isNewProduct={productDetail.isNewProduct}
-                images={productDetail.media}
+                images={[productDetail.mediaUrl]}
                 isFavourite={productDetail.isFavourite}
                 addToFavorite={addToFavourite}
                 removeFavorite={removeFavourite}
@@ -247,41 +229,28 @@ export default function ProductDetail({
                 <div className="flex items-center">
                   <NumberFormat
                     className="text-orange text-xl mr-2"
-                    value={productDetail[priceFieldName]}
+                    value={productDetail.price}
                     prefix={symbol}
                   />
 
-                  {isLoggedIn && (
-                    <NumberFormat
-                      className="text-lighterGray text-sm line-through"
-                      value={productDetail.personalPrice}
-                      prefix={symbol}
-                    />
-                  )}
+
                 </div>
 
-                {isLoggedIn && (
-                  <NumberFormat className="text-brown" value={productDetail.pv} suffix=" PV" />
-                )}
+
               </div>
 
               <div className="mt-4 flex items-center justify-between mb-2">
                 <span className="font-medium">{t`description`}</span>
-                <Tooltip title={productDetail.productCode} placement="bottom-end">
-                  <span className="text-lighterGray text-sm">SKU: {productDetail.productCode}</span>
-                </Tooltip>
+           <div></div>
               </div>
               <DescriptionTruncate
-                value={showDescriptionProduct(
-                  productDetail.description.en,
-                  productDetail.description.th,
-                )}
+                value={productDetail.description}
               />
             </div>
           </div>
 
           {/* Review */}
-          <Review rating={productDetail.rating} productCode={productDetail.productCode} />
+          <Review rating={productDetail.rating} productCode={productDetail._id} />
 
           {/* Related Product */}
           {relatedProducts.length > 1 && (
@@ -298,7 +267,7 @@ export default function ProductDetail({
                 <div className="grid grid-cols-4 gap-6">
                   {realRelatedProducts.slice(0, 4).map((item) => {
                     return (
-                      <div className="col-span-1" key={item.productCode}>
+                      <div className="col-span-1" key={item._id}>
                         <ProductCard productDetail={item} />
                       </div>
                     );

@@ -22,20 +22,12 @@ export function AddressBookList() {
   const { listAddress, loading } = useSelector((state: RootState) => state.addressBook);
   useEffect(() => {
     dispatch(getAddressBookAction());
-  }, [dispatch]);
+  }, []);
   const handleEdit = (_id: string | undefined) => {
     router.push(`/edit-address-book/${_id}`);
   };
+
   console.log(listAddress);
-  const addressLocation = useCallback(
-    (address: AddressModel) => {
-      const { sub_district: subDistrict, district, province } = address;
-
-      return [subDistrict, district, province].filter((item) => item).join(", ");
-    },
-    [lang],
-  );
-
   return (
     <div className="md:mx-auto md:w-1216 mb-8 mt-6 flex relative px-4 md:px-0">
       <div className="w-1/4 mr-6 hidden md:block">

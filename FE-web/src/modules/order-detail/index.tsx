@@ -39,7 +39,7 @@ export default function OrderDetail({ isOrderDetail, order }: OrderDetailTProps)
             />
           )}
 
-          {order && (
+          {/* {order && (
             <div className="hidden">
               <div ref={ref} className="pl-0 sm:pl-10 pr-10">
                 <OrderDetailView
@@ -50,7 +50,7 @@ export default function OrderDetail({ isOrderDetail, order }: OrderDetailTProps)
                 />
               </div>
             </div>
-          )}
+          )} */}
 
           {!order && (
             <div className="w-full h-full flex justify-center items-center">

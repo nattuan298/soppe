@@ -36,13 +36,11 @@ import { subDistrict } from "../../../services/SubDistrict";
 const initialErrors = {
   firstName: "",
   lastName: "",
-  postalCode: "",
   province: "",
   district: "",
-  subDistrict: "",
+  sub_district: "",
   address: "",
   phoneNumber: "",
-  shipAddress: "",
 };
 
 interface AddressFormProps {
@@ -90,7 +88,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     lastName: "",
     province: "",
     district: "",
-    subDistrict: "",
+    sub_district: "",
     address: "",
     phoneNumber: "",
     phoneCode: "84",
@@ -105,11 +103,14 @@ export function AddressBookForm({ mode }: AddressFormProps) {
         lastName: addressDetail.lastName,
         province: addressDetail.province,
         district: addressDetail.district,
-        subDistrict: addressDetail.subDistrict,
+        sub_district: addressDetail.sub_district,
         address: addressDetail.address,
-        phoneNumber: addressDetail.phoneNumber,
+        phoneNumber: addressDetail.phoneNumber.slice(3),
+        phoneCode: "84",
       };
       setAddress(newValue);
+      const idProvince = provinceValueJson.find((item) => item.name === addressDetail.province);
+      setProvinceValue(idProvince?.code);
     }
   }, [addressDetail, mode]);
 
@@ -119,31 +120,25 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     }
   }, [dispatch, id, mode]);
 
-  useEffect(() => {
-    if (mode === "edit") {
-      setProvinceValue("");
-      setDistrictValue("");
-      setListDistrict([]);
-      setSubDistrict([]);
-      setAddress({
-        _id: "",
-        category: "Other",
-        shipAddress: false,
-        billAddress: false,
-        firstName: "",
-        lastName: "",
-        country: "",
-        postalCode: "",
-        province: "",
-        district: "",
-        subDistrict: "",
-        address: "",
-        phoneCode: "84",
-        phoneNumber: "",
-        provinceId: "",
-      });
-    }
-  }, [id, mode]);
+  // useEffect(() => {
+  //   if (mode === "edit") {
+  //     setProvinceValue("");
+  //     setDistrictValue("");
+  //     setListDistrict([]);
+  //     setSubDistrict([]);
+  //     setAddress({
+  //       _id: "",
+  //       firstName: "",
+  //       lastName: "",
+  //       province: "",
+  //       district: "",
+  //       sub_district: "",
+  //       address: "",
+  //       phoneCode: "84",
+  //       phoneNumber: "",
+  //     });
+  //   }
+  // }, [id, mode]);
 
 
 
@@ -174,7 +169,8 @@ export function AddressBookForm({ mode }: AddressFormProps) {
         setLoadingAddress(false);
       }
     },
-    [address.district, districtValueJson],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [address.district],
   );
 
   const getSubDistrict = useCallback(async (id: string | undefined) => {
@@ -188,7 +184,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     } catch (e) {
       setLoadingAddress(false);
     }
-  }, [subDistrictValueJson]);
+  }, []);
 
 
   useEffect(() => {
@@ -210,7 +206,6 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     callAddressList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [districtValue]);
-  console.log(districtValue);
 
   const handleChange =
     (name: "firstName" | "lastName" | "address" | "postalCode") =>
@@ -234,7 +229,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
       }
     };
   const handleChangeSelect =
-    (name: "province" | "district" | "subDistrict") => (title: string, value: string) => {
+    (name: "province" | "district" | "sub_district") => (title: string, value: string) => {
       if (value) {
         if (name === "province") {
           const { name } = provinceValueJson.find(({ code }) => code === value) || {
@@ -244,9 +239,8 @@ export function AddressBookForm({ mode }: AddressFormProps) {
           setAddress({
             ...address,
             province: name,
-            provinceId: value,
             district: "",
-            subDistrict: "",
+            sub_district: "",
           });
           getDistrict(value);
           setError({ ...error, province: "" });
@@ -265,18 +259,18 @@ export function AddressBookForm({ mode }: AddressFormProps) {
           setError({
             ...error,
             district: "",
-            subDistrict: "",
+            sub_district: "",
           });
-        } else if (name === "subDistrict") {
+        } else if (name === "sub_district") {
           const { name } = subDistrictValueJson.find(({ code }) => code === value) || {
             name: "",
           };
           const newSubDistrict = {
             ...address,
-            subDistrict: name,
+            sub_district: name,
           } as AddressModel;
           setAddress(newSubDistrict);
-          setError({ ...error, subDistrict: "" });
+          setError({ ...error, sub_district: "" });
         }
       }
     };
@@ -314,10 +308,10 @@ export function AddressBookForm({ mode }: AddressFormProps) {
       isValid = false;
     }
     if (
-      address.subDistrict === "" &&
-      (!address.districtEng || listSubDistrict?.length)
+      address.sub_district === "" &&
+      (listSubDistrict?.length)
     ) {
-      newError.subDistrict = "required_fields";
+      newError.sub_district = "required_fields";
       isValid = false;
     }
     if (address.address?.trim() === "") {
@@ -355,11 +349,10 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     const isValid = handleValidate();
     !isValid && setLoadingAddress(false);
     if (isValid && mode === "create") {
-      const { subDistrict, phoneCode, provinceId, phoneNumber, ...addressNew } = address;
+      const { phoneCode, phoneNumber, ...addressNew } = address;
 
       const bodyRequest = {
         ...addressNew,
-        sub_district: address.subDistrict,
         phoneNumber: `+${phoneCode}${phoneNumber}`,
       };
       delete bodyRequest._id;
@@ -380,11 +373,10 @@ export function AddressBookForm({ mode }: AddressFormProps) {
         setLoadingAddress(false);
       }
     } else if (isValid && mode === "edit") {
-      const { subDistrict, phoneCode, provinceId, phoneNumber, ...addressNew } = address;
+      const { phoneCode, phoneNumber, ...addressNew } = address;
 
       const bodyRequest = {
         ...addressNew,
-        sub_district: address.subDistrict,
         phoneNumber: `+${phoneCode}${phoneNumber}`,
       };
       try {
@@ -407,23 +399,14 @@ export function AddressBookForm({ mode }: AddressFormProps) {
       router.push(routeAddressBookBase);
     }
     setAddress({
-      category: "Other",
-      shipAddress: false,
-      billAddress: false,
       firstName: "",
       lastName: "",
-      country: "Thailand",
-      postalCode: "",
       province: "",
       district: "",
-      subDistrict: "",
+      sub_district: "",
       address: "",
-      phoneCode: "66",
+      phoneCode: "84",
       phoneNumber: "",
-      provinceId: "",
-      provinceEng: "",
-      districtEng: "",
-      subDistrictEng: "",
     });
   };
 
@@ -519,9 +502,8 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                 <Select
                   options={provinceOtions}
                   placeholder={t`province` + " / " + t`city`}
-                  defaultValue={address.province || address.provinceEng}
+                  defaultValue={address.province}
                   onChange={handleChangeSelect("province")}
-                  country={address.country}
                   error={error.province}
                   trans={t}
                 />
@@ -534,7 +516,6 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                   defaultValue={address.district}
                   onChange={handleChangeSelect("district")}
                   disableClick={listDistrict?.length === 0}
-                  country={address.country}
                   error={error.district}
                   trans={t}
                 />
@@ -546,12 +527,11 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                 <Title title={t`sub-district`} isRequired={!(listSubDistrict?.length === 0)} />
                 <Select
                   options={subDistrictOptions}
-                  defaultValue={address.subDistrict}
+                  defaultValue={address.sub_district}
                   placeholder={t`sub-district`}
-                  onChange={handleChangeSelect("subDistrict")}
+                  onChange={handleChangeSelect("sub_district")}
                   disableClick={listSubDistrict?.length === 0}
-                  error={error.subDistrict}
-                  country={address.country}
+                  error={error.sub_district}
                   trans={t}
                 />
               </div>

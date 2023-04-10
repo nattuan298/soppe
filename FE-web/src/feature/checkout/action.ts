@@ -65,14 +65,13 @@ export const getListCity = async (country: string) => {
 
 const getListAddress = async () => {
   const response = await axios.get(`${apiRoute.userInfors.listAddress}`);
-
   return response.data;
 };
 
 export function* watcherCheckoutGetListAddress() {
   try {
-    const listAddress: Array<AddressBook> = yield getListAddress();
-    yield put(getListAddressFulfilled(listAddress));
+    const { data } : { data : Array<AddressBook>} = yield getListAddress();
+    yield put(getListAddressFulfilled(data));
   } catch (error) {}
 }
 

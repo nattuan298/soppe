@@ -1,6 +1,6 @@
 import { Checkbox, Divider, FormHelperText } from "@material-ui/core";
 import useTranslation from "next-translate/useTranslation";
-import { ChangeEvent, useMemo } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Select, Title } from "src/components";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { CheckoutState } from "src/feature/checkout/type";
 import { useLocationBase } from "src/hooks";
 import { RootState } from "src/state/store";
 import CouponInput from "./coupon-input";
+import { notifyToast } from "../../../../constants/toast";
 
 const optionsOrderType = [
   { title: "ROC", value: "ROC" },
@@ -31,9 +32,11 @@ export default function Step3() {
     locationBase,
     isRemarked,
   } = useSelector((state: RootState) => state.checkout);
+
   const { status } = useSelector((state: RootState) => state.checkStatusQR);
   const { scmPoint } = useSelector((state: RootState) => state.user);
   const { symbol, tax } = useLocationBase();
+  const [method, setMethod] = useState("CODE");
   const handleChangeSelect = (name: keyof CheckoutState) => (e: { value: string | null }) => {
     if (e.value) {
       dispatch(handleChangeField({ [name]: e.value }));
@@ -48,23 +51,16 @@ export default function Step3() {
   const taxes = (((totalPrice + shippingFee) / (1 + tax)) * tax).toFixed(2);
 
   const listPaymentMethod = useMemo(() => {
-    if (locationBase === "Thailand") {
-      if (status) {
-        return [
-          { title: t("qr-payment"), value: "QR code" },
-          { title: t("credit-debit"), value: "Credit/ Debit Card" },
-          { title: t("scm-point"), value: "SCM Point" },
-        ];
-      }
-      return [
-        { title: t("credit-debit"), value: "Credit/ Debit Card" },
-        { title: t("scm-point"), value: "SCM Point" },
-      ];
-    }
-    return [{ title: t("scm-point"), value: "SCM Point" }];
+
+    return [
+      { title: "COD", value: "CODE" },
+      { title: "Credit/debit", value: "CREDIT" },
+    ];
+
   }, [locationBase, status, t]);
   return (
     <div>
+
       <div className="mt-[15px] sm:mt-6">
         <p className="font-medium">{t`payment_method`}</p>
         <Title title={t`payment_method`} isRequired className="mt-3 sm:mt-2" />
@@ -72,55 +68,22 @@ export default function Step3() {
           <div className="col-span-2 sm:col-span-1">
             <Select
               options={listPaymentMethod}
-              defaultValue={paymentMethod}
-              onChange={handleChangeSelect("paymentMethod")}
+              defaultValue={method}
+              onChange={(value) => {
+
+                if (value.value === "CREDIT") {
+                  notifyToast("error", "Service not available at the moment.");
+                  setMethod("CODE");
+                }
+              }}
             />
           </div>
         </div>
-        {paymentMethod === "SCM Point" && (
-          <div>
-            <div className="flex items-center mt-4">
-              <span className="text-sm mr-2">{t`your_current`}</span>
-              <div className="w-10 h-5 text-xs text-orange bg-opacity-10 bg-orange mr-2 flex justify-center items-center">
-                {t`SCMP`}
-              </div>
-              <span className="text-sm mr-1">
-                <NumberFormatCustome value={scmPoint} />
-              </span>
-              <div className="text-0.375 flex items-start h-5 flex-1">{t`points`}</div>
-            </div>
-            {scmPoint < totalPrice + shippingFee - couponRedeemAmount && (
-              <FormHelperText error>{t`insufficient_scm_point`}</FormHelperText>
-            )}
-          </div>
-        )}
+
         <Divider className="hidden sm:block mt-6" />
       </div>
-      <div className="mt-6">
-        <Title title={t`receipt_status`} className="mt-2" />
-        <label className="flex items-center mt-1 sm:mt-2.5 mr-9">
-          <Checkbox color="primary" checked={isRemarked} onChange={handleChecked} />
-          {t`need_a_receipt`}
-        </label>
-        <Divider className="mt-6" />
-      </div>
 
-      <div className="mt-6">
-        <p className="font-medium">{t`order_type`}</p>
-        <Title title={t`order_type`} className="mt-2" isRequired />
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2 sm:col-span-1">
-            <Select
-              options={optionsOrderType}
-              defaultValue={sa_type}
-              onChange={handleChangeSelect("sa_type")}
-            />
-          </div>
-        </div>
-        <Divider className="mt-6" />
-      </div>
-
-      <CouponInput />
+      {/* <CouponInput /> */}
 
       <div className="mt-6">
         <div className="grid grid-cols-4 gap-4">

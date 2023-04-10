@@ -18,23 +18,27 @@ export interface OrderAddressType {
   postalCode: string;
   province: string;
   district: string;
-  subDistrict: string;
+  sub_district: string;
   address: string;
-  provinceEng?: string;
-  districtEng?: string;
-  subDistrictEng?: string;
+
 }
 
 export interface OrderProductDetailType {
-  images: string;
-  productCode: string;
+  isNewProduct: boolean;
+  rating: number;
+  ratingCount: number;
+  _id: string;
   productName: string;
+  mediaUrl: string;
+  description: string;
+  stock: number;
   price: number;
-  quantity: number;
-  unit: string;
-  productImage: string;
-  isReviewed: boolean;
-  fileType: "IMAGE" | "VIDEO";
+  categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  quantity?:number;
+  isReviewed?: boolean;
+  __v: number;
 }
 
 export interface OrderDetailType {

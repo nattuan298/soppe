@@ -13,14 +13,13 @@ import { notifyToast } from "src/constants/toast";
 import { deleteOrder, deleteOrderToPay } from "src/services/order.services";
 import useGetScreenWidth from "../../hooks/useGetScreenWidth";
 
-const tabs = ["all", "to_ship", "to_pay", "to_receive", "to_review", "complete", "cancel"];
+const tabs = ["all", "waiting_approve", "delivery", "receipted"];
 const sendToAPI = {
-  to_ship: "To Ship",
-  to_pay: "To Pay",
-  to_receive: "To Receive",
+  waiting_approve: "waiting_approve",
+  delivery: "delivery",
+  receipted: "receipted",
   to_review: "To Review",
-  complete: "Complete",
-  cancel: "Cancel-Refund",
+
 };
 
 export interface MyOrderType {
@@ -146,7 +145,7 @@ export default function MyOrders({ total: initialTotal, orders }: MyOrderType) {
   const handleCancelConfirm = async () => {
     setIsOpenModalDelete(false);
   };
-
+  console.log(listOrders);
   return (
     <div className="w-auto sm:w-1216 relative mb-8 mx-4 sm:mx-auto">
       <div className="hidden sm:block">
@@ -160,7 +159,7 @@ export default function MyOrders({ total: initialTotal, orders }: MyOrderType) {
           {/* Header */}
           {width === "Desktop" ? (
             <div className="grid grid-cols-10">
-              <div className="col-span-9">
+              <div className="col-span-6">
                 <div className="flex justify-between">
                   {tabs.map((item) => (
                     <span

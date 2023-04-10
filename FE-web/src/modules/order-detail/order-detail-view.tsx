@@ -146,7 +146,7 @@ export default function OrderDetailView({
     }
     return isOrderDetail ? t`thank_for_using_service` : t`order_has_been_confirmed`;
   }, [isOrderDetail, order.status, t]);
-
+  console.log(order);
   return (
     <Fragment>
       <div>
@@ -157,7 +157,7 @@ export default function OrderDetailView({
           <div className="flex items-center">
             <div className="hidden sm:block">
               {" "}
-              {!hideButton && <IconDownlaodPDF order={order} />}
+              {/* {!hideButton && <IconDownlaodPDF order={order} />} */}
             </div>
 
             <div className="hidden sm:block">
@@ -234,15 +234,15 @@ export default function OrderDetailView({
             </>
           )}
 
-          {order.type !== "Pickup" && (
-            <>
-              <p className="text-sm mt-2 font-medium">{t`ship_to`}:</p>
-              <p className="text-sm text-brown">
-                {order.shippingAddress &&
+
+          <>
+            <p className="text-sm mt-2 font-medium">{t`ship_to`}:</p>
+            <p className="text-sm text-brown">
+              {order.shippingAddress &&
                   getAddressFromOrderAddress(order.shippingAddress, lang).address}
-              </p>
-            </>
-          )}
+            </p>
+          </>
+
         </div>
         <div className="col-span-1" />
         <div className="col-span-5">
@@ -252,10 +252,10 @@ export default function OrderDetailView({
               <span>{t`total_product_price`}</span>
             </div>
             <div className="col-span-2">
-              <NumberFormatCustome value={order.totalProductPrice.toFixed(2)} prefix={symbol} />
+              <NumberFormatCustome value={order.totalPrice.toFixed(2)} prefix={symbol} />
             </div>
           </div>
-          {order.type !== "Pickup" && (
+          {/* {order.type !== "Pickup" && (
             <div className="grid grid-cols-5 mt-2">
               <div className="col-span-3">
                 <span>{t`shipping_fees`}</span>
@@ -264,14 +264,14 @@ export default function OrderDetailView({
                 <NumberFormatCustome value={order.shippingFees.toFixed(2)} prefix={symbol} />
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="grid grid-cols-5 mt-2">
             <div className="col-span-3">
               <span>{t`taxes`}</span>
             </div>
             <div className="col-span-2">
-              <NumberFormatCustome value={order.taxes.toFixed(2)} prefix={symbol} />
+              {/* <NumberFormatCustome value={order.taxes.toFixed(2)} prefix={symbol} /> */}
             </div>
           </div>
           <Link href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3">
@@ -287,21 +287,12 @@ export default function OrderDetailView({
                 <span>{t`total_shipping_fees`}</span>
               </div>
               <div className="col-span-2">
-                <NumberFormatCustome value={order.totalShippingFees?.toFixed(2)} prefix={symbol} />
+                {/* <NumberFormatCustome value={order.totalShippingFees?.toFixed(2)} prefix={symbol} /> */}
               </div>
             </div>
           )}
 
-          {order.couponCode && (
-            <div className="grid grid-cols-5 mt-2">
-              <div className="col-span-3">
-                <span>{t`discount`}</span>
-              </div>
-              <div className="col-span-2">
-                <NumberFormatCustome value={order.couponRedeemAmount.toFixed(2)} prefix={symbol} />
-              </div>
-            </div>
-          )}
+
 
           <Divider className="mt-6" />
 
@@ -315,28 +306,18 @@ export default function OrderDetailView({
               </span>
             </div>
           </div>
-          <Divider className="mt-6" />
-          <div className="grid grid-cols-5 mt-6">
-            <div className="col-span-3">
-              <span className="text-brown">{t`total_received_PV`}:</span>
-            </div>
-            <div className="col-span-2">
-              <span className="text-brown">
-                <NumberFormatCustome value={order.totalPv.toFixed(2)} suffix=" PV" />
-              </span>
-            </div>
-          </div>
+
         </div>
       </div>
 
       <Divider className="mt-6" />
       <div className="mb-6">
-        <Cart products={order.products} disabledClickProduct />
+        {/* <Cart products={order.products} disabledClickProduct /> */}
       </div>
 
       {!hideButton && renderButton()}
 
-      <div className="mt-6 font-light">
+      {/* <div className="mt-6 font-light">
         <p className="text-sm text-brown-dark">
           {t`shipping_terms_and_conditions_full`}{" "}
           <Link href="https://scmconnext.com/help-center-3/61b09e84e49b5a2cfdf1b5cc">
@@ -360,7 +341,7 @@ export default function OrderDetailView({
           >{t`terms_and_conditions`}</span>
           . {t`policy_conditions_full`}
         </p>
-      </div>
+      </div> */}
       <ModalConfirm
         open={isOpenModalTopay}
         confirmType="unable-delete"

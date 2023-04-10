@@ -31,7 +31,7 @@ export default function OrderProductDetail({
 
   useEffect(() => {
     setValue(1);
-  }, [productDetail.productCode]);
+  }, [productDetail._id]);
 
   const handleChange = (val: number) => {
     setValue(val);
@@ -41,9 +41,9 @@ export default function OrderProductDetail({
       <p className="hidden sm:block font-medium text-lg">{t`order_summary`}:</p>
       <div className="hidden sm:flex justify-between overflow-hidden mt-2">
         <Image
-          src={getThumbimageFromMedia(productDetail.media)?.urlPreSign}
+          src={productDetail.mediaUrl}
           style={{ width: 57, height: 57 }}
-          fileType={getThumbimageFromMedia(productDetail.media)?.fileType}
+          fileType={"IMAGE"}
           showIconVideo
         />
 
@@ -52,12 +52,12 @@ export default function OrderProductDetail({
         </div>
       </div>
 
-      <div className="flex mt-2 sm:mt-5 justify-between items-center">
+      <div className="flex mt-2 flex-col sm:mt-5 justify-between gap-2">
         <span className="font-medium text-lg text-black-dark">
           {t`total`}:
           <NumberFormat
             className="pl-2"
-            value={(productDetail[priceFieldName] * value).toFixed(2)}
+            value={(productDetail.price * value).toFixed(2)}
             prefix={symbol}
           />
         </span>
@@ -65,7 +65,7 @@ export default function OrderProductDetail({
       </div>
 
       <div className="mt-[21px] sm:mt-6 flex sm:block items-center">
-        <ButtonMui
+        {/* <ButtonMui
           height={45}
           textClassName="font-normal"
           onClick={() => handleBuyNow(value)}
@@ -73,7 +73,7 @@ export default function OrderProductDetail({
           showCircle={disabled}
         >
           {t`buy_now`}
-        </ButtonMui>
+        </ButtonMui> */}
         <ButtonMui
           variant="outlined"
           className="ml-[21px] sm:ml-0 sm:mt-5 hidden sm:block"

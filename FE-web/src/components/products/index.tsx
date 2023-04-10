@@ -40,7 +40,7 @@ export function Products({
   const dispatch = useDispatch();
   const { symbol, locationBase } = useLocationBase();
   const { isLoggedIn } = useLoggedIn();
-
+  console.log(products);
   const STYLE_MAIN_ITEM =
     "min-h-[100px] sm:min-h-[100px] sm:min-h-[125px] px-[5px] sm:px-[5px] sm:px-[16px] flex flex-col";
   const STYLE_MAIN = "min-w-[145px] px-[6px] sm:px-[16px] pb-[4.97px] sm:pb-[0px] flex flex-col";
@@ -86,7 +86,7 @@ export function Products({
   //   const { media } = product;
   //   return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
   // };
-
+  console.log(products);
   return (
     <div
       className={
@@ -142,7 +142,7 @@ export function Products({
                 width={type === "listing" ? 210 : 270}
                 height={type === "listing" ? 210 : 270}
                 src={product.mediaUrl || imageDummy}
-                alt=""
+                alt="image product"
                 onClick={handleRedirect(product._id)}
               />
               {/* )} */}

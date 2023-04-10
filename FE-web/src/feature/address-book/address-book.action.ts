@@ -14,9 +14,8 @@ export function* watcherListAddress() {
   try {
     yield put(setLoading({ loading: true }));
     const response: { data: Array<AddressBook> } = yield getListAddress();
-    console.log(response);
-    // yield put(getListAddressScreenAddressFulfilled(response));
     yield put(setListAddress(response));
+    // yield put(getListAddressScreenAddressFulfilled(response));
   } catch (error) {
     yield put(setLoading({ loading: false }));
   }
