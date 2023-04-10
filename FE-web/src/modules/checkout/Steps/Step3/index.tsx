@@ -32,7 +32,7 @@ export default function Step3() {
     locationBase,
     isRemarked,
   } = useSelector((state: RootState) => state.checkout);
-  console.log(totalPrice);
+
   const { status } = useSelector((state: RootState) => state.checkStatusQR);
   const { scmPoint } = useSelector((state: RootState) => state.user);
   const { symbol, tax } = useLocationBase();

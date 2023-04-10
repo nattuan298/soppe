@@ -56,7 +56,7 @@ export default function ImagesSlider({
     nav1: undefined,
     nav2: undefined,
   });
-
+  console.log(images);
   useEffect(() => {
     setActiveSlide(0);
     refSlider.current?.slickGoTo(0);
@@ -100,10 +100,10 @@ export default function ImagesSlider({
             return (
               <div key={i} className="p-1">
                 <Image
-                  src={item?.urlPreSign}
+                  src={item}
                   className="w-full"
                   isControl
-                  fileType={item?.fileType}
+                  fileType={"image"}
                 />
               </div>
             );
@@ -164,10 +164,10 @@ export default function ImagesSlider({
             return (
               <div key={i} className="rounded cursor-pointer mr-2" onClick={handleClick(i)}>
                 <Image
-                  src={item.urlPreSign}
+                  src={item}
                   style={{ width: 60 }}
                   className={`${activeSlide === i ? "border border-solid border-orange" : ""}`}
-                  fileType={item?.fileType}
+                  fileType={"image"}
                   showIconVideo
                 />
               </div>
@@ -188,10 +188,10 @@ export default function ImagesSlider({
             return (
               <div key={i} className="rounded cursor-pointer mr-2">
                 <Image
-                  src={item.urlPreSign}
+                  src={item}
                   style={{ width: 60 }}
                   className={`${activeSlide === i ? "border border-solid border-orange" : ""}`}
-                  fileType={item?.fileType}
+                  fileType={"IMAGE"}
                   showIconVideo
                 />
               </div>
