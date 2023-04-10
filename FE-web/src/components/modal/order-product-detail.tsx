@@ -52,7 +52,7 @@ export default function OrderProductDetail({
         </div>
       </div>
 
-      <div className="flex mt-2 sm:mt-5 justify-between items-center">
+      <div className="flex mt-2 flex-col sm:mt-5 justify-between gap-2">
         <span className="font-medium text-lg text-black-dark">
           {t`total`}:
           <NumberFormat

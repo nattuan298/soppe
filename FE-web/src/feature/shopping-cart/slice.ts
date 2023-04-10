@@ -92,17 +92,11 @@ export const cartSlice = createSlice({
     },
     deleteProduct: (state, { payload }) => {
       state.listProducts = state.listProducts.filter((item) => item._id !== payload.id);
-      const cookies = new Cookies();
-      const memberCookies = cookies.get("member");
-      const memberId = memberCookies.memberId;
-      localStorage.setItem(`listProducts_${memberId}`, JSON.stringify(state.listProducts));
+      localStorage.setItem("listProducts", JSON.stringify(state.listProducts));
     },
     deleteMultyProduct: (state, { payload }: PayloadAction<string[]>) => {
       state.listProducts = state.listProducts.filter((item) => !payload.includes(item._id));
-      const cookies = new Cookies();
-      const memberCookies = cookies.get("member");
-      const memberId = memberCookies.memberId;
-      localStorage.setItem(`listProducts_${memberId}`, JSON.stringify(state.listProducts));
+      localStorage.setItem("listProducts", JSON.stringify(state.listProducts));
     },
     updateSelectedProduct: (state, { payload }: PayloadAction<string[]>) => {
       state.selectedProduct = payload;

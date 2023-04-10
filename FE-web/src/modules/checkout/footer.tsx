@@ -29,6 +29,7 @@ import { RootState } from "src/state/store";
 import ModalOrderSummary from "../shopping-cart/modal";
 import ModalOrderFull from "./modal-order-full";
 import useGetScreenWidth from "../../hooks/useGetScreenWidth";
+import { deleteMultyProduct } from "../../feature/shopping-cart/slice";
 
 const getDataLocalStorage = () => {
   const newState = localStorage.getItem("stateCheckout");
@@ -188,6 +189,8 @@ export default function Checkout() {
       if (response.status === 201) {
         localStorage.removeItem(
           "listProducts_undefined");
+
+        dispatch(deleteMultyProduct(listProducts.map((item) => item._id)));
         handelSuccess(response.data._id);
 
       }

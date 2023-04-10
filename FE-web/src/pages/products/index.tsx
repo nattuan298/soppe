@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const locationBase = getLocationBaseFromCookieSever(cookie);
 
   try {
-    const resp = await axios.get(`/products?page=1&pageSize=10&countryCode=${locationBase}`);
+    const resp = await axios.get("/products?page=1&pageSize=10");
     products = resp.data.data;
   } catch (err) {
     //

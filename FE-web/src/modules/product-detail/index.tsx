@@ -155,13 +155,13 @@ export default function ProductDetail({
       return seterrAddFavouriteProduct(true);
     }
     const res = await axios.post(`${apiRoute.favoriteProduct.getFavorites}`, {
-      productCode: productDetail._id,
+      productId: productDetail._id,
     });
     setProduct((preState) => ({ ...preState, isFavourite: true, favouriteId: res.data._id }));
   };
 
   const removeFavourite = async () => {
-    await axios.delete(`${apiRoute.favoriteProduct.getFavorites}/${productDetail.favouriteId}`);
+    await axios.delete(`${apiRoute.favoriteProduct.getFavorites}/${productDetail._id}`);
     setProduct((preState) => ({ ...preState, isFavourite: false }));
   };
 
@@ -184,22 +184,7 @@ export default function ProductDetail({
     notifyToast("default", "copy_success", t);
   };
 
-  const showDescriptionProduct = (en: string, th: string): string => {
-    let result: string = "";
-    if (lang === "en") {
-      if (en) {
-        result = en;
-      } else {
-        result = th;
-      }
-    } else if (th) {
-      result = th;
-    } else {
-      result = en;
-    }
-
-    return result;
-  };
+console.log(productDetail);
 
   return (
     <div className="mx-auto w-auto sm:w-1216 relative mb-8">

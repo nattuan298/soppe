@@ -51,9 +51,7 @@ export default function Checkout() {
   }, []);
 
   useEffect(() => {
-    if (totalPriceParam || token || chargeId) {
-      return;
-    }
+
 
     const productsCodeString = localStorage.getItem("needToRemoveProduct");
 
