@@ -13,9 +13,9 @@ import { UploadService } from '../upload/upload.service';
 import { IOrderDoc } from './orders.interface';
 import { UsersService } from '../users/users.service';
 import { ProductsService } from '../products/products.service';
-import { CommonPaginationDto } from 'src/common/pagination.dto';
 import { paginationTransformer } from 'src/common/helpers';
 import { OrderStatus, ResponseOrderMessage } from './orders.constant';
+import { FindOrderDto } from './dto/find-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -59,31 +59,22 @@ export class OrdersService {
     return await this.orderModel.create(dataCreate);
   }
 
-  async findAll(commonPaginationDto: CommonPaginationDto, userId: string) {
+  async findAll(findProductsDto: FindOrderDto, userId: string = null) {
     const options: Record<string, unknown> = {};
-
-    options.page = commonPaginationDto.page;
-    options.limit = commonPaginationDto.pageSize;
-    options.sort = { createdAt: -1 };
-    try {
-      const orders = await this.orderModel.paginate({ userId }, options);
-      if (!orders.docs.length) {
-        return paginationTransformer(orders);
-      }
-      return paginationTransformer(orders);
-    } catch (e) {
-      throw new InternalServerErrorException(e);
+    const filters: Record<string, unknown> = {};
+    if (userId) {
+      filters.userId = userId;
     }
-  }
 
-  async adminFindAll(commonPaginationDto: CommonPaginationDto) {
-    const options: Record<string, unknown> = {};
+    if (findProductsDto.status) {
+      filters.orderStatus = findProductsDto.status;
+    }
 
-    options.page = commonPaginationDto.page;
-    options.limit = commonPaginationDto.pageSize;
+    options.page = findProductsDto.page;
+    options.limit = findProductsDto.pageSize;
     options.sort = { createdAt: -1 };
     try {
-      const orders = await this.orderModel.paginate({}, options);
+      const orders = await this.orderModel.paginate(filters, options);
       if (!orders.docs.length) {
         return paginationTransformer(orders);
       }
@@ -127,6 +118,7 @@ export class OrdersService {
     if (!order) {
       throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
     }
+    return order;
   }
 
   async updateReviewed(orderId: string, productId: string) {

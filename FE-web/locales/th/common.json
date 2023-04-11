@@ -594,7 +594,7 @@
   "qr-payment": "สแกน QR Code",
   "scm-point": "SCM Point",
   "was_this_article_helpful": "บทความนี้มีประโยชน์หรือไม่?",
-  "member_id_7_digits": "รหัสสมาชิก (7 หลัก)",
+  "member_id_logi": "รหัสสมาชิก (7 หลัก)",
   "this_order_id_no_longer_exists": "รหัสคำสั่งซื้อนี้ถูกลบไปแล้ว.",
   "order_confirmation_pending": "ระบบกำลังประมวลผลคำสั่งซื้อของคุณ อาจใช้เวลานานถึง 15 นาที เราขออภัยในความไม่สะดวก ",
   "back_to_home_page": "กลับไปหน้าหลัก",

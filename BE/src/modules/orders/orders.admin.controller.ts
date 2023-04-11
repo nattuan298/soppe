@@ -11,11 +11,11 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { CommonPaginationDto } from 'src/common/pagination.dto';
 import { CommonIdParams } from 'src/common/common.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/common.constants';
 import { RolesGuard } from 'src/common/guards/role.guard';
+import { FindOrderDto } from './dto/find-order.dto';
 
 @ApiTags('Orders')
 @ApiBearerAuth()
@@ -26,8 +26,8 @@ export class AdminOrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Get()
-  findAll(@Query() commonPaginationDto: CommonPaginationDto) {
-    return this.ordersService.adminFindAll(commonPaginationDto);
+  findAll(@Query() findOrderDto: FindOrderDto) {
+    return this.ordersService.findAll(findOrderDto);
   }
 
   @Patch('mark-approved/:id')

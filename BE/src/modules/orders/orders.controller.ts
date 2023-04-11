@@ -10,12 +10,12 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { CommonPaginationDto } from 'src/common/pagination.dto';
 import { CommonIdParams } from 'src/common/common.dto';
+import { FindOrderDto, ResFindOrderDto } from './dto/find-order.dto';
 
 @ApiTags('Orders')
 @ApiBearerAuth()
@@ -33,11 +33,12 @@ export class OrdersController {
   }
 
   @Get()
+  @ApiResponse({ type: ResFindOrderDto })
   findAll(
     @GetUser() payload: IJwtPayload,
-    @Query() commonPaginationDto: CommonPaginationDto,
+    @Query() findProductsDto: FindOrderDto,
   ) {
-    return this.ordersService.findAll(commonPaginationDto, payload.id);
+    return this.ordersService.findAll(findProductsDto, payload.id);
   }
 
   @Get(':id')

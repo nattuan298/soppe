@@ -64,6 +64,7 @@ export class FavouriteProductsService {
           ...p,
           mediaUrl: prod.mediaUrl,
           productName: prod.productName,
+          price: prod.price,
         };
       }),
     );
