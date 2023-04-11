@@ -15,7 +15,7 @@ const AddressSchema = new mongoose.Schema(
     },
     province: String,
     district: String,
-    sub_district: String,
+    subDistrict: String,
   },
   { timestamps: true },
 );
