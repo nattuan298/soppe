@@ -284,7 +284,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
           content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"
         />
       </Head>
-      <NextSeo title="SCM" description="SCM Connext - Drive to Your Success" />
+      <NextSeo title="SOPPE" description="SOPPE eCommerce - Drive to Your Success" />
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <AppContextProvider
@@ -317,8 +317,6 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
   const { isLoggedIn } = useLoggedIn();
   const [cookiesObject] = useCookies();
 
-
-
   useEffect(() => {
     const member = cookiesObject.member;
     if (isLoggedIn && member) {
@@ -337,8 +335,6 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
   // }, [dispatch, isLoggedIn]);
 
   const { topic, notifyStatus } = useSelector((state: RootState) => state.notification);
-
-
 
   useEffect(() => {
     if (isLoggedIn && PathnameGetPoints.has(router.pathname)) {
@@ -376,7 +372,6 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
   const resetKeySort = () => {
     dispatch(updateKeySort(""));
   };
-
 
   return (
     <>
