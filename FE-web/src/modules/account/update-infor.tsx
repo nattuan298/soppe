@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import useTranslation from "next-translate/useTranslation";
 import { ChangeEvent, useEffect, useState } from "react";
+import { Cookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { ButtonMui, DatePicker, Select, Title } from "src/components";
 import { CheckBoxWithText } from "src/components/checkbox/with-text";
@@ -17,8 +18,9 @@ import { validateEmail } from "src/lib/validate";
 
 type InforType = Pick<
   UserInforType,
-  "firstName" | "lastName" | "prefixName" | "gender" | "email" | "birthday" | "citizenship"
+  "firstName" | "lastName" | "gender" | "email" | "dateOfBirth"
 >;
+const cookies = new Cookies();
 
 export default function UpdateInfor({
   onCancel,
@@ -31,17 +33,16 @@ export default function UpdateInfor({
   const [state, setState] = useState<InforType>({
     firstName: "",
     lastName: "",
-    prefixName: "Mr",
     gender: "Male",
     email: "",
-    birthday: Date(),
-    citizenship: "Thai",
+    dateOfBirth: Date(),
   });
   const [errors, setErrors] = useState<Partial<InforType>>({});
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [isOpenModal, setIsOpenModal] = useState(false);
-
+  const userInfor = cookies.get("member");
+  console.log(userInfor);
   const handleChange = (name: keyof InforType) => (e: ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [name]: e.target.value });
     if (name === "email") {
@@ -56,8 +57,8 @@ export default function UpdateInfor({
   };
 
   useEffect(() => {
-    const { firstName, lastName, prefixName, gender, email, birthday, citizenship } = user;
-    setState({ firstName, lastName, prefixName, gender, email, birthday, citizenship });
+    const { firstName, lastName, gender, email, dateOfBirth } = user;
+    setState({ firstName, lastName, gender, email, dateOfBirth });
   }, [user]);
 
   const handleClickCheckbox = (params: { checked: boolean; name?: string }) => {
@@ -68,14 +69,12 @@ export default function UpdateInfor({
   };
 
   const handleChangeDate = (value: Date) => {
-    setState({ ...state, birthday: value.toString() });
+    setState({ ...state, dateOfBirth: value.toString() });
   };
 
-  const handleSelectCitizenship = ({ citizenship }: CountryPhoneCodeType) => {
-    setState({ ...state, citizenship });
-  };
 
-  const disabledButton = !state.firstName.trim() || !state.lastName.trim() || !state.birthday;
+
+  const disabledButton = !state.firstName.trim() || !state.lastName.trim() || !state.dateOfBirth;
 
   const onSubmit = async () => {
     if (state.email && !validateEmail(state.email)) {
@@ -86,12 +85,12 @@ export default function UpdateInfor({
       setLoading(true);
       const body: Partial<InforType> & { dateOfBirth: string } = {
         ...state,
-        dateOfBirth: dayjs(state.birthday).format("YYYY-MM-DD"),
+        dateOfBirth: dayjs(state.dateOfBirth).format("YYYY-MM-DD"),
       };
 
-      delete body.birthday;
+      delete body.dateOfBirth;
 
-      await axios.put(apiRoute.members.accountInformation, body);
+      await axios.put(`users/${userInfor.user._id}`, body);
 
       await dispatch(fetchUserInformation());
       setLoading(false);
@@ -111,7 +110,7 @@ export default function UpdateInfor({
     handleCloseModal();
     onCancel();
   };
-
+  console.log(state);
   return (
     <div className="grid md:grid-cols-5">
       <div className="md:col-span-4">
@@ -119,16 +118,6 @@ export default function UpdateInfor({
           <div className="col-span-1 row-span-1">
             <Title title={t`first-name`} isRequired />
             <div className="flex">
-              <Select
-                options={ListPreFix}
-                defaultValue={state.prefixName}
-                selectClassName="bg-lighterGray p-3"
-                onChange={handleChangeSelect("prefixName")}
-                className="w-[70px] md:w-28"
-                trans={t}
-                prefixName={state.prefixName === "Co.,Ltd." ? "Co.,Ltd." : undefined}
-                disableClick={state.prefixName === "Co.,Ltd."}
-              />
               <div className="pl-[7px] md:pl-4 flex-grow">
                 <InputBasic
                   placeholder={t`first-name`}
@@ -182,19 +171,12 @@ export default function UpdateInfor({
           <div className="col-span-1 row-span-1">
             <Title title={t`date_of_birth`} isRequired />
             <DatePicker
-              defaultDate={new Date(state.birthday)}
+              defaultDate={new Date(state.dateOfBirth)}
               onChange={handleChangeDate}
               maxDate={new Date()}
             />
           </div>
-          <div className="col-span-1 row-span-1">
-            <Title title={t`citizenship`} isRequired />
-            <SelectCountry
-              selectCitizenship
-              country={state.citizenship}
-              onSelect={handleSelectCitizenship}
-            />
-          </div>
+
         </div>
         <div className="grid md:grid-cols-2 gap-3.5 md:gap-8 mt-4">
           <div className="col-span-1 row-span-1">

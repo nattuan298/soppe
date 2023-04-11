@@ -38,8 +38,8 @@ const initialErrors = {
   lastName: "",
   province: "",
   district: "",
-  sub_district: "",
-  address: "",
+  subDistrict: "",
+  addressDetail: "",
   phoneNumber: "",
 };
 
@@ -88,8 +88,8 @@ export function AddressBookForm({ mode }: AddressFormProps) {
     lastName: "",
     province: "",
     district: "",
-    sub_district: "",
-    address: "",
+    subDistrict: "",
+    addressDetail: "",
     phoneNumber: "",
     phoneCode: "84",
   });
@@ -103,8 +103,8 @@ export function AddressBookForm({ mode }: AddressFormProps) {
         lastName: addressDetail.lastName,
         province: addressDetail.province,
         district: addressDetail.district,
-        sub_district: addressDetail.sub_district,
-        address: addressDetail.address,
+        subDistrict: addressDetail.subDistrict,
+        addressDetail: addressDetail.addressDetail,
         phoneNumber: addressDetail.phoneNumber.slice(3),
         phoneCode: "84",
       };
@@ -112,7 +112,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
       const idProvince = provinceValueJson.find((item) => item.name === addressDetail.province);
       setProvinceValue(idProvince?.code);
     }
-  }, [addressDetail, mode]);
+  }, [addressDetail, mode, provinceValueJson]);
 
   useEffect(() => {
     if (id && mode === "edit") {
@@ -208,7 +208,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
   }, [districtValue]);
 
   const handleChange =
-    (name: "firstName" | "lastName" | "address" | "postalCode") =>
+    (name: "firstName" | "lastName" | "addressDetail" | "postalCode") =>
     (e: ChangeEvent<HTMLInputElement>) => {
       if (name) {
         if (name === "firstName") {
@@ -221,15 +221,15 @@ export function AddressBookForm({ mode }: AddressFormProps) {
           setAddress(newValue);
           setError({ ...error, lastName: "" });
         }
-        if (name === "address") {
-          const newValue = { ...address, address: e.target.value };
+        if (name === "addressDetail") {
+          const newValue = { ...address, addressDetail: e.target.value };
           setAddress(newValue);
-          setError({ ...error, address: "" });
+          setError({ ...error, addressDetail: "" });
         }
       }
     };
   const handleChangeSelect =
-    (name: "province" | "district" | "sub_district") => (title: string, value: string) => {
+    (name: "province" | "district" | "subDistrict") => (title: string, value: string) => {
       if (value) {
         if (name === "province") {
           const { name } = provinceValueJson.find(({ code }) => code === value) || {
@@ -240,7 +240,7 @@ export function AddressBookForm({ mode }: AddressFormProps) {
             ...address,
             province: name,
             district: "",
-            sub_district: "",
+            subDistrict: "",
           });
           getDistrict(value);
           setError({ ...error, province: "" });
@@ -259,18 +259,18 @@ export function AddressBookForm({ mode }: AddressFormProps) {
           setError({
             ...error,
             district: "",
-            sub_district: "",
+            subDistrict: "",
           });
-        } else if (name === "sub_district") {
+        } else if (name === "subDistrict") {
           const { name } = subDistrictValueJson.find(({ code }) => code === value) || {
             name: "",
           };
           const newSubDistrict = {
             ...address,
-            sub_district: name,
+            subDistrict: name,
           } as AddressModel;
           setAddress(newSubDistrict);
-          setError({ ...error, sub_district: "" });
+          setError({ ...error, subDistrict: "" });
         }
       }
     };
@@ -308,14 +308,14 @@ export function AddressBookForm({ mode }: AddressFormProps) {
       isValid = false;
     }
     if (
-      address.sub_district === "" &&
+      address.subDistrict === "" &&
       (listSubDistrict?.length)
     ) {
-      newError.sub_district = "required_fields";
+      newError.subDistrict = "required_fields";
       isValid = false;
     }
-    if (address.address?.trim() === "") {
-      newError.address = "required_fields";
+    if (address.addressDetail?.trim() === "") {
+      newError.addressDetail = "required_fields";
       isValid = false;
     }
     setError(newError);
@@ -403,8 +403,8 @@ export function AddressBookForm({ mode }: AddressFormProps) {
       lastName: "",
       province: "",
       district: "",
-      sub_district: "",
-      address: "",
+      subDistrict: "",
+      addressDetail: "",
       phoneCode: "84",
       phoneNumber: "",
     });
@@ -527,11 +527,11 @@ export function AddressBookForm({ mode }: AddressFormProps) {
                 <Title title={t`sub-district`} isRequired={!(listSubDistrict?.length === 0)} />
                 <Select
                   options={subDistrictOptions}
-                  defaultValue={address.sub_district}
+                  defaultValue={address.subDistrict}
                   placeholder={t`sub-district`}
-                  onChange={handleChangeSelect("sub_district")}
+                  onChange={handleChangeSelect("subDistrict")}
                   disableClick={listSubDistrict?.length === 0}
-                  error={error.sub_district}
+                  error={error.subDistrict}
                   trans={t}
                 />
               </div>
@@ -540,10 +540,10 @@ export function AddressBookForm({ mode }: AddressFormProps) {
               <Title title={t`address`} isRequired />
               <TextArea
                 placeholder={t`address`}
-                value={address.address}
-                onChange={handleChange("address")}
-                error={!!error.address}
-                helperText={error.address}
+                value={address.addressDetail}
+                onChange={handleChange("addressDetail")}
+                error={!!error.addressDetail}
+                helperText={error.addressDetail}
                 t={t}
               />
               {loadingAddress && (

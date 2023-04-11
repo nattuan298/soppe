@@ -30,7 +30,7 @@ interface ParamUrlType {
   pageSize: number;
   countryCode?: string;
   keySort: string;
-  category?: string;
+  categoryId?: string;
   keyword?: string;
   minPrice?: string;
   maxPrice?: string;
@@ -104,12 +104,12 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
 
   useEffect(() => {
     const {
-      category = "all-category",
+      categoryId = "all-category",
       minPrice = MIN,
       maxPrice = maxRangePrice,
-    }: { category?: string; minPrice?: number; maxPrice?: number } = router.query;
+    }: { categoryId?: string; minPrice?: number; maxPrice?: number } = router.query;
 
-    setCategory(category);
+    setCategory(categoryId);
     if (minPrice <= maxRangePrice && maxPrice <= maxRangePrice) {
       setRange({ start: minPrice, end: maxPrice });
     }
@@ -234,7 +234,7 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
             <FilterNavination
               categories={categories}
               category={category}
-              maxRangePrice={maxRangePrice}
+              maxRangePrice={100000000}
               setCategory={setCategory}
               range={range}
               setRange={setRange}
@@ -286,7 +286,7 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
             <FilterNavination
               categories={categories}
               category={category}
-              maxRangePrice={maxRangePrice}
+              maxRangePrice={100000000}
               setCategory={setCategory}
               range={range}
               setRange={setRange}
@@ -297,25 +297,7 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
             />
             <div className="w-full py-6 px-[13px] sm:py-0 sm:px-0">
               <div className="w-full flex flex-row-reverse justify-between mb-0 sm:mb-6">
-                <div className="flex">
-                  <div className="block sm:hidden sm:mr-5" onClick={() => setIsShowFilter(true)}>
-                    <FilterBlack className="cursor-pointer" />
-                  </div>
-                  <Select
-                    className={"filer-list"}
-                    selectClassName={classnames(
-                      "border-0 text-orange w-auto sm:w-44",
-                      cls.selectClassName,
-                    )}
-                    classHolder={"text-orange"}
-                    classChevron={cls.chevron}
-                    options={sortOptions}
-                    placeholder={t("common:sorting")}
-                    onChange={onChangeKeySort}
-                    defaultValue={keySort}
-                    inRight
-                  />
-                </div>
+
 
                 {searchResult && <div>{searchResult}</div>}
               </div>
@@ -354,7 +336,7 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const cookie = req.headers.cookie;
   const locationBase = getLocationBaseFromCookieSever(cookie) || "Vietnam";
-  let maxRangePrice = 0;
+  let maxRangePrice = 100000000;
   try {
     const resp = await axios.get(
       `/products/max-price-location/country?country=${locationBase}&type=Product`,

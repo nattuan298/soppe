@@ -394,7 +394,7 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
           <div className="body flex-grow">
             <Component {...pageProps} router={router} />
           </div>
-          {/* <Footer hasSmallCart={hasSmallCart} /> */}
+          <Footer hasSmallCart={hasSmallCart} />
           <ToastContainer />
         </div>
       </div>

@@ -65,12 +65,6 @@ export function Products({
     router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id, locationBase: "Vietnam" }));
   };
 
-  const imagePropperty = (product: ProductType) => {
-    if (product?.media && product?.media.length > 1 && product?.media[0].fileType === "VIDEO") {
-      return "media[1].urlPreSign";
-    }
-    return "media[0].urlPreSign";
-  };
 
   const handleAddToCart = (product: ProductType) => () => {
     const callBack = (message: string, typeMessage: string) => notifyToast(typeMessage, message, t);
@@ -96,13 +90,9 @@ export function Products({
       }
     >
       {products.map((product) => {
-        // const imageurl = imagePropperty(product);
-        // const onlyVideo = hasOnlyVideo(product);
-        // const image = get(product, imageurl);
         const { isNewProduct } = product;
         return (
           <div
-            // className={type === "listing" ? `${cls.productItem}` : cls.product}
             className={`${cls.newProduct} ${
               type === "listing" ? STYLE_DESKTOP_PRODUCT_ITEM : STYLE_DESKTOP_PRODUCT
             }`}

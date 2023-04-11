@@ -17,7 +17,7 @@ export default function MyAccountPage() {
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const ress = await axios.get(`${apiRoute.members.personalStatistic}`);
+        const ress = await axios.get(`${apiRoute.members.accountInformation}`);
 
         setReport(ress.data);
       } catch (e) {}

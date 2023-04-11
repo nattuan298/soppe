@@ -43,8 +43,9 @@ export default function OrderDetailView({
   const router = useRouter();
   const { userInfor } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  const { symbol } = useLocationBase();
+  const { symbol, tax } = useLocationBase();
   const [isOpenModalTopay, setIsOpenModalTopay] = useState<boolean>(false);
+
 
   const handleTrackPackage = () => {
     order && router.push(makeUrlObjectFromRouteBase(routeTrackingOrderBase, { id: order._id }));
@@ -271,16 +272,11 @@ export default function OrderDetailView({
               <span>{t`taxes`}</span>
             </div>
             <div className="col-span-2">
-              {/* <NumberFormatCustome value={order.taxes.toFixed(2)} prefix={symbol} /> */}
+              <NumberFormatCustome value={(((order.totalPrice) / (1 + tax)) * tax).toFixed(2)} prefix={symbol} />
             </div>
           </div>
-          <Link href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3">
-            <a
-              target="_blank"
-              className="text-0.6875 text-blue mt-2 cursor-pointer"
-            >{t`more_about_taxes`}</a>
-          </Link>
 
+          {"(10% total bill)"}
           {order.type !== "Pickup" && (
             <div className="grid grid-cols-5 mt-2">
               <div className="col-span-3">

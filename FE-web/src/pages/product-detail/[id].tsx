@@ -32,9 +32,8 @@ export default function ProductDetailPage({
     const getData = async () => {
       setrelatedProducts([]);
       const listProductRes = await axios.get(
-        `${apiRoute.products.searchListProduct}?page=1&pageSize=100&countryCode=${locationBase}&category=${productDetail?.categoryId}&place=PRODUCT_LISTING`,
+        `${apiRoute.products.searchListProduct}?page=1&pageSize=100&categoryId=${productDetail?.categoryId}`,
       );
-
       const data = listProductRes.data?.data || [];
       const dataLength = data.length;
       let result = data;

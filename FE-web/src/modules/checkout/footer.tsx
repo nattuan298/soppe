@@ -188,11 +188,9 @@ export default function Checkout() {
       const response = await axios.post("/orders", bodyCheckout);
       if (response.status === 201) {
         localStorage.removeItem(
-          "listProducts_undefined");
-
+          "listProducts");
         dispatch(deleteMultyProduct(listProducts.map((item) => item._id)));
         handelSuccess(response.data._id);
-
       }
     } catch (e: any) {
     }

@@ -32,6 +32,7 @@ export default function FilterNavination({
   onCloseFilter,
 }: FilterProps) {
   const { t } = useTranslation("common");
+  console.log(category);
 
   const checkedOption = (name: string) => {
     if (category === "all-category") {
