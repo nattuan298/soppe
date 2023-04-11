@@ -35,7 +35,10 @@ export class OrdersService {
 
     for (let i = 0; i < createOrderDto.products.length; i++) {
       const prod = createOrderDto.products[i];
-      const getProd = await this.productsService.findOne(prod.productId);
+      const getProd =
+        await this.productsService.findOneAndNotReturnFullMediaUrl(
+          prod.productId,
+        );
 
       totalPrice = totalPrice + prod.quantity * getProd.price;
       totalQuantity = totalQuantity + prod.quantity;
@@ -75,9 +78,17 @@ export class OrdersService {
     options.sort = { createdAt: -1 };
     try {
       const orders = await this.orderModel.paginate(filters, options);
+
       if (!orders.docs.length) {
         return paginationTransformer(orders);
       }
+      orders.docs.forEach((ord: any) => {
+        ord.products.forEach((prod: any) => {
+          const url = this.uploadService.getSignedUrl(prod.mediaUrl);
+          prod.mediaUrl = url;
+        });
+      });
+
       return paginationTransformer(orders);
     } catch (e) {
       throw new InternalServerErrorException(e);
@@ -90,6 +101,10 @@ export class OrdersService {
       if (!order) {
         throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
       }
+      order.products.forEach((prod: any) => {
+        const url = this.uploadService.getSignedUrl(prod.mediaUrl);
+        prod.mediaUrl = url;
+      });
       return order;
     } catch (error) {
       throw new InternalServerErrorException(error);

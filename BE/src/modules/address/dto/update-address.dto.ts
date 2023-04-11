@@ -13,7 +13,7 @@ export class UpdateAddressDto extends CreateAddressDto {
   phoneNumber: string;
 
   @IsString()
-  address: string;
+  addressDetail: string;
 
   @IsString()
   province: string;
@@ -22,5 +22,5 @@ export class UpdateAddressDto extends CreateAddressDto {
   district: string;
 
   @IsString()
-  sub_district: string;
+  subDistrict: string;
 }

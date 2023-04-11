@@ -8,7 +8,7 @@ const AddressSchema = new mongoose.Schema(
     firstName: String,
     lastName: String,
     phoneNumber: String,
-    address: String,
+    addressDetail: String,
     userId: {
       type: mongoose.Types.ObjectId,
       ref: 'users',

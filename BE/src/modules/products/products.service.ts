@@ -132,6 +132,14 @@ export class ProductsService {
     }
   }
 
+  async findOneAndNotReturnFullMediaUrl(id: string) {
+    try {
+      return await this.productModel.findById(id).lean();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async update({ id }: CommonIdParams, updateProductDto: UpdateProductDto) {
     let existingProduct = await this.productModel.findById(id);
     if (!existingProduct) {
