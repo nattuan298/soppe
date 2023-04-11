@@ -1,13 +1,13 @@
 import { Document } from 'mongoose';
 import { OrderStatus, PaymentMethod } from './orders.constant';
 
-interface IAddress {
+export interface IAddress {
   firstName: string;
   lastName: string;
   phoneNumber: string;
 }
 
-interface IProduct {
+export interface IProduct {
   mediaUrl: string;
   productId: string;
   productName: string;

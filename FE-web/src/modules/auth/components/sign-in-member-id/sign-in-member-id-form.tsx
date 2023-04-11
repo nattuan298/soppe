@@ -18,7 +18,12 @@ import { useRouter } from "next/router";
 import { Cookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { SigninType, resetSignin } from "src/feature/signin/sign-in-slice";
-import { routeForgotPassUrl, routeSignin2faBase, routeSigninPhoneNumber, routeSignupUrl } from "src/constants/routes";
+import {
+  routeForgotPassUrl,
+  routeSignin2faBase,
+  routeSigninPhoneNumber,
+  routeSignupUrl,
+} from "src/constants/routes";
 import { notifyToast } from "src/constants/toast";
 import ReactFacebookLogin from "react-facebook-login-typed";
 import { browserConfig } from "src/constants/browser-config";
@@ -149,7 +154,6 @@ export function SignInMemberIdForm(props: props) {
       } else {
         router.push("/");
       }
-
     } else if (status === "failed") {
       setLoading(false);
       if (payload.statusCode === 400) {
@@ -192,7 +196,7 @@ export function SignInMemberIdForm(props: props) {
                       <Input
                         maxLength={255}
                         icon={<MemberIdIcon />}
-                        placeholder={t`member_id_7_digits`}
+                        placeholder={t`member_id_login`}
                         id="username"
                         onChange={userID.handleChange}
                         type="text"
@@ -239,13 +243,9 @@ export function SignInMemberIdForm(props: props) {
                     </div>
                     <div className="errorMessage text-sm">{errorApi}</div>
                   </div>
-                  <div
-                    className="mb-4 text-lighterGray cursor-pointer w-2/4 hover:underline hover:text-orange text-[13px] sm:text-base"
-                  >
-                    <Link href={routeForgotPassUrl}>
-
-                      {t`forgot-password`}
-                    </Link></div>
+                  <div className="mb-4 text-lighterGray cursor-pointer w-2/4 hover:underline hover:text-orange text-[13px] sm:text-base">
+                    <Link href={routeForgotPassUrl}>{t`forgot-password`}</Link>
+                  </div>
                   <div>
                     <Button
                       type="submit"
@@ -266,8 +266,6 @@ export function SignInMemberIdForm(props: props) {
                     </p>
                   </Link>
                 </div>
-
-
               </div>
             </div>
           </div>
