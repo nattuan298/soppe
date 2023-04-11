@@ -51,7 +51,7 @@ export const useLocationBase = () => {
 
   return {
     locationBase,
-    symbol: currencySymbol[locationBase] || "₫",
+    symbol: currencySymbol[locationBase] || "$",
     currencyUnit: currencyUnit[locationBase] || "VND",
     tax: TaxCountry[locationBase] ?? 0.1,
   };

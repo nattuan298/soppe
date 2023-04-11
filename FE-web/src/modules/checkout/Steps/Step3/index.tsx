@@ -114,9 +114,7 @@ export default function Step3() {
             <NumberFormatCustome value={taxes} prefix={symbol} />
           </div>
         </div>
-        <Link href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3">
-          <a target={"_blank"} className="text-0.6875 text-blue mt-2">{t`more_about_taxes`}</a>
-        </Link>
+        {"(10% total bill)"}
         {shippingType !== "Pickup" && (
           <div className="grid grid-cols-4 gap-4 mt-2">
             <div className="col-span-3 sm:col-span-2">
@@ -151,18 +149,6 @@ export default function Step3() {
               value={(totalPrice + shippingFee - couponRedeemAmount).toFixed(2)}
               prefix={symbol}
             />
-          </div>
-        </div>
-        <Divider className="mt-6" />
-      </div>
-
-      <div className="mt-6">
-        <div className="grid grid-cols-4 gap-4 mb-2.5">
-          <div className="col-span-3 sm:col-span-2">
-            <span className="text-brown">{t`total_received_PV`}:</span>
-          </div>
-          <div className="col-span-1 sm:col-span-2">
-            <NumberFormatCustome className="text-brown" value={totalPV} suffix=" PV" />
           </div>
         </div>
         <Divider className="mt-6" />

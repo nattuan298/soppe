@@ -68,7 +68,7 @@ export function AddressBookList() {
                   <div
                     className={"text-sm font-light mt-1.5 text-black-dark mb-4"}
                   >
-                    {list.address && `${list.address} - ${list.sub_district} - ${list.district} - ${list.province}  `}
+                    {list.addressDetail && `${list.addressDetail} - ${list.subDistrict} - ${list.district} - ${list.province}  `}
 
                   </div>
 

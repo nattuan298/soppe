@@ -4,23 +4,6 @@ module.exports = {
   compress: false, // should delegate this to nginx instead
   images: {
     domains: [
-      "share.stl.vmo.group",
-      "via.placeholder.com",
-      "scm-ecommerce.s3.amazonaws.com",
-      "helpx.adobe.com",
-      "stg-scm-ecommerce.s3.amazonaws.com",
-      "scm-ecommerce.s3.ap-southeast-1.amazonaws.com",
-      "prod-scm-ecommerce.s3.amazonaws.com",
-      "scm-ecommerce.s3.amazonaws.com",
-      "stg-scm-ecommerce.s3.amazonaws.com",
-      "scm-ecommerce.s3.ap-southeast-1.amazonaws.com",
-      "prod-scm-ecommerce.s3.amazonaws.com",
-      "prod-scm-ecommerce.s3.ap-southeast-1.amazonaws.com",
-      "scm-ecommerce-pub.s3.amazonaws.com",
-      "stg-scm-ecommerce-pub.s3.amazonaws.com",
-      "prod-scm-ecommerce-pub.s3.amazonaws.com",
-      "stg-scm-ecommerce-pub.scmconnext.com",
-      "prod-scm-ecommerce-pub.scmconnext.com",
       "soppe.s3.ap-southeast-1.amazonaws.com",
     ],
   },

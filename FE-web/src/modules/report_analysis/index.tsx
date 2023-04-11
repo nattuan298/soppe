@@ -27,6 +27,7 @@ export default function ReportAnalysis({
   report: PersonalStatisticType | null;
   isMyAccount?: boolean;
 }) {
+  console.log(report);
   const { t } = useTranslation("common");
   const router = useRouter();
   const { scmPoint, productValueLeft, productValueRight, eCommission } = useSelector(
