@@ -89,8 +89,7 @@ export class ProductsService {
       input.categoryId = categoryId;
     }
     if (maxPrice) {
-      input.min_price = minPrice;
-      input.max_price = maxPrice;
+      input.$or = [{ price: { $lte: maxPrice, $gte: minPrice } }];
     }
 
     options.page = findProductsDto.page;
