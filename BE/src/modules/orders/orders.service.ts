@@ -22,6 +22,7 @@ export class OrdersService {
   constructor(
     @InjectModel(ORDER_MODEL)
     private readonly orderModel: PaginateModel<IOrderDoc>,
+    @Inject(forwardRef(() => ProductsService))
     private readonly productsService: ProductsService,
     @Inject(forwardRef(() => UploadService))
     private readonly uploadService: UploadService,
@@ -136,10 +137,10 @@ export class OrdersService {
     return order;
   }
 
-  async updateReviewed(orderId: string, productId: string) {
+  async updateReviewed(userId: string, productId: string) {
     await this.orderModel.findOneAndUpdate(
       {
-        _id: orderId,
+        userId,
         'products.productId': productId,
       },
       { 'products.$.isReviewed': true },
@@ -147,9 +148,8 @@ export class OrdersService {
     );
   }
 
-  async findOrderReviewed(orderId: string, productId: string, userId: string) {
+  async findOrderReviewed(productId: string, userId: string) {
     return await this.orderModel.findOne({
-      _id: orderId,
       userId,
       'products.productId': productId,
       'products.isReviewed': true,

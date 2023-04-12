@@ -28,7 +28,6 @@ export class ReviewsService {
 
   async create(createReviewDto: CreateReviewDto, userId: string) {
     const reviewExist = await this.ordersService.findOrderReviewed(
-      createReviewDto.orderId,
       createReviewDto.productId,
       userId,
     );
@@ -52,10 +51,7 @@ export class ReviewsService {
         rating,
         ratingCount,
       ),
-      this.ordersService.updateReviewed(
-        createReviewDto.orderId,
-        createReviewDto.productId,
-      ),
+      this.ordersService.updateReviewed(userId, createReviewDto.productId),
       this.reviewProductModel.create({
         ...createReviewDto,
         userId,
@@ -77,5 +73,9 @@ export class ReviewsService {
       return paginationTransformer(reviews);
     }
     return paginationTransformer(reviews);
+  }
+
+  async findOneReview(userId: string, productId: string) {
+    return await this.reviewProductModel.findOne({ userId, productId });
   }
 }

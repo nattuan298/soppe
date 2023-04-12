@@ -28,5 +28,7 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+ProductSchema.index({ productName: 1, rating: 1, categoryId: 1 });
+
 ProductSchema.plugin(mongoosePaginate);
 export { ProductSchema, PRODUCT_MODEL };

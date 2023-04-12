@@ -17,7 +17,7 @@ import { AdminOrdersController } from './orders.admin.controller';
       },
     ]),
     forwardRef(() => UploadModule),
-    ProductsModule,
+    forwardRef(() => ProductsModule),
     UsersModule,
   ],
   controllers: [OrdersController, AdminOrdersController],

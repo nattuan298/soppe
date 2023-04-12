@@ -30,6 +30,8 @@ import { paginationTransformer } from 'src/common/helpers';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { CheckStockDto, ProductCheckDto } from './dto/check-stock.dto';
 import { FavouriteProductsService } from '../favourite-products/favourite-products.service';
+import { ReviewsService } from '../reviews/reviews.service';
+import { OrdersService } from '../orders/orders.service';
 // import { ReviewStatus } from '../reviews/review.constant';
 
 @Injectable()
@@ -45,6 +47,10 @@ export class ProductsService {
     private readonly uploadService: UploadService,
     @Inject(forwardRef(() => FavouriteProductsService))
     private readonly favoriteProductsService: FavouriteProductsService,
+    @Inject(forwardRef(() => ReviewsService))
+    private readonly reviewsService: ReviewsService,
+    @Inject(forwardRef(() => OrdersService))
+    private readonly ordersService: OrdersService,
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
@@ -118,12 +124,14 @@ export class ProductsService {
         product.mediaUrl = this.uploadService.getSignedUrl(product.mediaUrl);
       }
       product.isFavorite = false;
+      product.isAbleToReview = false;
       if (userId) {
-        const isFavorite = await this.favoriteProductsService.findOne(
-          id,
-          userId,
-        );
+        const [isFavorite, getIsAbleToReview] = await Promise.all([
+          this.favoriteProductsService.findOne(id, userId),
+          this.isProductAbleToReview(userId, id),
+        ]);
         if (isFavorite) product.isFavorite = true;
+        product.isAbleToReview = getIsAbleToReview;
       }
       return product;
     } catch (error) {
@@ -268,5 +276,15 @@ export class ProductsService {
       statusCode: 200,
       message: 'OK',
     };
+  }
+
+  async isProductAbleToReview(userId: string, productId: string) {
+    const [order, review] = await Promise.all([
+      this.ordersService.findOrderReviewed(productId, userId),
+      this.reviewsService.findOneReview(userId, productId),
+    ]);
+    if (order && review) {
+      return false;
+    } else return true;
   }
 }

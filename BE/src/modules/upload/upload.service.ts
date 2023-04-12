@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
+// import { S3 } from '@aws-sdk/client-s3';
 import { v4 } from 'uuid';
 @Injectable()
 export class UploadService {
