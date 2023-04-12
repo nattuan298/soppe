@@ -85,9 +85,7 @@ export function Header({
     }
   };
 
-  const showMenuSelectLanguage = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+
   const handleAccount = () => {
     token ? router.push(routeMyAccountBase) : router.push(routeSigninUrl);
     setIsShowMore(false);
@@ -260,12 +258,7 @@ export function Header({
     }
   };
 
-  const handleClickNotification = (event: MouseEvent<HTMLElement>) => {
-    if (!isLoggedIn) {
-      event.stopPropagation();
-      setopenModalSignIn(true);
-    }
-  };
+
   const handleCloseModal = () => {
     dispatch(handleChangeField({ needToLogin: false }));
     setopenModalSignIn(false);
