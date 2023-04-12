@@ -258,6 +258,12 @@ export class ProductsService {
       .find()
       .sort({ rating: -1 })
       .limit(5);
+    if (productList) {
+      productList.map((prod: any) => {
+        prod.mediaUrl = this.uploadService.getSignedUrl(prod.mediaUrl);
+      });
+    }
+
     return productList;
   }
 
