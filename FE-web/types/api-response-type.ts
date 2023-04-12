@@ -33,6 +33,7 @@ export type ProductsType = {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
+  productId?:string;
   __v: number;
 }[];
 
@@ -49,7 +50,7 @@ export type ProductType = {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
-  isFavourite: boolean;
+  isFavourite?: boolean;
   __v: number;
 };
 

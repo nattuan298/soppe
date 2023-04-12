@@ -425,7 +425,7 @@ export default function Checkout() {
               <span>{t`common:taxes`}</span>
               <span>฿{taxPrice.toFixed(2)}</span>
             </div>
-            <Link href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3">
+            <Link href="">
               <a
                 target="_blank"
                 className="text-0.625 text-blue block"

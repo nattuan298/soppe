@@ -4,7 +4,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
 import useTranslation from "next-translate/useTranslation";
 import React, { Fragment, useMemo } from "react";
-import { BannerNoSSR, PageLayout, Products, SectionArcticleBanner, SeeAll } from "src/components";
+import { BannerNoSSR, PageLayout, Products, ProductsCarousel, SectionArcticleBanner, SeeAll } from "src/components";
 import { Container } from "src/components/container";
 import axios from "src/lib/client/request";
 
@@ -18,6 +18,7 @@ export default function Home({
   products,
   articles,
   templateSections,
+  hotProduct,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { t } = useTranslation("common");
   const screen = useGetScreenWidth();
@@ -25,7 +26,7 @@ export default function Home({
     () => orderBy(templateSections, ["position"], ["asc"]),
     [templateSections],
   );
-  console.log(products);
+  console.log(hotProduct);
   return (
     <div className="w-full">
       <NextSeo
@@ -36,7 +37,17 @@ export default function Home({
         <PageLayout>
           <BannerNoSSR height={screen === "Desktop" ? 484 : 164} banners={banners} />
           <Container>
+            {hotProduct.length > 0 && (
+              <Fragment>
+                <SeeAll
+                  isFlashSale={false}
+                  titleText={"Hot product"}
+                  link=""
+                />
+                {hotProduct.length !== 0 && <ProductsCarousel products={hotProduct} />}
 
+              </Fragment>
+            )}
             {products.length > 0 && (
               <>
                 <SeeAll
@@ -57,6 +68,7 @@ export default function Home({
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let banners = {};
   let products = []; // more from our store session
+  let hotProduct = [];
   const templateSections: never[] = [];
   const articles: never[] = [];
 
@@ -75,11 +87,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     console.log(err);
   }
 
-  // try {
-  //   const url = `/admin/home-templates/sections-list?countryCode=${locationBase}`;
-  //   const resp = await axios.get(url);
-  //   templateSections = resp.data;
-  // } catch (err: any) {}
+  try {
+    const url = "/products/top-product";
+    const resp = await axios.get(url);
+    hotProduct = resp.data;
+  } catch (err: any) {}
 
   // try {
   //   const now = new Date();
@@ -94,6 +106,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       articles,
       products,
       templateSections,
+      hotProduct,
     },
   };
 };

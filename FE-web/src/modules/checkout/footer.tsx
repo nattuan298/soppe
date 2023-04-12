@@ -80,7 +80,6 @@ export default function Checkout() {
   });
   const addressCheckout = realAddress.find((item) => item._id === address);
 
-
   const router = useRouter();
   const {
     token,
@@ -182,7 +181,7 @@ export default function Checkout() {
           firstName: addressCheckout?.firstName,
           lastName: addressCheckout?.lastName,
           phoneNumber: addressCheckout?.phoneNumber,
-          address: addressCheckout?.address,
+          address: `${addressCheckout?.addressDetail},${addressCheckout?.subDistrict},${addressCheckout?.district},${addressCheckout?.province}`,
         },
       };
       const response = await axios.post("/orders", bodyCheckout);
@@ -268,11 +267,6 @@ export default function Checkout() {
     }
   }, [orderIdForQR, dispatch, stateCheckout]);
 
-  useEffect(() => {
-    if (userInfor?.memberId) {
-      dispatch(fetchPostStatusQRFeature(userInfor?.memberId));
-    }
-  }, [dispatch, userInfor?.memberId]);
 
   const totalProductPrice = (totalPrice / (1 + tax)).toFixed(2);
   const taxes = (((totalPrice + shippingFee) / (1 + tax)) * tax).toFixed(2);

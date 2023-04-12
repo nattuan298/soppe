@@ -21,9 +21,9 @@ const getListProductInCart = async () => {
     const memberId = memberCookies.memberId;
     const locationBase = memberCookies.locationBase || locationBaseDefault;
     const listProduct = JSON.parse(
-      localStorage.getItem(`listProducts_${memberId}`) || "[]",
+      localStorage.getItem("listProducts") || "[]",
     ) as ProductTypeWithQty[];
-    const listProductCode = listProduct.map((item) => item.productCode);
+    const listProductCode = listProduct.map((item) => item._id);
     if (listProductCode.length === 0) {
       return Promise.reject();
     }

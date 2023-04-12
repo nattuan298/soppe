@@ -61,8 +61,8 @@ export function Products({
     return Math.round(rating * 2) / 2;
   };
 
-  const handleRedirect = (id: string) => () => {
-    router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id, locationBase: "Vietnam" }));
+  const handleRedirect = (id?: string) => () => {
+    id && router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id }));
   };
 
 
@@ -80,7 +80,7 @@ export function Products({
   //   const { media } = product;
   //   return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
   // };
-  console.log(products);
+
   return (
     <div
       className={
@@ -133,7 +133,7 @@ export function Products({
                 height={type === "listing" ? 210 : 270}
                 src={product.mediaUrl || imageDummy}
                 alt="image product"
-                onClick={handleRedirect(product._id)}
+                onClick={handleRedirect(favorite ? product?.productId : product?._id)}
               />
               {/* )} */}
 
@@ -152,7 +152,7 @@ export function Products({
                     cls.title,
                     type === "listing" ? cls.titleListing : cls.titleHome,
                   )}
-                  onClick={handleRedirect(product._id)}
+                  onClick={handleRedirect(favorite ? product?.productId : product?._id)}
                 >
                   {truncateStr(product.productName, 49)}
                 </div>

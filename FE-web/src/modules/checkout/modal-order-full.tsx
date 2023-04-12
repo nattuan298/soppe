@@ -71,7 +71,7 @@ export default function ModalOrderFull({
           </span>
         </div>
       </div>
-      <Link href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3">
+      <Link href="">
         <a
           target="_blank"
           className="text-0.6875 text-blue cursor-pointer"
@@ -109,14 +109,6 @@ export default function ModalOrderFull({
 
         <span className="font-medium text-lg">
           <NumberFormatCustome value={totalPrice.toFixed(2)} prefix={symbol} />
-        </span>
-      </div>
-      <Divider className="mt-4 mb-4" />
-      <div className="flex justify-between items-center gap-4">
-        <span className="font-medium text-sm text-brown">{t`total_received_PV`}</span>
-
-        <span className="font-medium text-sm text-brown">
-          <NumberFormatCustome value={totalPV} suffix=" PV" />
         </span>
       </div>
       <Divider className="mt-4 mb-6" />

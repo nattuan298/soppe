@@ -1,19 +1,22 @@
 export interface UserInforType {
-  documentStatus: "Pending" | "Complete";
-  memberId: string;
-  prefixName: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  birthday: string;
-  email: string;
-  phoneCode: string;
-  phoneNumber: string;
-  citizenship: string;
-  smsAuth: boolean;
-  facebookAuth: boolean;
-  avatar: string;
-  avatarKey: string;
+  avatar:string;
+  code:string;
+  createdAt:string;
+  dateOfBirth:string;
+  email:string;
+  firstName:string;
+  gender:string;
+  lastName:string;
+  password:string;
+  phoneNumber:string;
+  role:string;
+  salt:string;
+  status:string;
+  updatedAt:string;
+  updatedPasswordAt:string;
+  username:string;
+  __v:number;
+  _id:string;
 }
 
 export interface UserSliceType {

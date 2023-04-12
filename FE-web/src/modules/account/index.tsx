@@ -14,7 +14,6 @@ import { apiRoute } from "src/constants/apiRoutes";
 import { browserConfig } from "src/constants/browser-config";
 import { notifyToast } from "src/constants/toast";
 import { updateScreen } from "src/feature/update-account-infor/slice";
-import { changeFacebookConnectStatus, changePhoneConnectStatus } from "src/feature/user/slice";
 import useGetScreenWidth from "src/hooks/useGetScreenWidth";
 import axios from "src/lib/client/request";
 import { phoneNumberFormatter234 } from "src/lib/format";
@@ -138,18 +137,14 @@ export default function AccountInfor() {
         } ${userInfor.lastName}`
       : "",
     gender: userInfor ? t(`${userInfor.gender.toLowerCase()}`) : "",
-    date_of_birth: userInfor ? dayjs(userInfor.birthday).format("DD - MM - YYYY") : "",
+    date_of_birth: userInfor ? dayjs(userInfor.dateOfBirth).format("DD - MM - YYYY") : "",
     email: userInfor ? userInfor.email : "",
     "phone-number": userInfor
       ? userInfor.phoneNumber
       : "",
-    citizenship: userInfor ? userInfor.citizenship : "",
   };
 
-  const dataDisplayConnects: { [key: string]: boolean } = {
-    connect_phone_number: userInfor ? userInfor.smsAuth : false,
-    connect_facebook: userInfor ? userInfor.facebookAuth : false,
-  };
+
 
   const responseFacebook = async (response: ReactFacebookLoginInfo & { error?: boolean }) => {
     if (!response.id || response.error) {

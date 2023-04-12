@@ -84,27 +84,18 @@ export interface CheckoutState {
 }
 
 export interface AddressBook {
-  address: string;
-  category: string;
-  country: string;
-  district: string;
-  firstName: string;
-  lastName: string;
-  phoneCode: string;
-  phoneNumber: string;
-  postalCode: string;
-  province: string;
-  subDistrict: string;
-  shipAddress: boolean;
-  billAddress: boolean;
-  updatedAt?: string;
-  provinceId: string;
-  createdAt?: string;
-  provinceEng?: string;
-  districtEng?: string;
-  subDistrictEng?: string;
-  __v?: number;
-  _id: string;
+  addressDetail:string;
+  createdAt:string;
+  district:string;
+  firstName:string;
+  lastName:string;
+  phoneNumber:string;
+  province:string;
+  subDistrict:string;
+  updatedAt:string;
+  userId:string;
+  __v:number;
+  _id:string;
 }
 
 export interface BodyCreateOrder {

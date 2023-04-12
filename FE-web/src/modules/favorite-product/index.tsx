@@ -22,7 +22,7 @@ export function FavoriteProduct() {
   const { loading, favoriteProductDetail } = useSelector(
     (state: RootState) => state.favoriteProduct,
   );
-
+  console.log(favoriteProductDetail);
   const getListFavorite = useCallback(() => {
     // dispatch(getFavoriteProduct(countryCode));
     dispatch(getFavoriteProductDispacth({ countryCode }));

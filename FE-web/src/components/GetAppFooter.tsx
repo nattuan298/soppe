@@ -8,12 +8,12 @@ function GetAppFooter({ className }: { className?: string }) {
   return (
     <div>
       <div className={clsx("flex justify-center	items-center space-x-3", className)}>
-        <Link href="https://apps.apple.com/us/app/scm-connext/id1594819860">
+        <Link href="">
           <a className="flex" target="_blank">
             <AppStore />
           </a>
         </Link>
-        <Link href="https://play.google.com/store/apps/details?id=io.nextinnovation.scmconnext">
+        <Link href="">
           <a className="flex" target="_blank">
             <Image
               src="/assets/images/google-play.png"
