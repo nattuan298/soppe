@@ -52,28 +52,28 @@ export default function ProductDetailPage({
     setProduct(productDetail);
   }, [productDetail]);
 
-  useEffect(() => {
-    const callAPI = async (memberId: string) => {
-      try {
-        const res = await axios.get(
-          `${apiRoute.products.getProductDetail}?countryCode=${locationBase}&productCode=${productCode}&memberId=${memberId}`,
-        );
+  // useEffect(() => {
+  //   const callAPI = async (memberId: string) => {
+  //     try {
+  //       const res = await axios.get(
+  //         `${apiRoute.products.getProductDetail}?countryCode=${locationBase}&productCode=${productCode}&memberId=${memberId}`,
+  //       );
 
-        const newProps = {
-          isFavourite: res.data?.isFavourite || false,
-          favouriteId: res.data?.favouriteId || null,
-        };
+  //       const newProps = {
+  //         isFavourite: res.data?.isFavourite || false,
+  //         favouriteId: res.data?.favouriteId || null,
+  //       };
 
-        setProduct((preState) => ({ ...preState, ...newProps }));
-      } catch (e) {
-        console.error("Eror fetch api detail", e);
-      }
-    };
+  //       setProduct((preState) => ({ ...preState, ...newProps }));
+  //     } catch (e) {
+  //       console.error("Eror fetch api detail", e);
+  //     }
+  //   };
 
-    if (productCode && userInfor) {
-      callAPI(userInfor.memberId);
-    }
-  }, [productCode, locationBase, userInfor]);
+  //   if (productCode && userInfor) {
+  //     callAPI(userInfor.memberId);
+  //   }
+  // }, [productCode, locationBase, userInfor]);
 
   useEffect(() => {
     if (
@@ -138,8 +138,6 @@ export default function ProductDetailPage({
 export const getServerSideProps: GetServerSideProps = async ({ req, params, query }) => {
   const id = params?.id;
   let productDetail: ProductType | null = null;
-  const cookie = req.headers.cookie;
-  const locationBase = getLocationBaseFromCookieSever(cookie);
 
   try {
     const ress = await axios.get(

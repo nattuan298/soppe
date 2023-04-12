@@ -87,8 +87,13 @@ export default function ShoppingCart() {
       totalQty: total.qty,
       checkoutProducts: checkoutProduct,
     }));
-    router.push(routeCheckoutUrl);
 
+    setTimeout(() => {
+      router.push(routeCheckoutUrl);
+
+    }
+
+    , 1000);
     // const callbackCreateOrder = (res: {
     //   error?: { message?: string };
     //   payload?: string;

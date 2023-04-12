@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import axios from "src/lib/client/request";
 import { convertTimeToMinute } from "src/utils/product";
 import { apiRoute } from "src/constants/apiRoutes";
-import { changePhoneConnectStatus } from "src/feature/user/slice";
+
 
 export default function UpdatePhone({ screen }: { screen: string }) {
   const { t } = useTranslation("common");

@@ -89,6 +89,7 @@ export const getAddressFromOrderAddress = (address: OrderAddressType | null, lan
   }
 
   const addressByLang = getAddressByLang(address, lang);
+  console.log(addressByLang);
   return {
     userInfor: `${address.firstName} ${address.lastName} (
       ${address.phoneNumber}

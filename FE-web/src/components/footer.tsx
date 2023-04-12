@@ -22,7 +22,6 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
   const { t } = useTranslation("common");
   const [country, setCountry] = useState("Thailand");
   const screen = useGetScreenWidth();
-  const router = useRouter();
   const LocationBase = cookies.get("LocationBase");
   const member = cookies.get("member");
   useEffect(() => {
@@ -30,18 +29,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
       setCountry(member.locationBase);
     }
   }, [member]);
-  const displaySmallCart = useMemo(() => {
-    if (
-      hasSmallCart &&
-      router.pathname === (routeProductDetailBase || routeProductsBase || routeProductsListing) &&
-      screen !== "Desktop"
-    ) {
-      return false;
-    }
-    if (hasSmallCart) {
-      return true;
-    }
-  }, [hasSmallCart, router.pathname, screen]);
+
   return (
     <div>
       <div className="sm:w-1216 mx-auto w-screen mb-6">
@@ -91,7 +79,6 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                   className="mb-4 sm:mb-6 text-base"
                   role="button"
                   onClick={() => {
-                    router.push("/help-center-1");
                   }}
                 >{t`help-center`}</li>
                 <Link href="">
@@ -115,7 +102,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                   className="mb-4 sm:mb-6 text-base"
                   role="button"
                   onClick={() => {
-                    router.push("/help-center-1");
+                    // router.push("/help-center-1");
                   }}
                 >{t`contact-us`}</li>
               </ul>

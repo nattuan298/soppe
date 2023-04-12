@@ -18,7 +18,7 @@ import { ProductsType } from "types/api-response-type";
 
 export const getFavoriteProduct = async (countryCode: string) => {
   const res = await axiosCutome.get(
-    `${apiRoute.favoriteProduct.getFavorites}?countryCode=${countryCode}`,
+    `${apiRoute.favoriteProduct.getFavorites}`,
   );
   return res.data.data;
 };

@@ -185,14 +185,14 @@ export function Footer({ title }: FooterPropsType) {
         <div className="mt-4">
           <span className="text-lighterGray text-0.8125 ">{t`agree_platform`}</span>
           <div className="flex text-lighterGray text-0.8125">
-            <LinkRouter href={"https://scmconnext.com/help-center-3/61b0a00816657045a987b643"}>
+            <LinkRouter href={""}>
               <a
                 target={"_blank"}
                 className="text-orange mr-1 hover:cursor-pointer hover:underline"
               >{t`privacy_policy`}</a>
             </LinkRouter>
             {t`and`}
-            <LinkRouter href={"https://scmconnext.com/help-center-3/61b09e84e49b5a2cfdf1b5cc"}>
+            <LinkRouter href={""}>
               <a
                 target={"_blank"}
                 className="text-orange ml-1 hover:cursor-pointer hover:underline"

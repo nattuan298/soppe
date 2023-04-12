@@ -14,7 +14,7 @@ export default function OrderDetail({ isOrderDetail, order }: OrderDetailTProps)
   const [orderDetailRef, setorderDetailRef] = useState<HTMLDivElement | null>(null);
 
   const ref = useRef<HTMLDivElement>(null);
-
+  console.log(order);
   useEffect(() => {
     if (ref.current) {
       setorderDetailRef(ref.current);

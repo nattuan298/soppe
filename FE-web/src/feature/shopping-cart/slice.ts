@@ -33,7 +33,7 @@ export const cartSlice = createSlice({
         return;
       }
       const memberId = memberCookies.memberId;
-      state.listProducts = JSON.parse(localStorage.getItem(`listProducts_${memberId}`) || "[]");
+      state.listProducts = JSON.parse(localStorage.getItem("listProducts") || "[]");
       state.selectedProduct = state.listProducts
         .map((item) => item._id);
     },
@@ -72,7 +72,7 @@ export const cartSlice = createSlice({
       const cookies = new Cookies();
       const memberCookies = cookies.get("member");
       const memberId = memberCookies.memberId;
-      localStorage.setItem(`listProducts_${memberId}`, JSON.stringify(state.listProducts));
+      localStorage.setItem(`listProducts`, JSON.stringify(state.listProducts));
 
       state.isOpenSmallCart = true;
       if ((hasproduct?.qty as number) >= 10000) {
@@ -88,7 +88,7 @@ export const cartSlice = createSlice({
       const cookies = new Cookies();
       const memberCookies = cookies.get("member");
       const memberId = memberCookies.memberId;
-      localStorage.setItem(`listProducts_${memberId}`, JSON.stringify(state.listProducts));
+      localStorage.setItem(`listProducts`, JSON.stringify(state.listProducts));
     },
     deleteProduct: (state, { payload }) => {
       state.listProducts = state.listProducts.filter((item) => item._id !== payload.id);
@@ -127,7 +127,7 @@ export const cartSlice = createSlice({
         return { ...state, callingListProduct: false, listProducts: [] };
       }
       const memberId = memberCookies.memberId;
-      localStorage.setItem(`listProducts_${memberId}`, JSON.stringify(newListProduct));
+      localStorage.setItem(`listProducts`, JSON.stringify(newListProduct));
       return {
         ...state,
         callingListProduct: false,
