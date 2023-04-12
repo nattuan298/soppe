@@ -217,15 +217,7 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
     }, 1000);
   };
 
-  const sortOptions = useMemo(
-    () => [
-      { title: t("common:by_sku_a_z"), value: "A-Z" },
-      { title: t("common:by_sku_z_a"), value: "Z-A" },
-      { title: t("common:price-low-to-high"), value: "MIN-MAX" },
-      { title: t("common:price-high-to-low"), value: "MAX-MIN" },
-    ],
-    [t],
-  );
+
   return (
     <div className="w-full">
       <main className="w-full flex flex-wrap justify-center">
@@ -335,15 +327,9 @@ export default function ProductsListing({ maxRangePrice }: ProductsListingType) 
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const cookie = req.headers.cookie;
-  const locationBase = getLocationBaseFromCookieSever(cookie) || "Vietnam";
-  let maxRangePrice = 100000000;
-  try {
-    const resp = await axios.get(
-      `/products/max-price-location/country?country=${locationBase}&type=Product`,
-    );
-    maxRangePrice = resp.data.maxPrice;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {}
+
+  const maxRangePrice = 100000000;
+
   return {
     props: {
       maxRangePrice,
