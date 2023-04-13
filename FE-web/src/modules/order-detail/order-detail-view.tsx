@@ -152,9 +152,6 @@ export default function OrderDetailView({
     <Fragment>
       <div>
         <div className="flex justify-between items-center">
-          <div>
-            <LogoConnextIcons />
-          </div>
           <div className="flex items-center">
             <div className="hidden sm:block">
               {" "}
