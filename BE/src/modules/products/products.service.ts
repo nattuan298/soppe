@@ -133,6 +133,7 @@ export class ProductsService {
         if (isFavorite) product.isFavorite = true;
         product.isAbleToReview = getIsAbleToReview;
       }
+
       return product;
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -289,8 +290,10 @@ export class ProductsService {
       this.ordersService.findOrderReviewed(productId, userId),
       this.reviewsService.findOneReview(userId, productId),
     ]);
-    if (order && review) {
+    if (review == undefined || order == undefined) {
       return false;
-    } else return true;
+    } else {
+      return true;
+    }
   }
 }
