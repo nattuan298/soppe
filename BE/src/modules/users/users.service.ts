@@ -132,6 +132,14 @@ export class UsersService {
     return user;
   }
 
+  async findByIdNotReturnFullImage(id: string) {
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(UserResponseMessage.NotFound);
+    }
+    return user;
+  }
+
   async adminFindAllUser(findUserDto: AdminFindUserDto) {
     const filters: Record<string, unknown> = {};
     const options: Record<string, unknown> = {};

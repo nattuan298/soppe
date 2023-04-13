@@ -43,9 +43,8 @@ export class ReviewsService {
 
     const [product, user] = await Promise.all([
       this.productsService.findOne(createReviewDto.productId),
-      this.usersService.findById(userId),
+      this.usersService.findByIdNotReturnFullImage(userId),
     ]);
-
     const rating =
       product.ratingCount != 0
         ? (createReviewDto.rating + product.rating) / 2

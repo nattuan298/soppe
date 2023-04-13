@@ -112,8 +112,20 @@ export class OrdersService {
     }
   }
 
+  async findOneNotReturnFullImage(id: string) {
+    try {
+      const order = await this.orderModel.findById(id).lean();
+      if (!order) {
+        throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
+      }
+      return order;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async markReceived(id: string) {
-    const order = await this.findOne(id);
+    const order = await this.findOneNotReturnFullImage(id);
     order.completedAt = Date.now();
     order.orderStatus = OrderStatus.RECEIPTED;
     order.products.forEach((el: any) => {
