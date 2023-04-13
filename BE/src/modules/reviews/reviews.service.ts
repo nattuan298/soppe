@@ -14,6 +14,7 @@ import { PaginateModel } from 'mongoose-paginate-v2';
 import { OrdersService } from '../orders/orders.service';
 import { CommonPaginationDto } from 'src/common/pagination.dto';
 import { paginationTransformer } from 'src/common/helpers';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ReviewsService {
@@ -24,6 +25,8 @@ export class ReviewsService {
     private readonly productsService: ProductsService,
     @Inject(forwardRef(() => OrdersService))
     private readonly ordersService: OrdersService,
+    @Inject(forwardRef(() => UsersService))
+    private readonly usersService: UsersService,
   ) {}
 
   async create(createReviewDto: CreateReviewDto, userId: string) {
@@ -35,9 +38,10 @@ export class ReviewsService {
       throw new BadRequestException(`You already review this product.`);
     }
 
-    const product = await this.productsService.findOne(
-      createReviewDto.productId,
-    );
+    const [product, user] = await Promise.all([
+      this.productsService.findOne(createReviewDto.productId),
+      this.usersService.findById(userId),
+    ]);
 
     const rating =
       product.ratingCount != 0
@@ -55,6 +59,7 @@ export class ReviewsService {
       this.reviewProductModel.create({
         ...createReviewDto,
         userId,
+        username: user.username,
       }),
     ]);
     return reviewed;
