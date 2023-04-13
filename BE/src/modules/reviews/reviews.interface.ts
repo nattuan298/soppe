@@ -8,5 +8,6 @@ export interface IReviewProduct {
   rating: number;
   describe: string;
   mediaUrl: string;
+  avatar: string;
 }
 export type IReviewProductDoc = Document & IReviewProduct;

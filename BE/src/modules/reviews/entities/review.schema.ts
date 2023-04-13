@@ -10,6 +10,7 @@ const ReviewProductSchema = new mongoose.Schema(
     rating: Number,
     describe: String,
     mediaUrl: String,
+    avatar: String,
   },
   { timestamps: true },
 );
