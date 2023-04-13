@@ -8,6 +8,7 @@ import {
 } from './entities/review.schema';
 import { ProductsModule } from '../products/products.module';
 import { OrdersModule } from '../orders/orders.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { OrdersModule } from '../orders/orders.module';
     ]),
     forwardRef(() => ProductsModule),
     forwardRef(() => OrdersModule),
+    forwardRef(() => UsersModule),
   ],
   controllers: [ReviewsController],
   providers: [ReviewsService],

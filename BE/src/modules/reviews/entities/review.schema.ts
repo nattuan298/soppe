@@ -6,6 +6,7 @@ const ReviewProductSchema = new mongoose.Schema(
   {
     productId: String,
     userId: String,
+    username: String,
     rating: Number,
     describe: String,
     mediaUrl: String,
