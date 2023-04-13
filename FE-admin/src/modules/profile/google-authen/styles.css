@@ -1,0 +1,49 @@
+.referralLink {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+  position: relative;
+}
+
+.referralLink .copyIcon {
+  position: absolute;
+  right: 12.5px;
+  top: 11.83px;
+}
+
+.referralLink .txtLink {
+  position: absolute;
+  font-size: 14px;
+  color: #231f20;
+  margin-left: 15px;
+  margin-top: 14.5px;
+  float: left;
+  white-space: nowrap;
+  width: 285px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buttonCancel {
+  color: #ff7500;
+  border: 1px solid #ff7500;
+}
+
+.buttonCancel:hover {
+  color: #ff9033;
+  border: 1px solid #ff9033;
+}
+
+.modal {
+  border-radius: 20px;
+}
+.text-verify {
+  font-size: 13px;
+}
+
+.txt-security {
+  color: #bcbcbc;
+  font-size: 13px;
+}

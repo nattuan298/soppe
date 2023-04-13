@@ -1,0 +1,63 @@
+.user-list .search-filter {
+  box-shadow: 0px 0px 15px #00000029;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* border-radius: 5px; */
+}
+
+.user-list .search-filter .filter .dropdown {
+  width: 343px;
+}
+
+.user-list .search-filter .filter p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.user-list .search-filter .search-group .create-new-account-btn {
+  width: 250px;
+}
+
+.user-list .search-filter .search-group .search-input {
+  width: 400px;
+}
+
+.user-list .user-table {
+  box-shadow: 0px 0px 10px #7979791a;
+  padding: 27px 36.5px 45px 36.5px;
+  border-radius: 10px;
+}
+
+.user-list .user-table table {
+  margin-bottom: 50px;
+}
+
+.user-list .user-table .document-status-complete {
+  color: #8dc900;
+}
+
+.user-list .user-table .document-status-pending {
+  color: #ff0000;
+}
+
+.user-list .user-table .action-buttons-wrapper button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.user-list .user-table .action-buttons-wrapper a:not(:last-child) {
+  margin-right: 10px;
+}
+
+.user-list .user-table .preview .info-label {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+@media only screen and (max-width: 1440px) {
+  .user-list .search-filter .filter .dropdown {
+    width: 300px;
+  }
+  .user-list .search-filter .search-group .search-input {
+    width: 350px;
+  }
+}

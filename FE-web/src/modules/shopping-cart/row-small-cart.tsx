@@ -27,7 +27,7 @@ export default function Row({ handleRemoveItem, product, onChange }: RowType) {
 
   const handleClickName = () => {
     router.push(
-      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product.productCode, locationBase }),
+      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product._id }),
     );
   };
 

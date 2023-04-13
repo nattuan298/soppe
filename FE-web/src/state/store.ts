@@ -21,7 +21,7 @@ import { favoriteProductSlice } from "src/feature/favorite-product/favorite-prod
 import { SecuritySlice } from "src/feature/security/security.slice";
 import sponsorAnalysisSlice from "src/feature/direct-sponsor-analysis/direct-sponsor-analysis.slice";
 import g1AnalysisSlice from "src/feature/g1-analysis-analysis/g1-analysis-analysis.slice";
-import tripProcessSlice from "src/feature/trip-process-pv/trip-process-pv.slice";
+
 
 import transferBMCSlice from "src/feature/transfer-bmc/slice";
 import { NoteSlice } from "src/feature/notes/notes.slice";
@@ -66,7 +66,6 @@ export const store = configureStore({
     sponsorAnalysis: sponsorAnalysisSlice,
     g1Analysis: g1AnalysisSlice,
     setting: SettingSlice.reducer,
-    tripProcess: tripProcessSlice,
     notification: NotificationsSlice.reducer,
     expiredMemberLists: expiredMemberListSlice.reducer,
     nearExpireMemberLists: nearExpireMemberListSlice.reducer,

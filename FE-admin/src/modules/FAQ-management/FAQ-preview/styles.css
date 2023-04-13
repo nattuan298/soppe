@@ -1,0 +1,16 @@
+.text-small {
+  font-size: 10px;
+  color: #bcbcbc;
+  line-height: 14px;
+}
+.text-helpful {
+  font-size: 10px;
+  color: #ff7500;
+  line-height: 14px;
+}
+.question {
+  margin-bottom: 5px;
+}
+.info {
+  margin-bottom: 13px;
+}

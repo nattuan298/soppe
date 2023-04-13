@@ -1,0 +1,57 @@
+.action-button {
+  height: 35px;
+  width: 35px;
+  border-radius: 5px;
+  /*variables*/
+  --edit-action-color: #0075c9;
+  --delete-action-color: #ff0000;
+  --view-action-color: #f3b916;
+  --disabled-action-color: #f4f5fa;
+  --get-link-action-color: #231f20;
+}
+
+.action-button:disabled {
+  background-color: var(--disabled-action-color);
+  border: 1px solid var(--disabled-action-color);
+}
+
+.action-button:disabled svg path[fill="#fff"] {
+  fill: #bcbcbc;
+}
+
+.edit-action-button {
+  border: 1px solid var(--edit-action-color);
+}
+
+.edit-action-button svg path[fill="#fff"] {
+  fill: var(--edit-action-color);
+}
+
+.delete-action-button {
+  border: 1px solid var(--delete-action-color);
+  background-color: var(--delete-action-color);
+}
+
+.view-action-button {
+  border: 1px solid var(--view-action-color);
+}
+
+.view-action-button svg path[fill="#fff"] {
+  fill: var(--view-action-color);
+}
+
+.history-action-button {
+  border: 1px solid #FF7500;
+}
+
+.history-action-button svg {
+  fill: #FF7500;
+}
+
+.action-button:hover {
+  opacity: 0.8;
+}
+
+.get-link-action-button {
+  border: 1px solid var(--get-link-action-color);
+}

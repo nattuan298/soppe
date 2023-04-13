@@ -86,7 +86,7 @@ export function ProductsCarousel({ products }: { products: ProductsType }) {
   };
 
   const handleRedirect = (id: string) => () => {
-    router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id, locationBase }));
+    router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id }));
   };
 
   const handleClickLeft = () => {

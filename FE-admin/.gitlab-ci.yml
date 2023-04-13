@@ -1,0 +1,234 @@
+stages:
+    - test
+    - build
+    - deploy
+sonarqube-check:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+    GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task 1
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  allow_failure: true
+  only:
+    - develop
+  tags:
+    - vops-runner
+
+build-push-development:
+  stage: build
+  image:
+    name: quay.io/vmoteam/ci-node:v12-gitops
+  services:
+  - docker:stable-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    ENV: dev
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_DEV
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
+    VERSION: $CI_PIPELINE_ID
+    IMAGE_FIX: $DOCKER_REGISTRY_HOST/$APPLICATION:$ENV
+    IMAGE_BACKUP: $DOCKER_REGISTRY_HOST_DEV/$APPLICATION:$ENV-$CI_PIPELINE_ID
+    REACT_APP_API_BASE_URL: $REACT_APP_API_BASE_URL
+  before_script:
+    - echo $CI_PIPELINE_ID
+    - echo $REACT_APP_API_BASE_URL
+  script:
+    - npm install
+    - npm run build
+    # Build and push docker image
+    - docker build -t $IMAGE_FIX .
+    - docker tag $IMAGE_FIX $IMAGE_BACKUP
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION_DEV | docker login --username AWS --password-stdin $DOCKER_REGISTRY_HOST
+    - docker push $IMAGE_FIX
+    - docker push $IMAGE_BACKUP
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  cache:
+    key: ci-cd-cache
+    paths:
+      - node_modules/
+    policy: pull-push
+  artifacts:
+    paths:
+      - build
+  tags:
+    - vops-runner
+  only:
+    - develop
+
+# Deployment develop
+deploy-development:
+  stage: deploy
+  image:
+    name: alpine/helm:latest
+    entrypoint: [""]
+  variables:
+    ENV: dev
+  script:
+    - helm version
+    - mkdir -p ~/.kube
+    - echo -n $KUBE_CONFIG_DEV | base64 -d > ~/.kube/config
+    - chmod 400 ~/.kube/config
+    - cd helm/$APPLICATION
+    - helm --namespace $NAMESPACE upgrade --kubeconfig "/root/.kube/config" -i $APPLICATION . --set image.tag=$ENV-$CI_PIPELINE_ID -f values/dev.values.yaml
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  tags:
+    - vops-runner
+  only:
+    - develop
+
+# Build staging
+build-push-staging:
+  stage: build
+  image:
+    name: quay.io/vmoteam/ci-node:v12-gitops
+  services:
+  - docker:stable-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_STAGING
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGING
+    ENV: staging
+    VERSION: $CI_COMMIT_SHORT_SHA
+    IMAGE_FIX: $DOCKER_REGISTRY_HOST_STAGING/$APPLICATION:$ENV
+    IMAGE_BACKUP: $DOCKER_REGISTRY_HOST_STAGING/$APPLICATION:$ENV-$CI_COMMIT_SHORT_SHA
+    REACT_APP_API_BASE_URL: $REACT_APP_API_BASE_URL
+    REACT_APP_ADMIN_API_KEY: $REACT_ADMIN_API_KEY
+    REACT_APP_ADMIN_PROJECT_ID: $REACT_ADMIN_PROJECT_ID
+    REACT_APP_ADMIN_AUTH_DOMAIN: $REACT_ADMIN_AUTH_DOMAIN
+    REACT_APP_ADMIN_STORAGE_BUCKET: $REACT_ADMIN_STORAGE_BUCKET
+    REACT_APP_ADMIN_MESSAGING_SENDER_ID: $REACT_ADMIN_MESSAGING_SENDER_ID
+    REACT_APP_ADMIN_APP_ID: $REACT_ADMIN_APP_ID
+    REACT_APP_ADMIN_MEASUREMENT_ID: $REACT_ADMIN_MEASUREMENT_ID
+    REACT_APP_ADMIN_REPORT_ISSUE_LINK: $REACT_APP_ADMIN_REPORT_ISSUE_LINK
+  before_script:
+    - echo $CI_COMMIT_TAG
+    - echo $REACT_APP_API_BASE_URL
+    - echo $REACT_APP_ADMIN_API_KEY
+    - echo $REACT_APP_ADMIN_PROJECT_ID
+    - echo $REACT_APP_ADMIN_AUTH_DOMAIN
+    - echo $REACT_APP_ADMIN_MESSAGING_SENDER_ID
+    - echo $REACT_APP_ADMIN_APP_ID
+    - echo $REACT_APP_ADMIN_MEASUREMENT_ID
+  script:
+    - npm install
+    - npm run build
+    # Build and push docker image
+    - docker build -t $IMAGE_FIX .
+    - docker tag $IMAGE_FIX $IMAGE_BACKUP
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION_STAGING | docker login --username AWS --password-stdin $DOCKER_REGISTRY_HOST_STAGING
+    - docker push $IMAGE_FIX
+    - docker push $IMAGE_BACKUP
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  cache:
+    key: ci-cd-cache
+    paths:
+      - node_modules/
+    policy: pull-push
+  artifacts:
+    paths:
+      - build
+  tags:
+    - vops-runner
+  only:
+    - /^release/[0-9]+(?:.[0-9]+)+$/
+
+# Deployment Staging
+deploy-staging:
+  stage: deploy
+  image:
+    name: alpine/helm:latest
+    entrypoint: [""]
+  variables:
+    ENV: staging
+  script:
+    - helm version
+    - mkdir -p ~/.kube
+    - echo -n $KUBE_CONFIG_STAGING | base64 -d > ~/.kube/config
+    - chmod 400 ~/.kube/config
+    - cd helm/$APPLICATION
+    - helm --namespace $NAMESPACE upgrade --kubeconfig "/root/.kube/config" -i $APPLICATION . --set image.tag=$ENV-$CI_COMMIT_SHORT_SHA -f values/staging.values.yaml
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  tags:
+    - vops-runner
+  only:
+    - /^release/[0-9]+(?:.[0-9]+)+$/
+# Build Prod
+build-push-prod:
+  stage: build
+  image:
+    name: quay.io/vmoteam/ci-node:v12-gitops
+  services:
+  - docker:stable-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_PROD
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_PROD
+    ENV: prod
+    VERSION: $CI_COMMIT_SHORT_SHA
+    IMAGE_FIX: $DOCKER_REGISTRY_HOST_PROD/$APPLICATION:$ENV
+    IMAGE_BACKUP: $DOCKER_REGISTRY_HOST_PROD/$APPLICATION:$ENV-$CI_COMMIT_SHORT_SHA
+    REACT_APP_API_BASE_URL: $REACT_APP_API_BASE_URL
+  before_script:
+    - echo $CI_COMMIT_TAG
+    - echo $REACT_APP_API_BASE_URL
+  script:
+    - npm install
+    - npm run build
+    # Build and push docker image
+    - docker build -t $IMAGE_FIX .
+    - docker tag $IMAGE_FIX $IMAGE_BACKUP
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION_PROD | docker login --username AWS --password-stdin $DOCKER_REGISTRY_HOST_PROD
+    - docker push $IMAGE_FIX
+    - docker push $IMAGE_BACKUP
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  cache:
+    key: ci-cd-cache
+    paths:
+      - node_modules/
+    policy: pull-push
+  artifacts:
+    paths:
+      - build
+  tags:
+    - vops-runner
+  only:
+    - master
+
+# Deployment Prod
+deploy-prod:
+  stage: deploy
+  image:
+    name: alpine/helm:latest
+    entrypoint: [""]
+  variables:
+    ENV: prod
+  script:
+    - helm version
+    - mkdir -p ~/.kube
+    - echo -n $KUBE_CONFIG_PROD | base64 -d > ~/.kube/config
+    - chmod 400 ~/.kube/config
+    - cd helm/$APPLICATION
+    - helm --namespace $NAMESPACE upgrade --kubeconfig "/root/.kube/config" -i $APPLICATION . --set image.tag=$ENV-$CI_COMMIT_SHORT_SHA -f values/prod.values.yaml
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  tags:
+    - vops-runner
+  only:
+    - master
+  when: manual

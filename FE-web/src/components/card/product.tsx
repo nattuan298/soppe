@@ -29,7 +29,6 @@ export default function ProductCard({ productDetail }: { productDetail: ProductT
     router.push(
       makeUrlObjectFromRouteBase(routeProductDetailBase, {
         id: productDetail._id,
-        locationBase,
       }),
     );
   };

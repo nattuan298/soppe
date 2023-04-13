@@ -1,0 +1,38 @@
+.upload-profile-image {
+  height: 325px;
+  width: 370px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #7979791a;
+  min-width: 300px;
+}
+
+.profile-image {
+  height: 325px;
+  width: 370px;
+}
+
+.upload-profile-image label div {
+  height: 206px;
+  width: 205px;
+  background-color: #ffe2cb;
+  border-radius: 50%;
+  border: 3px solid #fff1e5;
+}
+
+.upload-profile-image label img {
+  height: 206px;
+  width: 205px;
+}
+
+.upload-profile-image label:hover {
+  cursor: pointer;
+}
+
+.txt-avatar {
+  font-size: 76px;
+  color: #ff7500;
+}
+
+.txt-click {
+  color: #311339;
+}

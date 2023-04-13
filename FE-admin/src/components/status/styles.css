@@ -1,0 +1,18 @@
+.status {
+  width: 110px;
+  height: 25px;
+  border-radius: 15px;
+}
+
+.status-active {
+  background: #8dc900;
+}
+
+.status-inactive {
+  background: #f3b916;
+}
+
+.txt-status {
+  color: #ffffff;
+  font-size: 16px;
+}

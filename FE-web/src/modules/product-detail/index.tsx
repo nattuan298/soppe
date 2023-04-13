@@ -19,6 +19,7 @@ import {
   routeCheckoutUrl,
   routeFavoriteProductUrl,
   routeProductsListing,
+  routeReviewProductBase,
   routeSigninUrl,
 } from "src/constants/routes";
 import { notifyToast } from "src/constants/toast";
@@ -33,7 +34,7 @@ import ImagesSlider from "./images_slider";
 import Review from "./Review";
 import { getLocationBase } from "src/lib/getLocationsBase";
 import { Tooltip } from "@material-ui/core";
-import { ProductsCarousel } from "../../components";
+import { ButtonMui, ProductsCarousel } from "../../components";
 import useGetScreenWidth from "../../hooks/useGetScreenWidth";
 
 interface ProductDetailType {
@@ -157,12 +158,12 @@ export default function ProductDetail({
     const res = await axios.post(`${apiRoute.favoriteProduct.getFavorites}`, {
       productId: productDetail._id,
     });
-    setProduct((preState) => ({ ...preState, isFavourite: true, favouriteId: res.data._id }));
+    setProduct((preState) => ({ ...preState, isFavorite: true, favouriteId: res.data._id }));
   };
 
   const removeFavourite = async () => {
     await axios.delete(`${apiRoute.favoriteProduct.getFavorites}/${productDetail._id}`);
-    setProduct((preState) => ({ ...preState, isFavourite: false }));
+    setProduct((preState) => ({ ...preState, isFavorite: false }));
   };
 
   const handleClickSeeAll = () => {
@@ -183,9 +184,7 @@ export default function ProductDetail({
     navigator.clipboard.writeText(window.location.href);
     notifyToast("default", "copy_success", t);
   };
-
 console.log(productDetail);
-
   return (
     <div className="mx-auto w-auto sm:w-1216 relative mb-8">
       <div className="sm:flex sm:mt-8">
@@ -195,7 +194,7 @@ console.log(productDetail);
               <ImagesSlider
                 isNewProduct={productDetail.isNewProduct}
                 images={[productDetail.mediaUrl]}
-                isFavourite={productDetail.isFavourite}
+                isFavourite={productDetail.isFavorite}
                 addToFavorite={addToFavourite}
                 removeFavorite={removeFavourite}
                 handleShare={handleClickShare}
@@ -205,7 +204,7 @@ console.log(productDetail);
               <p className="font-medium text-lg">{productDetail.productName}</p>
               <div className="mt-2 flex items-center">
                 <Stars numberOfStars={productDetail.rating} />
-                {isLoggedIn && !productDetail.isFavourite && (
+                {isLoggedIn && !productDetail.isFavorite && (
                   <span>
                     <FavoriteBorderIcon
                       className="ml-4 mr-4 cursor-pointer text-orange w-4.5 hidden sm:block"
@@ -213,7 +212,7 @@ console.log(productDetail);
                     />
                   </span>
                 )}
-                {isLoggedIn && productDetail.isFavourite && (
+                {isLoggedIn && productDetail.isFavorite && (
                   <span>
                     <FavoriteIcon
                       className="ml-4 mr-4 cursor-pointer text-orange w-4.5 hidden sm:block"
@@ -232,11 +231,21 @@ console.log(productDetail);
                     value={productDetail.price}
                     prefix={symbol}
                   />
-
-
                 </div>
-
-
+           {isLoggedIn && productDetail.isAbleToReview &&
+                <ButtonMui className="w-3 "
+                variant="outlined"
+                height={36}
+                onClick={() => router.push({ pathname: routeReviewProductBase,
+                query: {
+                  id: productDetail._id,
+                  image: productDetail.mediaUrl,
+                  name: productDetail.productName,
+                },
+                })}
+                >
+                        Review
+                      </ButtonMui>}
               </div>
 
               <div className="mt-4 flex items-center justify-between mb-2">

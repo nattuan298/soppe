@@ -1,0 +1,7 @@
+.role-permission-form .btn-group {
+  margin-top: 50px;
+}
+
+.role-permission-form .delete-icon path[fill="#fff"] {
+  fill: #ff0000;
+}

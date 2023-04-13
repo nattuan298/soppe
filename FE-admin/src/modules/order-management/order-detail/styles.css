@@ -1,0 +1,37 @@
+.order-detail {
+  width: 966px;
+}
+
+.order-detail .detail-border-bottom {
+  border-bottom: 1px solid #f4f5fa;
+}
+
+.order-detail .product-image {
+  width: 75px;
+  height: 75px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.order-detail .product-video {
+  width: 75px;
+  height: 75px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+.product-quantity {
+  width: 100px;
+  height: 30px;
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+}
+
+.product-quantity button {
+  color: #ebebeb;
+  font-size: 22px;
+}
+
+.product-quantity button:hover {
+  cursor: default;
+}

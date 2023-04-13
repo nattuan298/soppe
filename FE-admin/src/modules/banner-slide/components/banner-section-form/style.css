@@ -1,0 +1,9 @@
+.required::after {
+  content: '*';
+  color: red;
+  padding-left: 2px;
+}
+
+.upload-image .hidden-input {
+  display: none !important;
+}
