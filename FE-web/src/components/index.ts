@@ -29,7 +29,6 @@ export * from "./button-navigation";
 export * from "./modal-confirm";
 export * from "./google-authen";
 export * from "./product-carouse";
-export * from "./button-notification";
 export * from "./news-banners";
 export * from "./section-arcticle";
 export * from "./skeleton";

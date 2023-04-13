@@ -1,0 +1,8 @@
+.text-title-chart {
+  font-size: 2rem;
+  line-height: 3rem;
+}
+
+.lineChart div[data-highcharts-chart] {
+  overflow: inherit !important;
+};

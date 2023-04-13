@@ -1,0 +1,62 @@
+.header-not-logged-in {
+  height: 75px;
+}
+
+.header-logged {
+  height: 75px;
+  width: calc(100% - 70px);
+}
+
+.header-logged .notification .badge {
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  top: -7px;
+  right: -8px;
+}
+
+.header-logged .user .avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #ffe2cb;
+  border: 3px solid #fff1e5;
+}
+
+.txt-dashboard {
+  font-size: 20px;
+  margin-left: 100px;
+  margin-top: 2px;
+}
+
+#navigation-notify .MuiPaper-root {
+  border-radius: 10px;
+  margin-top: 1.625rem;
+  padding: 0.75rem;
+  overflow: hidden;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+}
+
+.img-avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  min-width: 40px;
+  object-fit: cover;
+}
+
+.txtAvatar {
+  font-size: 17px;
+  color: #ff7500;
+}
+
+.text-it-support {
+  color: #231f20;
+}
+
+.text-email {
+  margin-left: 12px;
+}

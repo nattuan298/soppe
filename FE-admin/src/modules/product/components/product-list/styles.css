@@ -1,0 +1,81 @@
+.inventory-management .inventory-product-table table {
+  margin-bottom: 50px;
+}
+
+.inventory-management .inventory-product-table .action-buttons-wrapper button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.inventory-product-table {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 10px #7979791a;
+  border-radius: 10px;
+  padding: 27px 36.5px 45px 36.5px;
+}
+
+.product {
+  width: 100px;
+  height: 90px;
+}
+
+.product-name .image {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.txt-stock {
+  color: #8dc900;
+}
+
+.product-name .txt-name {
+  font-size: 18px;
+  color: #311339;
+  margin-left: 10px;
+  width: 190px;
+  word-wrap: break-word;
+}
+
+.star {
+  float: left;
+  margin-top: 2px;
+  margin-right: 2px;
+}
+
+.dropdown {
+  width: 343px;
+}
+
+.txt-no-data {
+  color: #231f20;
+  font-size: 16px;
+  margin-top: -36px;
+}
+
+.txt-rating {
+  font-size: 18px;
+  color: #bcbcbc;
+}
+
+.newCollection {
+  left: -3.7px;
+  top: -1.8px;
+}
+
+.image-product {
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  background-color: #f4f5fa;
+}
+
+.iconPlay {
+  top: 30px;
+  left: 28px;
+}
+
+.search-filter {
+  box-shadow: 0px 0px 15px #00000029;
+  padding-top: 10px;
+  border-radius: 10px;
+  height: 104px;
+}

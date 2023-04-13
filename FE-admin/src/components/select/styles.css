@@ -1,0 +1,51 @@
+.select {
+  height: 50px;
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.options {
+  box-shadow: 0px 0px 10px rgba(121, 121, 121, 0.1);
+  border-radius: 5px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.options-top {
+  top: -225px;
+}
+
+.options li {
+  cursor: pointer;
+  padding: 12px 15px;
+}
+
+/* width */
+.options::-webkit-scrollbar {
+  width: 5px;
+  padding-right: 6px;
+}
+
+/* Track */
+.options::-webkit-scrollbar-track {
+  background: #f4f5fa;
+  border-radius: 10px;
+}
+
+/* Handle */
+.options::-webkit-scrollbar-thumb {
+  background: #ebebeb;
+  border-radius: 10px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  color: red;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

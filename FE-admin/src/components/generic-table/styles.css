@@ -1,0 +1,22 @@
+.generic-table {
+  box-shadow: 0px 0px 10px #7979791a;
+  padding: 27px 36.5px 45px 36.5px;
+  border-radius: 10px;
+}
+
+.generic-table table {
+  margin-bottom: 50px;
+}
+
+.generic-table .action-buttons-wrapper button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.generic-table .action-buttons-wrapper a:not(:last-child) {
+  margin-right: 10px;
+}
+
+.generic-table .preview .info-label {
+  margin-bottom: 10px;
+  font-weight: 500;
+}

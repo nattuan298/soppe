@@ -1,0 +1,18 @@
+.required::after {
+  content: '*';
+  color: red;
+  padding-left: 2px;
+}
+
+.select-date {
+  border: 1px solid #ebebeb;
+  height: 50px;
+}
+
+.notification-date.hidden-input {
+  display: none !important;
+}
+
+.lable-notification {
+  color: #213F20;
+}

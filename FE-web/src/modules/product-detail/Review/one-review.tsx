@@ -14,7 +14,6 @@ interface OneReviewType {
 export default function OneReview({ review }: OneReviewType) {
   const [toggle, setToggle] = useState(false);
   const [sIndex, setSIndex] = useState(0);
-
   const handleClickImage = (state: boolean, sIndex: number) => {
     setToggle(state);
     setSIndex(sIndex);
@@ -23,18 +22,18 @@ export default function OneReview({ review }: OneReviewType) {
     <div className="mt-4">
       <div className="flex">
         <div className="w-10">
-          <Avatar className="w-10 h-10" name={review.memberName} src={review.memberAvatar} />
+          <Avatar className="w-10 h-10" name={review.username} src={review.avatar} />
         </div>
         <div className="flex-grow ml-2 mt-2">
           <div>
-            <p className="font-medium">{review.memberName}</p>
+            <p className="font-medium">{review.username}</p>
             <div>
               <Stars numberOfStars={review.rating} />
             </div>
-            <span>{review.detail}</span>
+            <span>{review.describe}</span>
           </div>
           <div className="hidden sm:flex mt-4">
-            {review.photos.map((item, i) => {
+            {[review.mediaUrl].map((item, i) => {
               return (
                 <Image
                   key={i}
@@ -46,7 +45,7 @@ export default function OneReview({ review }: OneReviewType) {
             })}
           </div>
           <div className="flex sm:hidden mt-4">
-            {review.photos.map((item, i) => {
+            {[review.mediaUrl].map((item, i) => {
               if (i < 2) {
                 return (
                   <Image
@@ -64,9 +63,7 @@ export default function OneReview({ review }: OneReviewType) {
                       src={item}
                       className=" cursor-pointer max-w-[95px]  max-h-[95px]"
                     />
-                    <div className="absolute bottom-0 w-full h-full flex items-center justify-center bg-blur text-white">
-                      +{review.photos.length - 3}
-                    </div>
+
                   </div>
                 );
               }
@@ -78,7 +75,7 @@ export default function OneReview({ review }: OneReviewType) {
       <LightBox
         state={toggle}
         event={handleClickImage}
-        data={review.photos.map((url) => ({
+        data={[review.mediaUrl].map((url) => ({
           image: url,
         }))}
         imageWidth="60vw"

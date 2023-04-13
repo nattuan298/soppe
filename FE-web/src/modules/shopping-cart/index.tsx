@@ -82,7 +82,7 @@ export default function ShoppingCart() {
     // setcallingAPI(true);
     const checkoutProduct = listProducts.filter((item) => selected.includes(item._id));
 
-    dispatch(handleChangeField({
+    await dispatch(handleChangeField({
       totalPrice: total.price,
       totalQty: total.qty,
       checkoutProducts: checkoutProduct,

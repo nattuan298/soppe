@@ -1,0 +1,19 @@
+.user-card .user-letter {
+  width: 62px;
+  height: 62px;
+  font-size: 24px;
+  background-color: #ffe2cb;
+  border: 3px solid #fff1e5;
+}
+
+.user-card .avatar {
+  width: 62px;
+  height: 62px;
+  object-fit: cover;
+}
+.name {
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

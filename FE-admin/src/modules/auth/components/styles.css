@@ -1,0 +1,38 @@
+.password-input {
+  width: 343px;
+}
+
+.txt-contact-2 {
+  color: #0075c9;
+  font-size: 16px;
+}
+
+.txt-contact-1 {
+  color: #bcbcbc;
+  font-size: 16px;
+}
+
+.txt-forgot {
+  color: #bcbcbc;
+  font-size: 13px;
+}
+
+.txt-resend {
+  color: #0075c9;
+}
+
+.txt-resend-in {
+  color: #bcbcbc;
+}
+
+.txt-time {
+  width: 38px;
+}
+
+.text-it-support {
+  color: #231f20;
+}
+
+.text-email {
+  margin-left: 12px;
+}

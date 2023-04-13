@@ -22,11 +22,7 @@ export default function Home({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { t } = useTranslation("common");
   const screen = useGetScreenWidth();
-  const sectionsHome = useMemo(
-    () => orderBy(templateSections, ["position"], ["asc"]),
-    [templateSections],
-  );
-  console.log(hotProduct);
+
   return (
     <div className="w-full">
       <NextSeo

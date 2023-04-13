@@ -1,0 +1,31 @@
+.role-permission-list .search-filter {
+  box-shadow: 0px 0px 15px #00000029;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+}
+
+.role-permission-list .search-filter .filter .dropdown {
+  width: 343px;
+}
+
+.role-permission-list .search-filter .filter p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.role-permission-list .search-filter .search-group .create-new-btn {
+  width: 250px;
+}
+
+.role-permission-list .search-filter .search-group .search-input {
+  width: 400px;
+}
+
+.role-permission-list .role-permission-table .action-buttons-wrapper button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.role-permission-list .role-permission-table .action-buttons-wrapper a:not(:last-child) {
+  margin-right: 10px;
+}

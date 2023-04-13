@@ -30,9 +30,9 @@ export function ReviewProduct() {
   const [emptyDetails, setEmptyDetails] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openModalCancle, setOpenModalCancle] = useState<boolean>(false);
-  const { sku, name, orderNumber, image, fileType } = router.query;
+  const { id, image, name } = router.query;
   const { statusCode } = useSelector((state: RootState) => state.productReviews);
-
+  console.log(id);
   const handleRatingQuality = (rating: number) => {
     setStarQuality(rating);
   };
@@ -62,9 +62,9 @@ export function ReviewProduct() {
   }, [isLoading]);
 
   useEffect(() => {
-    if (statusCode === 200) {
+    if (statusCode === 201) {
       dispatch(resetStatusCode());
-      router.push(routeMyOrderBase);
+      router.push("/");
     }
   }, [statusCode, router, dispatch]);
 
@@ -81,13 +81,9 @@ export function ReviewProduct() {
       setIsLoading(false);
       return;
     }
-    if (starQuality && valueDetails.trim() && !starShipping) {
-      notifyToast("error", "the-review-must-be-rated", t);
-      setIsLoading(false);
-      return;
-    }
 
-    const upload = newMedias.map(({ file }) => uploadImageFull({ file, moduleName: "reviews" }));
+
+    const upload = newMedias.map(({ file }) => uploadImageFull({ file, moduleName: "review" }));
     const keys = await Promise.all(upload);
 
     const photos: string[] = [];
@@ -96,17 +92,14 @@ export function ReviewProduct() {
     });
 
     const bodyPayload: ReviewProductType = {
-      sku,
-      productName: name,
-      productQuality: starQuality,
-      shippingQuality: starShipping,
-      detail: valueDetails,
-      orderId: orderNumber,
-      photos,
+      productId: typeof id === "string" ? id : "",
+      rating: starQuality,
+      describe: valueDetails,
+      mediaUrl: photos[0],
     };
 
     try {
-      if (starQuality && valueDetails && starShipping) {
+      if (starQuality && valueDetails) {
         dispatch(fetchPostProductReview(bodyPayload));
         setIsLoading(false);
       }
@@ -136,7 +129,7 @@ export function ReviewProduct() {
             src={image as string | undefined}
             style={{ width: 120, height: 120 }}
             className={`${styles.img}`}
-            fileType={fileType as string | undefined}
+            fileType={"IMAGE"}
           />
           <label>
             <span className={`${styles.txtProduct}`}>{name}</span>
@@ -156,11 +149,12 @@ export function ReviewProduct() {
             <p className="text-sm sm:text-base pb-1.5">{t`product-photo`}</p>
           </label>
           <UploadPreviewMedia newMedias={newMedias} setNewMedias={setNewMedias} />
+
         </div>
 
         <div className={`${styles.reviewDetail}`}>
           <label>
-            <p className="text-sm sm:text-base mb-1.5">{t`details`}</p>
+            <p className="text-sm sm:text-base mb-1.5">{t`description`}</p>
             <InputCustome
               maxLen={1000}
               placeholder={t`details`}
@@ -169,14 +163,6 @@ export function ReviewProduct() {
             />
             {emptyDetails ? <p className={`${styles.errorDetails}`}>{emptyDetails}</p> : null}
           </label>
-        </div>
-
-        <div className="pt-5">
-          <label>
-            <p className="text-base font-medium">{t`shipping-handling`}</p>
-            <p className="text-sm sm:text-base pt-[10px] sm:pt-4 pb-[7.67px] sm:pb-2">{t`star`}</p>
-          </label>
-          <RatingStar name={"star-shipping"} handleRatingShipping={handleRatingShipping} />
         </div>
 
         <div className={`${styles.btnOption} flex flex-col sm:flex-row`}>

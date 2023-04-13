@@ -1,0 +1,23 @@
+.password-generator .password-input {
+  width: 343px;
+}
+
+.password-generator .password-generate-btn {
+  width: 250px;
+}
+@media screen and (max-width: 1280px) {
+  .button-generate {
+    max-width: 150px;
+  }
+  .button-reset {
+    max-width: 150px;
+  }
+}
+@media screen and (max-width: 1440px) {
+  .button-generate {
+    max-width: 180px;
+  }
+  .button-reset {
+    max-width: 180px;
+  }
+}

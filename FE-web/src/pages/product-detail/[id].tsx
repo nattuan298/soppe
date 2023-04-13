@@ -9,7 +9,7 @@ import { useLocationBase } from "src/hooks";
 import axios from "src/lib/client/request";
 import ProductDetail from "src/modules/product-detail";
 import { RootState } from "src/state/store";
-import { getLocationBaseFromCookieSever, getRandomProducts } from "src/utils";
+import { getCookieFromReq, getLocationBaseFromCookieSever, getMemberIDFromCookieSever, getRandomProducts } from "src/utils";
 import { ProductType } from "types/api-response-type";
 
 export default function ProductDetailPage({
@@ -46,7 +46,7 @@ export default function ProductDetailPage({
     };
 
     getData();
-  }, [productDetail, locationBase]);
+  }, [productDetail]);
 
   useEffect(() => {
     setProduct(productDetail);
@@ -118,7 +118,7 @@ export default function ProductDetailPage({
   //     </main>
   //   );
   // }
-
+  console.log(productDetail.productName);
   return (
     <div className="w-full text-black-dark">
       <NextSeo title={productDetail.productName} />
@@ -137,14 +137,20 @@ export default function ProductDetailPage({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, params, query }) => {
   const id = params?.id;
-  let productDetail: ProductType | null = null;
+  const cookie = req.headers.cookie;
 
+  let productDetail: ProductType | null = null;
+  const userId = getMemberIDFromCookieSever(cookie);
   try {
     const ress = await axios.get(
-      `${apiRoute.products.getProductDetail}/${id}`,
+      `${apiRoute.products.getProductDetail}/${id}`, { params: {
+        ...(userId ? { userId } : {}),
+      },
+      },
     );
 
     productDetail = ress.data;
+    console.log(ress.data);
   } catch (e) {
     // console.error("Eror fetch api detail", e);
   }

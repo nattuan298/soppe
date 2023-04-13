@@ -25,8 +25,8 @@ export const productReviewSlice = createSlice({
     },
     productReviewPostFulfilled: (state, action: PayloadAction<Reviews>) => {
       state.loading = true;
-      if (action.payload.status === 200) {
-        state.statusCode = 200;
+      if (action.payload.status === 201) {
+        state.statusCode = 201;
       }
     },
     productReviewPostRejected: (state) => {

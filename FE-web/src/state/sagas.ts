@@ -71,8 +71,7 @@ import {
   getTripTravelHistoryActions,
 } from "src/feature/travel-pv-history/travel-pv-history.action";
 import { GET_TRIP_TRAVEL, GET_TRIP_TRAVEL_HISTORY } from "src/feature/travel-pv-history/types";
-import { getTripProcessPvActions } from "src/feature/trip-process-pv/trip-process-pv.action";
-import { GET_TRIP_PROCESS_PV } from "src/feature/trip-process-pv/type";
+
 import { FETCH_FAVORITE_MEMBER_LIST } from "src/feature/favorite-member/types";
 import { FETCH_GENERATE_SECURITY_2FA, FETCH_SECURITY_STATE } from "src/feature/security/type";
 import { FETCH_POINTS, FETCH_USER_INFORMATION } from "src/feature/user/type";
@@ -168,7 +167,6 @@ export default function* rootSaga() {
     takeLatest(SIGN_OUT_API, signOutAction),
     takeLatest(GET_G1_ANALYSIS, getG1AnalysisAction),
     takeLatest(DIRECT_SPONSOR_ANALYSIS, getDirectSponsorAnalysisActions),
-    takeLatest(GET_TRIP_PROCESS_PV, getTripProcessPvActions),
     takeLatest(GET_TRIP_TRAVEL, getTripTravelActions),
     takeLatest(GET_TRIP_TRAVEL_HISTORY, getTripTravelHistoryActions),
     takeLatest(GET_NEAR_EXPIRE_MEMBER_LIST, getNearExpireActions),
