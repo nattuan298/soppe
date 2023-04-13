@@ -63,6 +63,7 @@ export class ReviewsService {
         ...createReviewDto,
         userId,
         username: user.username,
+        avatar: user.avatar,
       }),
     ]);
     return reviewed;
@@ -83,6 +84,9 @@ export class ReviewsService {
     reviews.docs.map((review: any) => {
       if (review.mediaUrl) {
         review.mediaUrl = this.uploadService.getSignedUrl(review.mediaUrl);
+      }
+      if (review.avatar) {
+        review.avatar = this.uploadService.getSignedUrl(review.avatar);
       }
     });
     return paginationTransformer(reviews);
