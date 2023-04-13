@@ -15,6 +15,7 @@ import { OrdersService } from '../orders/orders.service';
 import { CommonPaginationDto } from 'src/common/pagination.dto';
 import { paginationTransformer } from 'src/common/helpers';
 import { UsersService } from '../users/users.service';
+import { UploadService } from '../upload/upload.service';
 
 @Injectable()
 export class ReviewsService {
@@ -27,6 +28,8 @@ export class ReviewsService {
     private readonly ordersService: OrdersService,
     @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
+    @Inject(forwardRef(() => UploadService))
+    private readonly uploadService: UploadService,
   ) {}
 
   async create(createReviewDto: CreateReviewDto, userId: string) {
@@ -77,6 +80,11 @@ export class ReviewsService {
     if (!reviews.docs.length) {
       return paginationTransformer(reviews);
     }
+    reviews.docs.map((review: any) => {
+      if (review.mediaUrl) {
+        review.mediaUrl = this.uploadService.getSignedUrl(review.mediaUrl);
+      }
+    });
     return paginationTransformer(reviews);
   }
 
