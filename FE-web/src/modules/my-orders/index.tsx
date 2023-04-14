@@ -145,7 +145,6 @@ export default function MyOrders({ total: initialTotal, orders }: MyOrderType) {
   const handleCancelConfirm = async () => {
     setIsOpenModalDelete(false);
   };
-  console.log(listOrders);
   return (
     <div className="w-auto sm:w-1216 relative mb-8 mx-4 sm:mx-auto">
       <div className="hidden sm:block">
@@ -229,6 +228,7 @@ export default function MyOrders({ total: initialTotal, orders }: MyOrderType) {
                   {listOrders.map((order, index) => (
                     <EachOrder
                       order={order}
+                      setselectedTab={setselectedTab}
                       key={index}
                       handleCheckFail={(
                         err: number,
