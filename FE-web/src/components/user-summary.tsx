@@ -60,7 +60,7 @@ export function ModalUserSummaryInfo({
 
     setLoadingUpload(true);
 
-    const data = await uploadImageFull({ file });
+    const data = await uploadImageFull({ file, moduleName: "avatar" });
     await axios.put(`${apiRoute.members.uploadAvatar}`, {
       avatar: data.key,
     });
