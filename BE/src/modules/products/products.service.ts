@@ -286,14 +286,20 @@ export class ProductsService {
   }
 
   async isProductAbleToReview(userId: string, productId: string) {
+    console.log(333333, productId);
+
     const [order, review] = await Promise.all([
       this.ordersService.findOrderReviewed(productId, userId),
       this.reviewsService.findOneReview(userId, productId),
     ]);
-    if (review != undefined || order != undefined) {
-      return false;
-    } else {
+
+    if (review == undefined) {
       return true;
+    } else if (review != undefined || order != undefined) {
+      const product = order.products.filter((prod) => {
+        return prod.productId === productId;
+      });
+      if (product[0].isReviewed) return false;
     }
   }
 }

@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   RecoveryPassword,
+  UpdateAvatarDto,
   UpdatePasswordDto,
   UpdateUserDto,
 } from './dto/update-user.dto';
@@ -174,15 +175,18 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(UserResponseMessage.NotFound);
     }
-    if (updateUserDto.avatar) {
-      if (
-        updateUserDto.avatar !== user.avatar &&
-        user.avatart !== defaultAvatar
-      ) {
-        await this.uploadService.deletePublicFile(user.avatar);
-      }
-    }
     await this.userModel.updateOne({ _id: id }, updateUserDto);
+  }
+
+  async updateAvatar(id: string, updateAvatarDto: UpdateAvatarDto) {
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(UserResponseMessage.NotFound);
+    }
+    if (updateAvatarDto.avatar && updateAvatarDto.avatar !== user.avatar) {
+      await this.uploadService.deletePublicFile(user.avatar);
+    }
+    await this.userModel.updateOne({ _id: id }, updateAvatarDto);
   }
 
   async changePassword(

@@ -6,6 +6,7 @@ import {
   Put,
   UseGuards,
   Post,
+  Patch,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CommonIdParams } from 'src/common/common.dto';
@@ -15,6 +16,7 @@ import IJwtPayload from '../auth/payloads/jwt-payload';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import {
   RecoveryPassword,
+  UpdateAvatarDto,
   UpdatePasswordDto,
   UpdateUserDto,
 } from './dto/update-user.dto';
@@ -49,6 +51,16 @@ export class UsersController {
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
+  @Put('change-avatar')
+  changeAvatar(
+    @GetUser() { id }: IJwtPayload,
+    @Body() updateAvatarDto: UpdateAvatarDto,
+  ) {
+    return this.usersService.updateAvatar(id, updateAvatarDto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Put('change-password/:id')
   changePassword(
     @Param() commonIdParams: CommonIdParams,
@@ -64,7 +76,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
-  @Put(':id')
+  @Patch(':id')
   update(
     @Param() commonIdParams: CommonIdParams,
     @Body() updateUserDto: UpdateUserDto,
