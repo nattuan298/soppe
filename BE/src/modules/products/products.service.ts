@@ -290,7 +290,7 @@ export class ProductsService {
       this.ordersService.findOrderReviewed(productId, userId),
       this.reviewsService.findOneReview(userId, productId),
     ]);
-    if (review == undefined || order == undefined) {
+    if (review != undefined || order != undefined) {
       return false;
     } else {
       return true;
