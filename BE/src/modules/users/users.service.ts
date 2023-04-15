@@ -159,12 +159,14 @@ export class UsersService {
   }
 
   async adminFindAllUser(findUserDto: AdminFindUserDto) {
-    const filters: Record<string, unknown> = {};
-    const options: Record<string, unknown> = {};
-    options.page = findUserDto.page;
-    options.limit = findUserDto.pageSize;
-    options.sort = { createdAt: -1 };
-    filters.role = Role.User;
+    const filters: Record<string, unknown> = {
+      role: Role.User,
+    };
+    const options: Record<string, unknown> = {
+      page: findUserDto.page,
+      limit: findUserDto.pageSize,
+      sort: { createdAt: -1 },
+    };
     if (findUserDto.status) {
       filters.status = findUserDto.status;
     }
@@ -173,7 +175,7 @@ export class UsersService {
     }
 
     if (findUserDto.startDate && findUserDto.endDate) {
-      filters.dateOfBirth = {
+      filters.createdAt = {
         $gte: findUserDto.startDate,
         $lt: findUserDto.endDate,
       };
@@ -384,10 +386,11 @@ export class UsersService {
     const filters: Record<string, unknown> = {
       role: Role.Admin,
     };
-    const options: Record<string, unknown> = {};
-    options.page = findUserDto.page;
-    options.limit = findUserDto.pageSize;
-    options.sort = { createdAt: -1 };
+    const options: Record<string, unknown> = {
+      page: findUserDto.page,
+      limit: findUserDto.pageSize,
+      sort: { createdAt: -1 },
+    };
     if (findUserDto.status) {
       filters.status = findUserDto.status;
     }
