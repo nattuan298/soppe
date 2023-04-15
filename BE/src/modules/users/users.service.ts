@@ -183,7 +183,11 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(UserResponseMessage.NotFound);
     }
-    if (updateAvatarDto.avatar && updateAvatarDto.avatar !== user.avatar) {
+    if (
+      user.avatar &&
+      updateAvatarDto.avatar !== user.avatar &&
+      updateAvatarDto.avatar
+    ) {
       await this.uploadService.deletePublicFile(user.avatar);
     }
     await this.userModel.updateOne({ _id: id }, updateAvatarDto);
