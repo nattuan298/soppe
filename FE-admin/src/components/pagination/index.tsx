@@ -28,6 +28,7 @@ export function Pagination({
   notPreventChangeRoute,
   selectedPage,
 }: PaginationProps) {
+  console.log(totalPage);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentSize, setCurrentSize] = useState<number>(5);
   const [pageToGo, setPageToGo] = useState<string>("");

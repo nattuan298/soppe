@@ -38,7 +38,7 @@ const getOrderList = async (params: ParamListRequestModel) => {
 
 const getOrderById = async (id: string) => {
   try {
-    const response = await authorizedRequest.get(`${config.apiBaseUrl}/admin/orders/${id}`);
+    const response = await authorizedRequest.get(`${config.apiBaseUrl}/orders/${id}`);
     return Promise.resolve(response);
   } catch (err) {
     return Promise.reject(err);

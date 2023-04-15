@@ -72,26 +72,7 @@ export function Dashboard() {
         </div>
       ) : (
         <Fragment>
-          <div className="">
-            <SectionCounter
-              conversionRate={conversionRate}
-              numberOrder={numberOrder}
-              numberUser={numberUser}
-              totalTraction={totalTraction}
-            />
-          </div>
-
-          <div className="w-full p-5">
-            <div className="m-auto rounded-navbar bg-white shadow-navbar col-span-1 py-6 pl-9 pr-12">
-              <div className="text-xl font-medium text-black-primary mb-4">{t`total-sales`}</div>
-              <div className="mt-0.5 text-orange-light mb-8 text-title-chart">
-                {`${currency} ${total}`}
-              </div>
-              {dataChart.length !== 0 && (
-                <LineChart data={dataChart} height={515} name={t`total`} />
-              )}
-            </div>
-          </div>
+          <div></div>
         </Fragment>
       )}
     </div>

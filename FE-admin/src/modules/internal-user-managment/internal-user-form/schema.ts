@@ -3,7 +3,6 @@ import * as yup from "yup";
 export const internalUserSchema = yup.object().shape({
   firstName: yup.string().trim().required("required_fields"),
   lastName: yup.string().trim().required("required_fields"),
-  jobTitle: yup.string().trim().required("required_fields"),
   email: yup
     .string()
     .trim()
@@ -42,7 +41,6 @@ export const signinFormSchema = yup.object().shape({
     .string()
     .trim()
     .max(255)
-    .required("required_fields")
-    .matches(/^[\w-.]+@/, "email_is_wrong_format"),
+    .required("required_fields"),
   password: yup.string().required("required_fields"),
 });

@@ -15,20 +15,15 @@ if (navigator.userAgent.indexOf("X11") !== -1) OSName = "UNIX";
 if (navigator.userAgent.indexOf("Linux") !== -1) OSName = "Linux";
 
 const login = async ({ username, password }: { username: string; password: string }) => {
-  const ip = await publicIp.v4();
-  const response = (await authorizedRequest.post(`${config.apiBaseUrl}/auth/admin/login`, {
+  const response = (await authorizedRequest.post(`${config.apiBaseUrl}/admin/signin`, {
     username,
     password,
-    OS: OSName,
-    IP: ip,
   })) as AuthenticationAdmin;
+  console.log(response);
 
-  if (response.jwtAccessToken && response.googleAuth === false) {
-    window.location.href = "/admin-dashboard/home";
+  if (response.jwtAccessToken) {
+    window.location.href = "/admin-dashboard/user-management/user-list";
     localStorage.setItem("token", JSON.stringify(response));
-  } else if (response.jwtAccessToken && response.googleAuth === true) {
-    window.location.href = "/signin-2fa";
-    localStorage.setItem("tokenGoogleVerify", JSON.stringify(response));
   }
   return Promise.resolve(response);
 };

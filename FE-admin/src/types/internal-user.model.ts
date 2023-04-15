@@ -1,7 +1,7 @@
 import { RoleModel } from "./role.model";
 
 export interface InternalUserModel {
-  roles: RoleModel[];
+  roles: string;
   _id: string;
   firstName: string;
   lastName: string;

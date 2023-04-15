@@ -41,7 +41,7 @@ export function Profile() {
   const [gender, setGender] = useState<string>("Male");
   const [status, setStatus] = useState<string>("");
   const [citizenship, setCitizenship] = useState<string>("Thai");
-  const [roles, setRoles] = useState<RoleChipType[]>([]);
+  const [roles, setRoles] = useState<string>("");
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const { t } = useTranslation("common");
   const dispatch = useDispatch();
@@ -54,19 +54,12 @@ export function Profile() {
     setGender(internalUserDetail.gender);
     setStatus(internalUserDetail.status);
     setDateOfBirth(internalUserDetail.dateOfBirth);
-    setCitizenship(internalUserDetail.citizenship);
-    setRoles(
-      internalUserDetail.roles.map((role) => ({
-        _id: role._id,
-        name: role.name,
-        status: role.status,
-      })),
-    );
+
+    setRoles(internalUserDetail.roles);
     return {
       firstName: internalUserDetail.firstName,
       lastName: internalUserDetail.lastName,
       email: internalUserDetail.email,
-      jobTitle: internalUserDetail.jobType,
       phoneNumber: internalUserDetail.phoneNumber,
     };
   }, [internalUserDetail]);
@@ -183,22 +176,7 @@ export function Profile() {
                       </div>
                     </label>
                   </Grid>
-                  <Grid item lg={6} md={6}>
-                    <label>
-                      <div className="flex flex-col ml-4">
-                        <Label>{t("job-title")}</Label>
-                        <Input
-                          placeholder={t`marketing`}
-                          name="jobTitle"
-                          disabled
-                          value={initialValues.jobTitle}
-                          inputProps={{
-                            maxLength: 2500,
-                          }}
-                        />
-                      </div>
-                    </label>
-                  </Grid>
+
                 </Grid>
                 <Grid className="mb-4" container>
                   <Grid item lg={6} md={6}>
@@ -269,10 +247,7 @@ export function Profile() {
             <CollapsibleBlock className="mb-5" heading={t("role-permission")}>
               <Grid container direction="column" lg={6}>
                 <div className="roles-container flex">
-                  {roles.length > 0 &&
-                    roles.map((role) => (
-                      <RoleChip className="mr-5" id={role._id} name={role.name} />
-                    ))}
+               {roles}
                 </div>
               </Grid>
             </CollapsibleBlock>

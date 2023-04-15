@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { ChangeEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -27,6 +28,7 @@ export function UploadProfileImage({
   const dispatch = useDispatch();
 
   async function handleChangeUpload(event: ChangeEvent<HTMLInputElement>) {
+
     if (event.currentTarget.files?.length) {
       const fileType = event.currentTarget.files[0].type.split("/")[0];
       if (fileType !== "image") {
@@ -34,7 +36,7 @@ export function UploadProfileImage({
         return;
       }
       const file = event.currentTarget.files[0];
-      const response = await uploadImageFull({ moduleName: "user", file });
+      const response = await uploadImageFull({ moduleName: "avatar", file });
       setImgUrl(response.imageUrl);
       onChangeUpload && onChangeUpload(response.key);
       if (profile) {

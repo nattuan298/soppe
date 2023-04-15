@@ -78,12 +78,8 @@ export default function OrderList() {
       fetchGetOrderList({
         page,
         pageSize,
-        sortBy: "createdAt-DESC",
         status: statusFilter.name,
-        paymentMethod: paymentFilter.name,
         keyword: search.name,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
       }),
     );
   }, [
@@ -389,7 +385,6 @@ export default function OrderList() {
               <TableCell>{t("order")}</TableCell>
               <TableCell>{t("quantity")}</TableCell>
               <TableCell>{t("total-price")}</TableCell>
-              <TableCell>{t("total-pv")}</TableCell>
               <TableCell width={150}>{t("date")}</TableCell>
               <TableCell>{t("payment-method")}</TableCell>
               <TableCell align="center" className="wide:w-[200px] w-[120px]">
@@ -416,21 +411,13 @@ export default function OrderList() {
                 colSpan={9}
                 preview={
                   <Preview
-                    buyer={{
-                      name: order.buyer.name,
-                      id: order.buyer.memberId,
-                      avatar: order.buyer.avatarImage,
-                      documentStatus: order.buyer.documentStatus,
-                    }}
                     shippingAddress={order.shippingAddress}
-                    billingAddress={order.billingAddress}
-                    pickupAddress={order.pickupAddress as any}
                   />
                 }
               >
                 <TableCell>
                   <span className="text-orange-light">
-                    {t("order-id")}: {order.orderNumber}
+                    {t("order-id")}: {order._id}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -442,20 +429,15 @@ export default function OrderList() {
                   </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-gray-dark">
-                    <FormatNumber value={order.totalPv} />
-                  </span>
-                </TableCell>
-                <TableCell>
                   {dateSlice(dayjs(order.createdAt).format("DD MMM YYYY HH:mm:ss"))}
                 </TableCell>
                 <TableCell>
-                  {t(textChangeLanguage(order.paymentMethod).toLocaleLowerCase() as "to_ship")}
+                  {t(textChangeLanguage(order.paymentMethod).toUpperCase() as "to_ship")}
                 </TableCell>
                 <TableCell align="center">
                   <StatusLabel
-                    status={order.status}
-                    name={t(textChangeLanguage(order.status).toLocaleLowerCase() as "to_ship")}
+                    status={order.orderStatus}
+                    name={t(textChangeLanguage(order.orderStatus).toLocaleLowerCase() as "to_ship")}
                   />
                 </TableCell>
                 <TableCell className="max-w-[200px]">
@@ -468,27 +450,9 @@ export default function OrderList() {
                       }
                       action="view"
                     />
-                    <ActionButton
-                      disabled={order.status !== "To Pay" && order.status !== "To Ship"}
-                      onClick={() =>
-                        checkAndRedirect(
-                          `/admin-dashboard/order-management/edit-order/${order._id}`,
-                        )(order._id)
-                      }
-                      action="edit"
-                    />
 
-                    <ButtonLink
-                      to={`/admin-dashboard/order-management/order-tracking/${order._id}`}
-                      variant="primary"
-                      className="px-3.5 py-1"
-                      disabled={
-                        ["To Pay", "Pickup", "Pending"].includes(order.status) ||
-                        (order.status === "To Review" && order.type === "Pickup")
-                      }
-                    >
-                      {t("track-package")}
-                    </ButtonLink>
+
+
                   </div>
                 </TableCell>
               </CollapsibleBodyRow>
@@ -497,7 +461,7 @@ export default function OrderList() {
         </Table>
 
         <Pagination
-          totalPage={Math.ceil(orderData?.total / orderData?.limit)}
+          totalPage={Math.ceil((orderData?.total || 0) / (orderData?.limit || 0))}
           onPageChange={handleChangePage}
           onPageSizeChange={handleChangePageSize}
         />

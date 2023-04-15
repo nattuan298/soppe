@@ -1,5 +1,5 @@
 export const config = {
-  apiBaseUrl: process.env.REACT_APP_API_BASE_URL,
+  apiBaseUrl: process.env.REACT_APP_API_BASE_URL || "http://localhost:3000",
   baseUrl: process.env.REACT_APP_BASE_URL,
   apiKey: process.env.REACT_APP_ADMIN_API_KEY,
   projectId: process.env.REACT_APP_ADMIN_PROJECT_ID,

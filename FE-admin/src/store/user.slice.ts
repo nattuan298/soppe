@@ -93,74 +93,38 @@ const initialState: InitialStateType = {
     statusCode: 0,
   },
   userDetail: {
-    memberId: "",
-    name: "",
-    firstName: "",
-    lastName: "",
-    phoneCode: "",
-    status: "",
-    matching: "",
-    expiredDate: "",
-    phoneNumber: "",
-    citizenship: "",
-    avatar: {
-      key: "",
-      url: "",
-    },
-    gender: "",
-    documentStatus: "",
-    twoFaStatus: "",
-    googleAuth: false,
-    smsAuth: false,
-    dateOfBirth: "",
-    facebookAuth: false,
-    email: "",
-    sponsor: {
-      avatar: "",
-      name: "",
-      sponsorId: "",
-    },
-    shippingAddress: {
-      firstName: "",
-      lastName: "",
-      phoneCode: "",
-      phoneNumber: "",
-      country: "",
-      postalCode: "",
-      province: "",
-      provinceEng: "",
-      district: "",
-      districtEng: "",
-      subDistrict: "",
-      subDistrictEng: "",
-      address: "",
-      default: false,
-      category: "",
-    },
-    billingAddress: {
-      firstName: "",
-      lastName: "",
-      phoneCode: "",
-      phoneNumber: "",
-      country: "",
-      postalCode: "",
-      province: "",
-      provinceEng: "",
-      district: "",
-      districtEng: "",
-      subDistrict: "",
-      subDistrictEng: "",
-      address: "",
-      default: false,
-      category: "",
-    },
-    images: [
-      {
-        key: "",
-        type: "",
-        url: "",
-      },
-    ],
+    avatar:
+    "",
+    code:
+    "",
+    createdAt:
+    "",
+    dateOfBirth:
+    "",
+    email:
+    "",
+    firstName:
+    "",
+    gender:
+    "",
+    lastName:
+    "",
+    phoneNumber:
+    "",
+    role:
+    "",
+    status:
+    "",
+    updatedAt:
+    "",
+    updatedPasswordAt:
+    "",
+    username:
+    "",
+    __v:
+    0,
+    _id:
+    "",
   },
   loading: true,
   loadingDetail: true,
@@ -176,74 +140,38 @@ const usersSlice = createSlice({
   reducers: {
     resetUser: (state) => {
       state.userDetail = {
-        memberId: "",
-        name: "",
-        firstName: "",
-        lastName: "",
-        phoneCode: "",
-        status: "",
-        matching: "",
-        expiredDate: "",
-        phoneNumber: "",
-        citizenship: "",
-        avatar: {
-          key: "",
-          url: "",
-        },
-        gender: "",
-        documentStatus: "",
-        twoFaStatus: "",
-        googleAuth: false,
-        smsAuth: false,
-        dateOfBirth: "",
-        facebookAuth: false,
-        email: "",
-        sponsor: {
-          avatar: "",
-          name: "",
-          sponsorId: "",
-        },
-        shippingAddress: {
-          firstName: "",
-          lastName: "",
-          phoneCode: "",
-          phoneNumber: "",
-          country: "",
-          postalCode: "",
-          province: "",
-          provinceEng: "",
-          district: "",
-          districtEng: "",
-          subDistrict: "",
-          subDistrictEng: "",
-          address: "",
-          default: false,
-          category: "Other",
-        },
-        billingAddress: {
-          firstName: "",
-          lastName: "",
-          phoneCode: "",
-          phoneNumber: "",
-          country: "",
-          postalCode: "",
-          province: "",
-          provinceEng: "",
-          district: "",
-          districtEng: "",
-          subDistrict: "",
-          subDistrictEng: "",
-          address: "",
-          default: false,
-          category: "Other",
-        },
-        images: [
-          {
-            key: "",
-            type: "",
-            url: "",
-          },
-        ],
+        avatar:
+        "",
+        code:
+        "",
+        createdAt:
+        "",
+        dateOfBirth:
+        "",
+        email:
+        "",
+        firstName:
+        "",
+        gender:
+        "",
+        lastName:
+        "",
+        phoneNumber:
+        "",
+        role:
+        "",
+        status:
+        "",
+        updatedAt:
+        "",
+        updatedPasswordAt:
+        "",
+        username:
+        "",
+        __v:
+        0,
+        _id:
+        "",
       };
     },
     setLoadingUser: (state, action) => {

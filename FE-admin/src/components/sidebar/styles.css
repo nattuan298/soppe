@@ -3,35 +3,35 @@
 }
 
 .sidebar .logo {
-  height: 8%;
+  height: 10%;
 }
 .sidebar .menu {
-  height: 92%;
+  height: 100%;
 }
 .sidebar .sidebar-item {
-  height: 7%;
+  height: 12%;
   font-size: 8px;
 }
 
 .sidebar .active-sidebar-item {
   background-color: #fff1e5;
-  color: #ff7500;
+  color: #e40825;
 }
 
 .sidebar .active-sidebar-item svg path[fill="#fff"] {
-  fill: #ff7500;
+  fill: #ff3c00;
 }
 
 .sidebar .active-sidebar-item svg g path[fill="#fff"] {
-  fill: #ff7500;
+  fill: #e40825;
 }
 
 .sidebar .active-sidebar-item svg g circle[fill="#fff"] {
-  fill: #ff7500;
+  fill: #e40825;
 }
 
 .sidebar .active-sidebar-item svg rect[fill="#fff"] {
-  fill: #ff7500;
+  fill: #e40825;
 }
 
 .appearance-popover .MuiPopover-paper {

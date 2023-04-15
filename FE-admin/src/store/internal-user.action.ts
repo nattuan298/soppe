@@ -47,7 +47,7 @@ export type FetchGetInternalUserDetail = {
   payload: string;
 };
 const GetDetailUser = async (id: string) => {
-  const response = await authorizedRequest.get(`${config.apiBaseUrl}/admin/users/${id}`);
+  const response = await authorizedRequest.get(`${config.apiBaseUrl}/admin/user/${id}`);
   return Promise.resolve(response);
 };
 export function* handleDetailUser(action: FetchGetInternalUserDetail) {

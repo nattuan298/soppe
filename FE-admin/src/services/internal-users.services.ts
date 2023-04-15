@@ -18,7 +18,7 @@ export function updateInternalUser(params: {
   id: string;
   body: InternalUserModel;
 }): Promise<void | any> {
-  return authorizedRequest.put(`${config.apiBaseUrl}/admin/users/${params.id}`, {
+  return authorizedRequest.patch(`${config.apiBaseUrl}/users/${params.id}`, {
     ...params.body,
   });
 }

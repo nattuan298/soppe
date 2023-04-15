@@ -9,6 +9,7 @@ export default function Preview({
   email,
   dateOfBirth,
   gender,
+  role,
   citizenship,
   facebookConnect,
   FAStatus,
@@ -51,48 +52,10 @@ export default function Preview({
           <p className="info-label text-base">{t("gender")}</p>
           <p>{t(gender?.toLocaleLowerCase() as "to_ship")}</p>
         </div>
-        <div className="w-1/5">
-          <p className="info-label text-base">{t("citizenship")}</p>
-          <p>{t(citizenship?.toLocaleLowerCase() as "to_ship")}</p>
-        </div>
-        <div className="w-1/3">
-          <p className="info-label text-base">{t("facebook-connection")}</p>
-          <p>{facebookConnect}</p>
-        </div>
-        <div className="w-1/3">
-          <p className="info-label text-base">{t("2fa-status")}</p>
-          <p>{FAStatus}</p>
-        </div>
+
+
       </div>
-      <div className="info flex mb-7.5">
-        {shippingAddress && (
-          <div className="w-1/4">
-            <p className="info-label text-base">{t("shipping-address")}</p>
-            <p>
-              {t`receiver`}: {shippingAddress?.firstName} {shippingAddress?.lastName} (
-              {phoneNumberFormatter(shippingAddress?.phoneCode, shippingAddress?.phoneNumber)})
-            </p>
-            <p>{getAddress(shippingAddress)}</p>
-          </div>
-        )}
-        {(shippingAddress || billingAddress) && <div className="w-1/6"></div>}
-        {billingAddress && (
-          <div className="w-3/9">
-            <p className="info-label text-base">{t("billing-address")}</p>
-            <p>
-              {t`receiver`}: {billingAddress?.firstName} {billingAddress?.lastName} (
-              {phoneNumberFormatter(billingAddress?.phoneCode, billingAddress?.phoneNumber)})
-            </p>
-            <p>{getAddress(billingAddress)}</p>
-          </div>
-        )}
-        {sponsorData && (
-          <div className="w-3/9">
-            <p className="info-label text-base mb-2.5">{t("sponsor")}</p>
-            <SponsorCard sponsorData={sponsorData} />
-          </div>
-        )}
-      </div>
+
     </div>
   );
 }

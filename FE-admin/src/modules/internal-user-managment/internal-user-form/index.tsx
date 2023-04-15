@@ -32,7 +32,7 @@ import { useIsErrorMessage } from "src/hooks";
 import { DeleteIcon } from "src/components/icons";
 import PasswordGenerator from "./password-generator";
 import "./styles.css";
-import { routesInternalUserManagement } from "src/constants/routes";
+import { routesUserManagement } from "src/constants/routes";
 import { internalUserSchema, passwordSchemaCreate, passwordSchemaEdit } from "./schema";
 import { getDetailInternalUserAction } from "src/store/internal-user.action";
 import { getRoleActiveAction } from "src/store/role.action";
@@ -51,20 +51,18 @@ type RoleChipType = {
 };
 
 export default function InternalUserForm({ mode }: InternalUserFormProps) {
-  const [password, setPassword] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [dateOfBirth, setDateOfBirth] = useState<string>("");
   const [gender, setGender] = useState<string>("Male");
-  const [status, setStatus] = useState<string>("Active");
   const [citizenship, setCitizenship] = useState<string>("Thai");
-  const [phoneCode, setPhoneCode] = useState<string>("66");
-  const [roles, setRoles] = useState<RoleChipType[]>([]);
+  const [phoneCode, setPhoneCode] = useState<string>("84");
+  const [roles, setRoles] = useState<string>("");
   const [avatarKey, setAvatarKey] = useState<string>("");
   const [errorMessages, setErrorMessages] = useState<any>({
     password: "",
     roles: "",
   });
-  const [resetPassword, setResetPassword] = useState<boolean>(false);
+
   const [confirmType, setConfirmType] = useState<"action" | "delete">("action");
   const [loading, setLoading] = useState<boolean>(false);
   const { t } = useTranslation("common");
@@ -72,35 +70,27 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
   const history = useHistory();
   const dispatch = useDispatch();
   const { internalUserDetail } = useSelector((state: RootState) => state.internalUsers);
-  const { activeRoleList } = useSelector((state: RootState) => state.roles);
+  console.log(internalUserDetail);
 
   const initialValues = useMemo(() => {
     if (mode === "edit") {
       setGender(internalUserDetail.gender);
-      setStatus(internalUserDetail.status);
       setDateOfBirth(internalUserDetail.dateOfBirth);
       setAvatarKey(internalUserDetail.avatar || "");
       setCitizenship(internalUserDetail.citizenship);
       setRoles(
-        internalUserDetail.roles.map((role) => ({
-          _id: role._id,
-          name: role.name,
-          status: role.status,
-        })),
-      );
+        internalUserDetail.roles);
       return {
         firstName: internalUserDetail.firstName,
         lastName: internalUserDetail.lastName,
         email: internalUserDetail.email,
-        jobTitle: internalUserDetail.jobType,
-        phoneNumber: internalUserDetail.phoneNumber,
+        phoneNumber: internalUserDetail?.phoneNumber?.slice(3),
       };
     }
     return {
       firstName: "",
       lastName: "",
       email: "",
-      jobTitle: "",
       phoneNumber: "",
     };
   }, [internalUserDetail, mode]);
@@ -127,44 +117,16 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
     validationSchema: internalUserSchema,
   });
 
-  function handleChangePassword(value: string) {
-    if (mode === "create") {
-      passwordSchemaCreate
-        .validate(value)
-        .then(() => setErrorMessages({ ...errorMessages, password: "" }))
-        .catch((error) => setErrorMessages({ ...errorMessages, password: error.errors[0] }));
-      setPassword(value);
-    }
-    if (mode === "edit") {
-      passwordSchemaEdit
-        .validate(value)
-        .then(() => setErrorMessages({ ...errorMessages, password: "" }))
-        .catch((error) => setErrorMessages({ ...errorMessages, password: error.errors[0] }));
-      setPassword(value);
-    }
-  }
+
   function handleChangeDateOfBirth(value: string) {
     setDateOfBirth(dayjs(value).toISOString());
   }
   function handleChangeGender(value: string | null) {
     if (value) setGender(value);
   }
-  function handleChangeStatus(value: string | null) {
-    if (value) setStatus(value);
-  }
-  function handleChangeCitizenship(value: string) {
-    setCitizenship(value);
-  }
-  function handleChangePhoneCode(value: string) {
-    setPhoneCode(value);
-  }
-  function handleSelectRoles(value: { _id: string; name: string }) {
-    setErrorMessages({ ...errorMessages, roles: "" });
-    setRoles((prevState) => [...prevState, value]);
-  }
-  function handleCloseRoleChip(id: string) {
-    setRoles((prevState) => prevState.filter((item) => item._id !== id));
-  }
+
+
+
   function handleCancelConfirm() {
     setIsOpenModal(false);
   }
@@ -187,14 +149,14 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
   }
   async function handleConfirm() {
     if (confirmType === "action") {
-      history.push(routesInternalUserManagement);
+      history.push(routesUserManagement);
     }
     if (confirmType === "delete") {
       try {
         await deleteInternalUser(id);
         setIsOpenModal(false);
         setTimeout(() => {
-          history.push(routesInternalUserManagement);
+          history.push(routesUserManagement);
         }, 1000);
       } catch (e) {
         //
@@ -207,27 +169,11 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
     const sendData = {
       ...values,
       avatar: avatarKey,
-      jobType: values.jobTitle,
-      password,
       dateOfBirth,
       gender,
-      status,
-      citizenship,
-      phoneCode,
-      phoneNumber: String(values.phoneNumber),
-      roles: roles.map((role) => role._id),
+      phoneNumber: `+84${values.phoneNumber}`,
+      roles,
     };
-
-    if (password === "" && mode === "create") {
-      setErrorMessages({ ...errorMessages, password: t("required_fields") });
-      setLoading(false);
-      return;
-    }
-    if (roles.length === 0) {
-      setErrorMessages({ ...errorMessages, roles: "required_fields" });
-      setLoading(false);
-      return;
-    }
 
     if (!isErrorMessage && mode === "create") {
       try {
@@ -240,14 +186,11 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
           response = await createInternalUser({
             ...values,
             avatar: avatarKey,
-            jobType: values.jobTitle,
-            password,
             gender,
-            status,
             citizenship,
             phoneCode,
             phoneNumber: String(values.phoneNumber),
-            roles: roles.map((role) => role._id),
+            roles,
           });
         }
 
@@ -260,17 +203,13 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
         }
         setTimeout(() => {
           setLoading(false);
-          history.push(routesInternalUserManagement);
+          history.push(routesUserManagement);
         }, 1000);
       } catch (e) {
         //
       }
     }
-    if (password === "" && mode === "edit" && resetPassword) {
-      setErrorMessages({ ...errorMessages, password: t("required_fields") });
-      setLoading(false);
-      return;
-    }
+
     if (!isErrorMessage && mode === "edit") {
       try {
         if (sendData.password === "") delete sendData.password;
@@ -286,14 +225,11 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
             body: {
               ...values,
               avatar: avatarKey,
-              jobType: values.jobTitle,
               gender,
-              status,
-              password,
               citizenship,
               phoneCode,
-              phoneNumber: String(values.phoneNumber),
-              roles: roles.map((role) => role._id),
+              phoneNumber: `+84${values.phoneNumber}`,
+              roles,
             },
           });
         }
@@ -307,7 +243,7 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
         }
         setTimeout(() => {
           setLoading(false);
-          history.push(routesInternalUserManagement);
+          history.push(routesUserManagement);
         }, 1000);
       } catch (e) {
         //
@@ -368,40 +304,6 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
                 <Grid className="mb-4" container>
                   <Grid item lg={6} md={6}>
                     <div className="flex flex-col  mr-4">
-                      <Label required>{t("status")}</Label>
-                      <Select
-                        options={[
-                          { title: t`active`, value: "Active" },
-                          { title: t`inactive`, value: "Inactive" },
-                        ]}
-                        defaultValue={status}
-                        onChange={handleChangeStatus}
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item lg={6} md={6}>
-                    <div className="flex flex-col ml-4">
-                      <Label required>{t("job-title")}</Label>
-                      <Input
-                        placeholder={t("marketing")}
-                        name="jobTitle"
-                        value={formik.values.jobTitle}
-                        onChange={formik.handleChange}
-                        errorMessage={
-                          formik.touched.jobTitle && formik.errors.jobTitle
-                            ? t(formik.errors.jobTitle as "to_ship")
-                            : ""
-                        }
-                        inputProps={{
-                          maxLength: 2500,
-                        }}
-                      />
-                    </div>
-                  </Grid>
-                </Grid>
-                <Grid className="mb-4" container>
-                  <Grid item lg={6} md={6}>
-                    <div className="flex flex-col  mr-4">
                       <Label required>{t("email")}</Label>
                       <Input
                         placeholder={t("email")}
@@ -420,9 +322,9 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
                     <div className="flex flex-col ml-4">
                       <Label required>{t("phone-number")}</Label>
                       <SelectPhoneCode
-                        onChangePhoneCode={handleChangePhoneCode}
+                        onChangePhoneCode={() => {}}
                         name="phoneNumber"
-                        phoneCode={internalUserDetail.phoneCode}
+                        phoneCode={"84"}
                         phoneNumber={formik.values.phoneNumber}
                         placeholder={t("phone-number")}
                         errorMessage={
@@ -437,13 +339,7 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
                 </Grid>
                 <Grid className="mb-4" container>
                   <Grid item lg={6} md={6}>
-                    <div className="flex flex-col  mr-4">
-                      <Label>{t("citizenship")}</Label>
-                      <SelectCountry country={citizenship} onSelect={handleChangeCitizenship} />
-                    </div>
-                  </Grid>
-                  <Grid item lg={6} md={6}>
-                    <div className="flex flex-col ml-4">
+                    <div className="flex flex-col mr-4">
                       <Label>{t("gender")}</Label>
                       <Select
                         options={[
@@ -455,52 +351,18 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
                       />
                     </div>
                   </Grid>
-                </Grid>
-                <Grid className="mb-4" container>
                   <Grid item lg={6} md={6}>
-                    <div className="flex flex-col  mr-4">
+                    <div className="flex flex-col  ml-4">
                       <Label>{t("date-of-birth")}</Label>
                       <DatePicker value={dateOfBirth} onChange={handleChangeDateOfBirth} />
                     </div>
                   </Grid>
                 </Grid>
+
               </Grid>
             </CollapsibleBlock>
-            <CollapsibleBlock className="mb-5" heading={t("password")}>
-              <PasswordGenerator
-                mode={mode}
-                setPassword={setPassword}
-                setResetPassword={setResetPassword}
-                onChange={handleChangePassword}
-                errorMessage={t(errorMessages.password as "to_ship")}
-              />
-            </CollapsibleBlock>
-            <CollapsibleBlock className="mb-5" heading={t("role-permission")}>
-              <Grid container direction="column" lg={6}>
-                <div className="flex flex-col mb-8">
-                  <Label required>{t("search-to-add-role")}</Label>
-                  <Autocomplete
-                    options={activeRoleList}
-                    selectedOptions={roles}
-                    onSelect={handleSelectRoles}
-                    errorMessage={t(errorMessages.roles as "to_ship")}
-                  />
-                </div>
-                <div className="roles-container">
-                  {roles.length > 0 &&
-                    roles.map((role) => (
-                      <RoleChip
-                        closeable
-                        disabled={role.status === "Inactive"}
-                        className="mr-5"
-                        id={role._id}
-                        name={role.name}
-                        onClose={() => handleCloseRoleChip(role._id)}
-                      />
-                    ))}
-                </div>
-              </Grid>
-            </CollapsibleBlock>
+
+
             <div className="footer-button">
               <Button
                 loading={loading}
@@ -534,7 +396,7 @@ export default function InternalUserForm({ mode }: InternalUserFormProps) {
           </form>
         </div>
         <UploadProfileImage
-          avatarUrl={internalUserDetail.avatarUrl}
+          avatarUrl={internalUserDetail.avatar}
           onChangeUpload={handleUploadProfileImage}
         />
       </div>

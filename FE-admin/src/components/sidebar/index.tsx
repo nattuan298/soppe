@@ -8,9 +8,8 @@ import PlatformStatMenu from "./platform-stat-menu";
 
 export function Sidebar() {
   return (
-    <div className="sidebar fixed h-full bg-orange-light z-10">
+    <div className="sidebar fixed h-full bg-rose-700 z-10">
       <div className="logo flex justify-center items-center wide:mb-5 mb-2">
-        <LogoSidebar />
       </div>
       <div className="menu">
         {sidebarItems.map(({ url, title, icon, name }) => {
