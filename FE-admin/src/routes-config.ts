@@ -65,7 +65,6 @@ import {
   routesEditRoleAndPermission,
   routesEditUserManagement,
   routesHomeDashboard,
-  routesInternalUserManagement,
   routesOrderManagement,
   routesOrderManagementDetail,
   routesOrderManagementEdit,
@@ -144,13 +143,13 @@ export const routesConfig = [
       loadable(lazy(() => retry(() => import("./pages/user-management-edit")))),
     ),
   },
-  {
-    path: routesInternalUserManagement,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/internal-user-management-list")))),
-    ),
-  },
+  // {
+  //   path: routesInternalUserManagement,
+  //   exact: true,
+  //   component: withAuthentication(
+  //     loadable(lazy(() => retry(() => import("./pages/internal-user-management-list")))),
+  //   ),
+  // },
   {
     path: routesCreateInternalUserAccount,
     exact: true,
@@ -303,20 +302,7 @@ export const routesConfig = [
       loadable(lazy(() => retry(() => import("./pages/order-management-detail")))),
     ),
   },
-  {
-    path: routesOrderManagementEdit,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/order-management-edit")))),
-    ),
-  },
-  {
-    path: routesOrderManagementTracking,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/order-management-tracking")))),
-    ),
-  },
+
   {
     path: routeSectionBannerSlideManagement,
     exact: true,

@@ -44,7 +44,6 @@ export function ModalUserSummaryInfo({
 
   const avatar = userInfor.avatar;
   const name = `${userInfor.firstName} ${userInfor.lastName}`;
-  const sponsorId = userInfor.memberId;
 
   const handleClickUpload = () => {
     ref.current?.click();
@@ -125,11 +124,11 @@ export function ModalUserSummaryInfo({
                   <div>
                     <Title title={name} className="text-1.125 text-orange line-clamp-1 break-all" />
                   </div>
-                  {userInfor.documentStatus === "Complete" && (
-                    <div>
-                      <VerifyIcon className="-mt-1" />
-                    </div>
-                  )}
+
+                  <div>
+                    <VerifyIcon className="-mt-1" />
+                  </div>
+
                   {showVerified && (
                     <span className="text-0.875 font-light text-blue">{t`common:verified`}</span>
                   )}

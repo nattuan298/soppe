@@ -1,16 +1,26 @@
 import { authorizedRequest } from "src/lib/request";
 import { config } from "src/constants/config";
 
-export const getImageByKey = async (params: { key: string }) => {
-  const res = await authorizedRequest.get(`${config.apiBaseUrl}/upload/signed-url`, { params });
+export const getImageByKey = async ({ key }: { key: string }) => {
+  const res = await authorizedRequest.get(`${config.apiBaseUrl}/upload?key=${key}`);
   return res;
 };
 
-export const getSignURL = async (params: { moduleName?: string; fileName: string }) => {
-  const res: { key: string; preSignedUrl: string } = await authorizedRequest.get(
-    `${config.apiBaseUrl}/upload/upload-signed-url`,
-    { params },
+export const getSignURL = async ({
+  moduleName = "avatar",
+  fileName,
+}: {
+  moduleName?: string;
+  fileName: File;
+}) => {
+  const formData = new FormData();
+  formData.append("file", fileName);
+  formData.append("folder", moduleName);
+  const res: { Key: string; Location: string } = await authorizedRequest.post(
+    `${config.apiBaseUrl}/upload`,
+    formData,
   );
+  console.log(res);
   return res;
 };
 
@@ -35,11 +45,12 @@ export const uploadImageFull = async ({
   file: File;
   moduleName?: string;
 }) => {
-  const res = await getSignURL({ fileName: file.name, moduleName });
-  await putImageToSignURL({ file, signUrl: res.preSignedUrl });
-  const res2 = await getImageByKey({ key: res.key });
+  const res = await getSignURL({ fileName: file, moduleName });
+  // await putImageToSignURL({ file, signUrl: res.preSignedUrl });
+  console.log(res);
+  const res2 = await getImageByKey({ key: res.Key });
   return {
     imageUrl: res2,
-    key: res.key,
+    key: res.Key,
   };
 };

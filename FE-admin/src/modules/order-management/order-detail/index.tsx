@@ -24,7 +24,6 @@ import { useStyles } from "./styles";
 import "./styles.css";
 import { RootState } from "src/store";
 import { Address } from "src/types/order.model";
-import PDFDocument from "./pdf-document";
 import dummyImg from "src/assets/img/dummy-img.png";
 
 export default function OrderDetail() {
@@ -68,26 +67,15 @@ export default function OrderDetail() {
     return "";
   }
   const currency = useMemo(() => {
-    const { unit } = orderDetail || {};
-    if (unit) {
-      return getSymbolCurrencyLocalbase(unit as LOCALBASE);
-    }
-    return "THB";
+
+    return getSymbolCurrencyLocalbase("SGD" as LOCALBASE);
+
   }, [orderDetail]);
   const handleBusinessHour = (businessHours: string): string[] => {
     const resultHour = businessHours.split(",");
     return resultHour;
   };
-  const hoursByLocation = useMemo(() => {
-    if (!orderDetail.pickupAddress) {
-      return "";
-    }
-    const { businessHours, businessHoursEng } = orderDetail.pickupAddress;
-    if (language === "en" || !businessHours) {
-      return businessHoursEng;
-    }
-    return businessHours;
-  }, [language, orderDetail?.pickupAddress]);
+
 
   return (
     <Fragment>
@@ -100,105 +88,37 @@ export default function OrderDetail() {
           >
             <div className="detail-border-bottom pb-3">
               <div className="flex justify-between items-center mb-12">
-                <LogoConnext width="70" height="30" />
 
                 <div className="flex items-center">
-                  {!isPrinting ? (
-                    <>
-                      <PDFDownloadLink
-                        className="flex items-center"
-                        document={orderDetail._id ? <PDFDocument order={orderDetail} /> : <></>}
-                        fileName={`${orderDetail?.orderNumber}.pdf`}
-                      >
-                        {({ blob, url, loading, error }) =>
-                          loading ? (
-                            <div className="mr-6">
-                              <CircularProgress size={20} />
-                            </div>
-                          ) : (
-                            <Button className="p-0 mr-6 action-button-file" variant="text">
-                              <DownloadIcon />
-                            </Button>
-                          )
-                        }
-                      </PDFDownloadLink>
-                      <ReactToPrint
-                        trigger={() => (
-                          <Button id="" className="p-0 mr-6 action-button-file" variant="text">
-                            <PrinterIcon />
-                          </Button>
-                        )}
-                        content={() => {
-                          const { current: printRef } = orderDetailRef;
-                          if (printRef) {
-                            const buttons = Array.from(
-                              printRef.getElementsByClassName("action-button-file"),
-                            );
-                            buttons.forEach((element) => {
-                              element.setAttribute("style", "display: none;");
-                            });
-                          }
-                          return printRef;
-                        }}
-                        onBeforeGetContent={() => setIsPrinting(true)}
-                        onAfterPrint={() => setIsPrinting(false)}
-                      />
-                    </>
-                  ) : null}
+
                   <p className="font-medium text-lg">{t("order-detail")}</p>
                 </div>
               </div>
-              <p>{t("details")}</p>
             </div>
             <div className="order-detail-info pt-4 detail-border-bottom flex justify-between">
               <div className="w-3/5">
                 <p className="font-medium mb-4">
                   {t("order-id")}:{" "}
-                  <span className="text-orange-light">{orderDetail?.orderNumber}</span>
+                  <span className="text-orange-light">{orderDetail?._id}</span>
                 </p>
                 <div className="ship-to mb-4">
-                  {orderDetail.shippingAddress && (
+                  {orderDetail?.shippingAddress && (
                     <>
                       <p className="text-sm font-medium">{t("ship-to")}</p>
 
                       <p className="font-medium">
                         {`${orderDetail?.shippingAddress?.firstName} ${orderDetail?.shippingAddress?.lastName}`}{" "}
                         (
-                        {phoneNumberFormatter(
-                          orderDetail?.shippingAddress?.phoneCode,
-                          orderDetail?.shippingAddress?.phoneNumber,
-                        )}
+                        {
+                          orderDetail?.shippingAddress?.phoneNumber}
                         )
                       </p>
                       <p className="text-gray-dark text-sm">
-                        {getShippingAddress(orderDetail?.shippingAddress)}
+                        {orderDetail?.shippingAddress.address}
                       </p>
                     </>
                   )}
-                  {orderDetail.pickupAddress && (
-                    <>
-                      <p className="text-sm font-medium">{t("pickup-location")}</p>
-                      <p className="font-light">
-                        {language === "en" || !orderDetail.pickupAddress.branch
-                          ? orderDetail.pickupAddress.branchEng
-                          : orderDetail.pickupAddress.branch}
-                      </p>
-                      <p className="font-light">
-                        {language === "en" || !orderDetail.pickupAddress.address
-                          ? orderDetail.pickupAddress.addressEng
-                          : orderDetail.pickupAddress.address}
-                      </p>
-                      {orderDetail.pickupAddress.phoneNumbers.map((phone) => (
-                        <p className="font-light">
-                          Tel: ({phoneNumberFormatter(orderDetail.pickupAddress.phoneCode, phone)})
-                        </p>
-                      ))}
-                      {hoursByLocation &&
-                        handleBusinessHour(hoursByLocation).map((item: string) => (
-                          <p className="font-light">{item}</p>
-                        ))}
-                    </>
-                  )}
+
                 </div>
               </div>
               <div className="w-2/5">
@@ -209,7 +129,7 @@ export default function OrderDetail() {
                     <p className="w-1/3">
                       {currency}{" "}
                       <FormatNumber
-                        value={orderDetail.totalProductPrice}
+                        value={orderDetail?.totalPrice || 0}
                         decimalScale={2}
                         fixedDecimalScale
                       />
@@ -220,32 +140,14 @@ export default function OrderDetail() {
                     <p className="w-1/3">
                       {currency}{" "}
                       <FormatNumber
-                        value={Math.round(orderDetail.shippingFees * 100) / 100}
+                        value={Math.round((orderDetail?.totalPrice || 0) * 100) / 100}
                         decimalScale={2}
                         fixedDecimalScale
                       />
                     </p>
                   </div>
-                  <div className="flex mb-2">
-                    <p className="w-2/3">{t("taxes")}</p>
-                    <p className="w-1/3">
-                      {currency}{" "}
-                      <FormatNumber
-                        value={Math.round(orderDetail.taxes * 100) / 100}
-                        decimalScale={2}
-                        fixedDecimalScale
-                      />
-                    </p>
-                  </div>
-                  <a
-                    className="text-xs text-blue mb-2"
-                    href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t("click-read-more-taxes")}
-                  </a>
-                  {orderDetail.type !== "Pickup" && (
+
+                  {/* {
                     <div className="mt-2 flex">
                       <div className="w-2/3">
                         <span>{t`total_shipping_fees`}</span>
@@ -259,20 +161,7 @@ export default function OrderDetail() {
                         />
                       </div>
                     </div>
-                  )}
-                  {orderDetail.couponRedeemAmount ? (
-                    <div className="flex mt-2">
-                      <p className="w-2/3">{t`discount`}</p>
-                      <p className="w-1/3">
-                        {currency}
-                        <FormatNumber
-                          value={Math.round(orderDetail.couponRedeemAmount * 100) / 100}
-                          decimalScale={2}
-                          fixedDecimalScale
-                        />
-                      </p>
-                    </div>
-                  ) : null}
+                  } */}
                 </div>
 
                 <div className="py-5 flex detail-border-bottom">
@@ -280,18 +169,10 @@ export default function OrderDetail() {
                   <p className="text-xl font-medium w-38/100 text-black-primary">
                     {currency}{" "}
                     <FormatNumber
-                      value={orderDetail.totalPrice}
+                      value={orderDetail?.totalPrice || 0}
                       decimalScale={2}
                       fixedDecimalScale
                     />
-                  </p>
-                </div>
-
-                <div className="py-6 flex">
-                  <p className="text-gray-dark font-medium w-62/100">{t("total-received-pv")}</p>
-                  <p className="text-gray-dark font-medium w-38/100">
-                    <FormatNumber value={orderDetail.totalPv} decimalScale={2} fixedDecimalScale />{" "}
-                    PV
                   </p>
                 </div>
               </div>
@@ -306,16 +187,13 @@ export default function OrderDetail() {
                   <TableCell className={tableHeadCell} align="center">
                     {t("price")}
                   </TableCell>
-                  <TableCell className={tableHeadCell} align="center">
-                    {t("received-pv")}
-                  </TableCell>
                 </TableHead>
                 <TableBody>
-                  {orderDetail.products.map((product) => (
+                  {orderDetail?.products.map((product) => (
                     <TableRow key={product._id}>
                       <TableCell className={tableBodyCell}>
                         <ProductCard
-                          image={!isPrinting ? product.productImage : dummyImg}
+                          image={!isPrinting ? product.mediaUrl : dummyImg}
                           name={product.productName}
                           type={!isPrinting ? product.fileType : "IMAGE"}
                         />
@@ -325,39 +203,18 @@ export default function OrderDetail() {
                       </TableCell>
                       <TableCell className={tableBodyCell} align="center">
                         <span className="text-orange-light text-base">
-                          {getSymbolCurrencyLocalbase((product.unit || "THB") as LOCALBASE)}{" "}
+                          {getSymbolCurrencyLocalbase((product.unit || "SGD") as LOCALBASE)}{" "}
                           <FormatNumber value={product.price} />
                         </span>
                       </TableCell>
-                      <TableCell className={tableBodyCell} align="center">
-                        <span className="text-gray-dark text-base">
-                          <FormatNumber value={product.pv} /> PV
-                        </span>
-                      </TableCell>
+
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </div>
           </div>
-          <div className="px-10">
-            {orderDetail.status !== "To Pay" && (
-              <ButtonLink
-                to={`/admin-dashboard/order-management/order-tracking/${id}`}
-                className="bg-orange-light text-white hover:bg-orange-hover w-full px-3 py-2"
-                variant="text"
-                disabled={
-                  (orderDetail.status !== "To Ship" &&
-                    orderDetail.status !== "Complete" &&
-                    orderDetail.status !== "To Received" &&
-                    orderDetail.status !== "To Review") ||
-                  orderDetail.type === "Pickup"
-                }
-              >
-                {t("track-package")}
-              </ButtonLink>
-            )}
-          </div>
+
         </div>
       </CollapsibleBlock>
     </Fragment>

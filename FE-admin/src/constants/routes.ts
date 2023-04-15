@@ -22,8 +22,7 @@ export const routesUserManagement = "/admin-dashboard/user-management/user-list"
 export const routesEditUserManagement =
   "/admin-dashboard/user-management/edit-user-information/:id";
 
-export const routesInternalUserManagement =
-  "/admin-dashboard/internal-user-management/internal-user-list";
+
 export const routesCreateInternalUserAccount =
   "/admin-dashboard/internal-user-management/create-new-internal-user-account";
 export const routesEditInternalUserAccount =

@@ -3,10 +3,10 @@
   width: 200px;
   border-radius: 15px;
 }
-.order-status-receive {
+.waiting_approve {
   background-color: #0075c9;
 }
-.order-status-complete {
+.delivery {
   background-color: #8dc900;
 }
 .order-status-ship {
@@ -15,7 +15,7 @@
 .order-status-pay {
   background-color: #f3b916;
 }
-.order-status-review {
+.receipted {
   background-color: #707070;
 }
 .order-status-cancel-refund {

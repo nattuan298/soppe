@@ -89,9 +89,8 @@ export function SignInForm() {
 
   return (
     <div className="w-full">
-      <Navbar isAuth={true} goBackLink="" />
-      <div className="w-2/3 relative m-auto">
-        <div className="w-28 rounded-lg shadow-formSignIn border border-coolGray-100 absolute left-0 z-20 bg-white">
+      <div className="flex justify-center">
+        <div className="w-28 rounded-lg shadow-formSignIn border border-coolGray-100 z-20 bg-white">
           <form onSubmit={formik.handleSubmit} className="pl-12 pt-7 pr-12 pb-8">
             <span className="text-black text-xl font-medium">{t`sign-in`}</span>
             <div className="">
@@ -146,21 +145,11 @@ export function SignInForm() {
               >
                 <span className="text-white font-semibold text-base">{t`signin`}</span>
               </Button>
-              <div className="mt-4 text-base">
-                <span className="txt-contact-1">{t`please`} </span>
-                <span className="txt-contact-2" role="button" onClick={handleOpenModalContact}>
-                  {t`contact`}
-                </span>
-                <span className="txt-contact-1">
-                  {" "}
-                  {t`platform-admin-platform-admin-if-you-can't-access-the-platform`}
-                </span>
-              </div>
             </div>
           </form>
         </div>
 
-        <Asset className="absolute right-0" />
+        {/* <Asset className="absolute right-0" /> */}
       </div>
       <Modal
         isOpen={openModalContact}
