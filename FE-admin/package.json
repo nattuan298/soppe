@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "cross-env TAILWIND_MODE=watch craco start",
+    "start": "set PORT=3006 && cross-env TAILWIND_MODE=watch craco start",
     "build": "craco build",
     "build:prod": "cross-env NODE_ENV=production npm run build",
     "test": "craco test",

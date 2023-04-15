@@ -40,7 +40,7 @@ export const apiRoute = {
     transferBmcHistory: "/members/transfer-bmc-history",
     personalStatistic: "/members/personal-statistic",
     generateDynamicLink: "/members/sponsor/dynamic-link",
-    uploadAvatar: "/members/account-information/avatar",
+    uploadAvatar: "/users/change-avatar",
     newPinSponsor: "/members/new-pin-sponsor",
     matchingSponsor: "/members/matching-sponsor",
     newRegister: "members/new-register",
