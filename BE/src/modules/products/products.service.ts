@@ -231,7 +231,7 @@ export class ProductsService {
       category,
     }));
     if (dataInsert.length) {
-      await this.productCategoryModel.insertMany(dataInsert);
+      return await this.productCategoryModel.insertMany(dataInsert);
     }
   }
 
@@ -297,6 +297,15 @@ export class ProductsService {
         return prod.productId === productId;
       });
       if (product[0].isReviewed) return false;
+    }
+  }
+
+  async removeCategory(id: string) {
+    const categoryDeleted = await this.productCategoryModel.findByIdAndDelete(
+      id,
+    );
+    if (!categoryDeleted) {
+      throw new NotFoundException(`Category is not found.`);
     }
   }
 }

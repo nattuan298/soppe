@@ -69,4 +69,9 @@ export class ProductsAdminController {
   createCategory(@Body() body: CreateCategoryDto) {
     return this.productsService.createCategory(body);
   }
+
+  @Delete('/category/:id')
+  deleteCategory(@Param() { id }: CommonIdParams) {
+    return this.productsService.removeCategory(id);
+  }
 }

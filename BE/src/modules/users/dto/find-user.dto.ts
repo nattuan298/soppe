@@ -8,12 +8,12 @@ export class AdminFindUserDto extends CommonPaginationDto {
   @IsOptional()
   status?: Status;
 
-  @ApiProperty({ example: '2021-07-24T10:15:26.658Z', required: false })
+  @ApiProperty({ example: '2023-07-24T10:15:26.658Z', required: false })
   @IsOptional()
   @IsDateString()
   startDate?: Date;
 
-  @ApiProperty({ example: '2022-07-24T10:15:26.658Z', required: false })
+  @ApiProperty({ example: '2024-07-24T10:15:26.658Z', required: false })
   @IsOptional()
   @IsDateString()
   endDate?: Date;

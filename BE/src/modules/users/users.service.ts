@@ -59,6 +59,7 @@ export class UsersService {
     );
     user.salt = salt;
     user.password = hashPassword;
+    user.status = Status.Active;
     user.updatedPasswordAt = Date.now();
     user.code = '';
 
@@ -105,7 +106,23 @@ export class UsersService {
     user.role = Role.Admin;
     user.status = Status.Active;
     user.updatedPasswordAt = Date.now();
-    await user.save();
+
+    const options = {
+      subject: 'Welcome to Soppe',
+      template: 'admin-create',
+      context: {
+        username: createAdminDto.username,
+        password: createAdminDto.password,
+      },
+    };
+
+    await Promise.all([
+      user.save(),
+      this.sendMailToUser(createAdminDto.email, options),
+    ]);
+    return {
+      message: `Create new admin account successfully.`,
+    };
   }
 
   async findOne(payload: IJwtPayload) {
@@ -361,5 +378,35 @@ export class UsersService {
       .catch((err) => {
         console.log('Error while sending mail to carrier', err);
       });
+  }
+
+  async adminListAll(findUserDto: AdminFindUserDto) {
+    const filters: Record<string, unknown> = {
+      role: Role.Admin,
+    };
+    const options: Record<string, unknown> = {};
+    options.page = findUserDto.page;
+    options.limit = findUserDto.pageSize;
+    options.sort = { createdAt: -1 };
+    if (findUserDto.status) {
+      filters.status = findUserDto.status;
+    }
+    if (findUserDto.keyword) {
+      filters.username = { $regex: '.*' + findUserDto.keyword.trim() + '.*' };
+    }
+
+    if (findUserDto.startDate && findUserDto.endDate) {
+      filters.createdAt = {
+        $gte: findUserDto.startDate,
+        $lt: findUserDto.endDate,
+      };
+    }
+    const users = await this.userModel.paginate(filters, options);
+    users.docs.map((user: any) => {
+      if (user.avatar) {
+        user.avatar = this.uploadService.getSignedUrl(user.avatar);
+      }
+    });
+    return paginationTransformer(users);
   }
 }

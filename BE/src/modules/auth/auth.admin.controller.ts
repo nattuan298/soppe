@@ -1,8 +1,12 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthAdminService } from './auth.admin.service';
 import { AdminSignInDto } from './dto/admin-sign-in-dto';
 import { AdminSignUpDto } from './dto/admin-sign-up.dto';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/common.constants';
+import { JwtGuard } from 'src/common/guards/jwt-guard';
+import { RolesGuard } from 'src/common/guards/role.guard';
 
 @ApiTags('Auth')
 @Controller('admin')
@@ -14,7 +18,10 @@ export class AdminUserController {
     return this.authAdminService.adminSingIn(adminSignInDto);
   }
 
-  @Post('/signup')
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @UseGuards(JwtGuard, RolesGuard)
+  @Post('/create')
   userSignUp(@Body() adminSignUpDto: AdminSignUpDto) {
     return this.authAdminService.adminSignUp(adminSignUpDto);
   }
