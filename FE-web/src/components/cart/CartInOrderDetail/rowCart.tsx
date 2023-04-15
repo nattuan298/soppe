@@ -21,7 +21,7 @@ export default function RowCart({ product, disabledClickProduct }: ShoppingCartT
 
   const handleClickName = () => {
     router.push(
-      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product.productCode, locationBase }),
+      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product.productCode }),
     );
   };
   console.log(product);

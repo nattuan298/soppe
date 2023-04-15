@@ -52,7 +52,7 @@ export default function ModalOrderSummary({
       </div>
 
       <div className="hidden sm:block">
-        <Link href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3">
+        <Link href="">
           <a
             target="_blank"
             className="text-0.6875 text-blue cursor-pointer"

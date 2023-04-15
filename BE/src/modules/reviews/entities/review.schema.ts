@@ -6,13 +6,18 @@ const ReviewProductSchema = new mongoose.Schema(
   {
     productId: String,
     userId: String,
-    orderId: String,
+    username: String,
     rating: Number,
     describe: String,
     mediaUrl: String,
+    avatar: String,
   },
   { timestamps: true },
 );
 
+ReviewProductSchema.index(
+  { userId: 1, productId: 1 },
+  { unique: true, sparse: true },
+);
 ReviewProductSchema.plugin(mongoosePaginate);
 export { ReviewProductSchema, REVIEW_PRODUCT_MODEL };

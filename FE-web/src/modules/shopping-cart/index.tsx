@@ -82,13 +82,18 @@ export default function ShoppingCart() {
     // setcallingAPI(true);
     const checkoutProduct = listProducts.filter((item) => selected.includes(item._id));
 
-    dispatch(handleChangeField({
+    await dispatch(handleChangeField({
       totalPrice: total.price,
       totalQty: total.qty,
       checkoutProducts: checkoutProduct,
     }));
-    router.push(routeCheckoutUrl);
 
+    setTimeout(() => {
+      router.push(routeCheckoutUrl);
+
+    }
+
+    , 1000);
     // const callbackCreateOrder = (res: {
     //   error?: { message?: string };
     //   payload?: string;

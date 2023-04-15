@@ -1,0 +1,86 @@
+.access-history-list .search-filter {
+  box-shadow: 0px 0px 15px #00000029;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+}
+
+.access-history-list .search-filter .filter .dropdown {
+  width: 343px;
+}
+
+.access-history-list .search-filter .filter p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.access-history-list .search-filter .search-group .create-new-account-btn {
+  width: 250px;
+}
+
+.access-history-list .search-filter .search-group .search-input {
+  width: 400px;
+}
+
+.access-history-list .faq-table {
+  box-shadow: 0px 0px 10px #7979791a;
+  padding: 27px 36.5px 45px 36.5px;
+  border-radius: 10px;
+}
+
+.access-history-list .faq-table table {
+  margin-bottom: 50px;
+}
+
+.access-history-list .faq-table .action-buttons-wrapper button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.access-history-list .faq-table .action-buttons-wrapper a:not(:last-child) {
+  margin-right: 10px;
+}
+
+.access-history-list .faq-table .preview .info-label {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.star {
+  float: left;
+  margin-top: 3px;
+  margin-right: 5px;
+}
+.product .image {
+  width: 90px;
+  height: 90px;
+}
+.image {
+  width: 90px;
+  height: 90px;
+  border-radius: 5px;
+}
+.product-name .txt-name {
+  font-size: 18px;
+  color: #311339;
+  margin-left: 10px;
+  width: 190px;
+  word-wrap: break-word;
+}
+.line {
+  border-left: 0.1px solid #ebebeb;
+  height: 24px;
+  margin-left: 20.5px;
+  margin-right: 20.5px;
+}
+.approve {
+  cursor: pointer;
+  font-size: 16px;
+  color: #0075c9;
+}
+.reject {
+  cursor: pointer;
+  font-size: 16px;
+  color: #ff0000;
+}
+.text-detail {
+  color: #707070;
+}

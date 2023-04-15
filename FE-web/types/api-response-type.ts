@@ -33,6 +33,7 @@ export type ProductsType = {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
+  productId?:string;
   __v: number;
 }[];
 
@@ -49,17 +50,37 @@ export type ProductType = {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
-  isFavourite: boolean;
+  isFavorite?: boolean;
+  isAbleToReview?:boolean;
   __v: number;
 };
 
 export type ReviewProductType = {
-  rating: number;
-  detail: string;
-  memberName: string;
-  photos: string[];
-  memberAvatar: string;
-  _id: string;
+  avatar
+  : string;
+  createdAt
+  :
+  string;
+  describe
+  :
+  string;
+  mediaUrl
+  : string;
+  productId
+  :
+ string;
+  rating
+  :
+  number;
+  updatedAt
+  :
+  string;
+  userId
+  :
+  string;
+  username
+  :
+  string;
 };
 
 export type ArticlesType = { title: string; date: string; view: number; image: string }[];

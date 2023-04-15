@@ -1,0 +1,65 @@
+.input {
+  height: 50px;
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+}
+
+.date-range {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 10px #0000001a;
+  border-radius: 10px;
+}
+
+.date-range .date-picker-border {
+  width: 140px;
+  color: #231F20;
+  font: normal normal normal 16px/24px Kanit;
+}
+
+.date-range .rdrMonthAndYearPickers select {
+  width: 100%;
+  padding: 4px 30px 4px 10px
+}
+
+.date-range .rdrInRange, .date-range .rdrStartEdge, .date-range .rdrEndEdge {
+  color: inherit !important;
+}
+
+.date-range .rdrMonthName {
+  color: #231F20;
+}
+
+.date-range .rdrNextPrevButton {
+  margin: 0 1em;
+  background-color: transparent;
+}
+
+.date-range .rdrNextPrevButton i {
+  border-width: 0px;
+  border-color: transparent;
+  transform: none;
+}
+
+.date-range .rdrNextPrevButton i {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-top: 2px solid #555555;
+  border-left: 2px solid #555555;
+  border-radius: 0px;
+  background-color: transparent;
+}
+
+.date-range .rdrPprevButton i {
+  margin-left: 8px;
+  transform: rotate(-45deg);
+}
+
+.date-range .rdrNextButton i {
+  margin-left: 4px;
+  transform: rotate(135deg);
+}
+
+.date-range .confirm-button {
+  color: white;
+}

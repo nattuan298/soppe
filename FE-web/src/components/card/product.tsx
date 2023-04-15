@@ -28,8 +28,7 @@ export default function ProductCard({ productDetail }: { productDetail: ProductT
   const handleRedirect = () => {
     router.push(
       makeUrlObjectFromRouteBase(routeProductDetailBase, {
-        id: productDetail.productCode,
-        locationBase,
+        id: productDetail._id,
       }),
     );
   };
@@ -39,17 +38,15 @@ export default function ProductCard({ productDetail }: { productDetail: ProductT
     dispatch(addProductToCart({ qty: 1, product: productDetail, callBack, isLoggedIn }));
   };
 
-  const thumbimage = getThumbimageFromMedia(productDetail.media);
-
   return (
     <div className={styles.product_container}>
       <div className="relative">
         <Image
-          src={thumbimage?.urlPreSign}
+          src={productDetail.mediaUrl}
           className="cursor-pointer w-full"
-          classNameImage={thumbimage?.urlPreSign ? "bg-white" : "bg-lighterGray"}
+          classNameImage={productDetail.mediaUrl ? "bg-white" : "bg-lighterGray"}
           onClick={handleRedirect}
-          fileType={thumbimage?.fileType}
+          fileType={"IMAGE"}
           showIconVideo
           sizeIcon={{ width: "50", height: "50" }}
         />
@@ -63,11 +60,7 @@ export default function ProductCard({ productDetail }: { productDetail: ProductT
         </div>
         <div className="flex items-center">
           <Stars numberOfStars={productDetail.rating} />
-          <Tooltip title={productDetail.productCode} placement="bottom-end">
-            <div className="max-w-[100px] text-brown text-sm ml-2 text-overflow-ellipsis">
-              SKU: {productDetail.productCode}
-            </div>
-          </Tooltip>
+
         </div>
       </div>
       <div className="absolute bottom-0 p-2 pb-4 w-full">
@@ -75,16 +68,10 @@ export default function ProductCard({ productDetail }: { productDetail: ProductT
           <div className="flex items-center justify-between w-1/2 flex-wrap">
             <NumberFormat
               className="text-orange text-base mr-2"
-              value={productDetail[priceFieldName]}
+              value={productDetail.price}
               prefix={symbol}
             />
-            {isLoggedIn && (
-              <NumberFormat
-                className="text-lighterGray text-xs line-through"
-                value={productDetail.personalPrice}
-                prefix={symbol}
-              />
-            )}
+
           </div>
           <div className="flex w-1/2 flex-wrap flex-row-reverse">
             <img
@@ -93,13 +80,7 @@ export default function ProductCard({ productDetail }: { productDetail: ProductT
               className="cursor-pointer h-5"
               onClick={handleAddToCart}
             />
-            {isLoggedIn && (
-              <NumberFormat
-                className="text-sm text-brown mr-2"
-                value={productDetail.pv}
-                suffix=" PV"
-              />
-            )}
+
           </div>
         </div>
       </div>

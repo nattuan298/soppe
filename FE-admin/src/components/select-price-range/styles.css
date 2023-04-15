@@ -1,0 +1,23 @@
+.select {
+  width: 343px;
+  height: 50px;
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+}
+
+.options {
+  box-shadow: 0px 0px 10px rgba(121, 121, 121, 0.1);
+  border-radius: 5px;
+  max-height: 240px;
+}
+
+.range-slider {
+  width: 100%;
+  box-shadow: 0px 0px 10px #0000001a;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.range-slider .input {
+  width: 125px;
+}

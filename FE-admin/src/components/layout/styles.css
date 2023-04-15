@@ -1,0 +1,10 @@
+.layout .layout-content {
+  padding-top: 75px;
+}
+.layout .footer-cal {
+  min-height: calc(100vh - 75px);
+}
+
+.min-height {
+  min-height: 750px;
+}

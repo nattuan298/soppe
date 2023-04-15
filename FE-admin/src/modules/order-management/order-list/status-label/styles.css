@@ -1,0 +1,33 @@
+.order-status-label {
+  height: 25px;
+  width: 200px;
+  border-radius: 15px;
+}
+.order-status-receive {
+  background-color: #0075c9;
+}
+.order-status-complete {
+  background-color: #8dc900;
+}
+.order-status-ship {
+  background-color: #ff7500;
+}
+.order-status-pay {
+  background-color: #f3b916;
+}
+.order-status-review {
+  background-color: #707070;
+}
+.order-status-cancel-refund {
+  background-color: #bcbcbc;
+}
+
+.order-status-pending {
+  background-color: #ff0000;
+}
+
+@media only screen and (max-width: 1440px) {
+  .order-status-label {
+    width: 120px !important;
+  }
+}

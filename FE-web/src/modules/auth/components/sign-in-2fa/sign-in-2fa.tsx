@@ -108,7 +108,7 @@ export function SignIn2FA() {
                     </div>
                   </div>
                   <div className="mb-5">
-                    <Link href={"https://scmconnext.com/help-center-3/61b184a8133b4625e0c54510"}>
+                    <Link href={""}>
                       <a
                         target={"_blank"}
                         className={`${styles.unavailable_code} cursor-pointer hover:underline hover:text-orange`}

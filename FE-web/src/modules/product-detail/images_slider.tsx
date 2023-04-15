@@ -56,7 +56,7 @@ export default function ImagesSlider({
     nav1: undefined,
     nav2: undefined,
   });
-  console.log(images);
+
   useEffect(() => {
     setActiveSlide(0);
     refSlider.current?.slickGoTo(0);

@@ -21,6 +21,7 @@ import {
   routeAccountBase,
   routeCartUrl,
   routeFavoriteProductBase,
+  routeMyAccountBase,
   routeMyOrderUrl,
   routeSigninUrl,
 } from "src/constants/routes";
@@ -84,11 +85,9 @@ export function Header({
     }
   };
 
-  const showMenuSelectLanguage = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+
   const handleAccount = () => {
-    token ? router.push(routeAccountBase) : router.push(routeSigninUrl);
+    token ? router.push(routeMyAccountBase) : router.push(routeSigninUrl);
     setIsShowMore(false);
   };
 
@@ -198,12 +197,12 @@ export function Header({
   //   setSelectedCategory(value);
   // };
 
-  const redirectFilterCategory = ({ value: category }: { title: string; value: string }) => {
-    if (category !== "" && category !== selectedCategory) {
+  const redirectFilterCategory = ({ value: categoryId }: { title: string; value: string }) => {
+    if (categoryId !== "" && categoryId !== selectedCategory) {
       resetKeySort();
       router.push({
         pathname: "/products-listing",
-        query: { category },
+        query: { categoryId },
       });
     }
   };
@@ -259,12 +258,7 @@ export function Header({
     }
   };
 
-  const handleClickNotification = (event: MouseEvent<HTMLElement>) => {
-    if (!isLoggedIn) {
-      event.stopPropagation();
-      setopenModalSignIn(true);
-    }
-  };
+
   const handleCloseModal = () => {
     dispatch(handleChangeField({ needToLogin: false }));
     setopenModalSignIn(false);

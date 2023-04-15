@@ -1,0 +1,23 @@
+.border-error {
+  border: 1px solid #ff0000;
+}
+
+.hidden-input {
+  display: none !important;
+}
+
+.footer-button {
+  display: flex;
+}
+
+@media screen and (max-width: 1280px) {
+  .footer-button button {
+    max-width: 200px;
+  }
+}
+
+@media screen and (max-width: 1536px) {
+  .footer-button button {
+    max-width: 250px;
+  }
+}

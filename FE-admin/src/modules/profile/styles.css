@@ -1,0 +1,15 @@
+.btn-change-password {
+  background-color: #ff0000;
+  width: 250px;
+}
+
+.btn-change-password:hover {
+  background-color: #f56d6d;
+}
+
+.txt-requirement {
+  font-size: 14px;
+  color: #231f20;
+  margin-top: 28px;
+  margin-bottom: 20px;
+}

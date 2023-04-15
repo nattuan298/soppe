@@ -89,6 +89,7 @@ export const getAddressFromOrderAddress = (address: OrderAddressType | null, lan
   }
 
   const addressByLang = getAddressByLang(address, lang);
+  console.log(addressByLang);
   return {
     userInfor: `${address.firstName} ${address.lastName} (
       ${address.phoneNumber}
@@ -122,8 +123,8 @@ export const getMemberIDFromCookieSever = (cookie?: string): string => {
     const stringMemberDecode = decodeURIComponent(member);
     if (stringMemberDecode) {
       const a = JSON.parse(stringMemberDecode);
-      if (a?.memberId) {
-        memberId = a.memberId;
+      if (a?.user) {
+        memberId = a.user._id;
       }
     }
   }

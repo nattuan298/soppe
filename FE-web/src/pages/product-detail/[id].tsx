@@ -9,7 +9,7 @@ import { useLocationBase } from "src/hooks";
 import axios from "src/lib/client/request";
 import ProductDetail from "src/modules/product-detail";
 import { RootState } from "src/state/store";
-import { getLocationBaseFromCookieSever, getRandomProducts } from "src/utils";
+import { getCookieFromReq, getLocationBaseFromCookieSever, getMemberIDFromCookieSever, getRandomProducts } from "src/utils";
 import { ProductType } from "types/api-response-type";
 
 export default function ProductDetailPage({
@@ -32,9 +32,8 @@ export default function ProductDetailPage({
     const getData = async () => {
       setrelatedProducts([]);
       const listProductRes = await axios.get(
-        `${apiRoute.products.searchListProduct}?page=1&pageSize=100&countryCode=${locationBase}&category=${productDetail?.categoryId}&place=PRODUCT_LISTING`,
+        `${apiRoute.products.searchListProduct}?page=1&pageSize=100&categoryId=${productDetail?.categoryId}`,
       );
-
       const data = listProductRes.data?.data || [];
       const dataLength = data.length;
       let result = data;
@@ -47,34 +46,34 @@ export default function ProductDetailPage({
     };
 
     getData();
-  }, [productDetail, locationBase]);
+  }, [productDetail]);
 
   useEffect(() => {
     setProduct(productDetail);
   }, [productDetail]);
 
-  useEffect(() => {
-    const callAPI = async (memberId: string) => {
-      try {
-        const res = await axios.get(
-          `${apiRoute.products.getProductDetail}?countryCode=${locationBase}&productCode=${productCode}&memberId=${memberId}`,
-        );
+  // useEffect(() => {
+  //   const callAPI = async (memberId: string) => {
+  //     try {
+  //       const res = await axios.get(
+  //         `${apiRoute.products.getProductDetail}?countryCode=${locationBase}&productCode=${productCode}&memberId=${memberId}`,
+  //       );
 
-        const newProps = {
-          isFavourite: res.data?.isFavourite || false,
-          favouriteId: res.data?.favouriteId || null,
-        };
+  //       const newProps = {
+  //         isFavourite: res.data?.isFavourite || false,
+  //         favouriteId: res.data?.favouriteId || null,
+  //       };
 
-        setProduct((preState) => ({ ...preState, ...newProps }));
-      } catch (e) {
-        console.error("Eror fetch api detail", e);
-      }
-    };
+  //       setProduct((preState) => ({ ...preState, ...newProps }));
+  //     } catch (e) {
+  //       console.error("Eror fetch api detail", e);
+  //     }
+  //   };
 
-    if (productCode && userInfor) {
-      callAPI(userInfor.memberId);
-    }
-  }, [productCode, locationBase, userInfor]);
+  //   if (productCode && userInfor) {
+  //     callAPI(userInfor.memberId);
+  //   }
+  // }, [productCode, locationBase, userInfor]);
 
   useEffect(() => {
     if (
@@ -119,7 +118,7 @@ export default function ProductDetailPage({
   //     </main>
   //   );
   // }
-
+  console.log(productDetail.productName);
   return (
     <div className="w-full text-black-dark">
       <NextSeo title={productDetail.productName} />
@@ -138,16 +137,20 @@ export default function ProductDetailPage({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, params, query }) => {
   const id = params?.id;
-  let productDetail: ProductType | null = null;
   const cookie = req.headers.cookie;
-  const locationBase = getLocationBaseFromCookieSever(cookie);
 
+  let productDetail: ProductType | null = null;
+  const userId = getMemberIDFromCookieSever(cookie);
   try {
     const ress = await axios.get(
-      `${apiRoute.products.getProductDetail}/${id}`,
+      `${apiRoute.products.getProductDetail}/${id}`, { params: {
+        ...(userId ? { userId } : {}),
+      },
+      },
     );
 
     productDetail = ress.data;
+    console.log(ress.data);
   } catch (e) {
     // console.error("Eror fetch api detail", e);
   }

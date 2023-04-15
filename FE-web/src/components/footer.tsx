@@ -22,7 +22,6 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
   const { t } = useTranslation("common");
   const [country, setCountry] = useState("Thailand");
   const screen = useGetScreenWidth();
-  const router = useRouter();
   const LocationBase = cookies.get("LocationBase");
   const member = cookies.get("member");
   useEffect(() => {
@@ -30,18 +29,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
       setCountry(member.locationBase);
     }
   }, [member]);
-  const displaySmallCart = useMemo(() => {
-    if (
-      hasSmallCart &&
-      router.pathname === (routeProductDetailBase || routeProductsBase || routeProductsListing) &&
-      screen !== "Desktop"
-    ) {
-      return false;
-    }
-    if (hasSmallCart) {
-      return true;
-    }
-  }, [hasSmallCart, router.pathname, screen]);
+
   return (
     <div>
       <div className="sm:w-1216 mx-auto w-screen mb-6">
@@ -82,6 +70,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
             </div>
           </div>
 
+
           <div className={ITEM_CLASS}>
             <div className="w-48 mx-auto sm:mx-0 text-center sm:text-left">
               <div className="text-lg mb-4 sm:mb-6 text-orange">{t`customer-services`}</div>
@@ -90,7 +79,6 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                   className="mb-4 sm:mb-6 text-base"
                   role="button"
                   onClick={() => {
-                    router.push("/help-center-1");
                   }}
                 >{t`help-center`}</li>
                 <Link href="">
@@ -114,18 +102,43 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                   className="mb-4 sm:mb-6 text-base"
                   role="button"
                   onClick={() => {
-                    router.push("/help-center-1");
+                    // router.push("/help-center-1");
                   }}
                 >{t`contact-us`}</li>
               </ul>
             </div>
           </div>
+          <div className={ITEM_CLASS}>
+            <div className="mx-auto text-center sm:text-left">
+              <div className="text-lg mb-4 sm:mb-6 text-orange">{t`about-success-more`}</div>
+              <ul>
+                <li
+                  className="mb-4 sm:mb-6 text-base"
+                  role="button"
+                  onClick={() => {
+                    // router.push("/help-center-3/61b183cdc392422094523575");
+                  }}
+                >{t`about-us`}</li>
+                {/* <li className="mb-6">{t`careers`}</li> */}
+                <Link href="">
+                  <a>
+                    <li className="mb-4 sm:mb-6 text-base">{t`terms_codition`}</li>
+                  </a>
+                </Link>
+                <Link href="">
+                  <a>
+                    <li className="mb-4 sm:mb-6 text-base">{t`privacy_policy`}</li>
+                  </a>
+                </Link>
 
+              </ul>
+            </div>
+          </div>
           <div className={ITEM_CLASS}>
             <div className="sm:text-center mt-7 sm:mt-0 text-center">
               <div className="text-lg mb-6 text-orange">{t`follow-us`}</div>
               <ul className="mx-auto sm:w-28 w-1/3">
-                <Link href="https://www.facebook.com/SuccessmoreBeing">
+                <Link href="">
                   <a target="_blank">
                     <li className="mb-6 flex cursor-pointer">
                       <FaceBook className="mr-2.5" />
@@ -133,7 +146,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                     </li>
                   </a>
                 </Link>
-                <Link href="https://www.instagram.com/successmorethailand/">
+                <Link href="">
                   <a target="_blank">
                     <li className="mb-6 flex cursor-pointer">
                       <Instagram className="mr-2.5" />
@@ -141,7 +154,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                     </li>
                   </a>
                 </Link>
-                <Link href="https://page.line.me/ros0356v?openQrModal=true">
+                <Link href="">
                   <a target="_blank">
                     <li className="mb-6 flex">
                       <Line className="mr-2.5" />
@@ -149,7 +162,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
                     </li>
                   </a>
                 </Link>
-                <Link href="https://www.youtube.com/user/SuccessmoreBeing">
+                <Link href="">
                   <a target="_blank">
                     <li className="mb-6 flex">
                       <Youtube className="mr-2.5" />
@@ -161,7 +174,7 @@ export function Footer({ hasSmallCart }: { hasSmallCart: boolean }) {
             </div>
           </div>
         </div>
-        {displaySmallCart && <SmallCart />}
+        {/* {displaySmallCart && <SmallCart />} */}
       </div>
       <GetAppFooter />
       <div>

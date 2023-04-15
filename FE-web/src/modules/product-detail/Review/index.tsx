@@ -27,20 +27,19 @@ export default function ReviewProduct({ rating = 0, productCode }: ReviewProduct
       try {
         setLoading(true);
         const res = await axios.get(
-          `${apiRoute.products.getReviews}?page=${page}&pageSize=10&productCode=${productCode}`,
+          `${apiRoute.products.getReviews}/${productCode}?page=${page}&pageSize=10`,
         );
         if (res.data?.data) {
           if (page === 1 && res.data.data.length > 3) {
             setfirstSeeMore(true);
           }
+          console.log(res);
           setReviews((pre) => [...pre, ...res.data?.data]);
         }
-
         setNumberRates(res.data?.total || 0);
       } catch (e) {}
       setLoading(false);
     };
-
     getData();
   }, [productCode, page]);
 
@@ -48,7 +47,6 @@ export default function ReviewProduct({ rating = 0, productCode }: ReviewProduct
     setReviews([]);
     setNumberRates(0);
   }, [productCode]);
-
   const handleSeeMore = () => {
     if (firstSeeMore) {
       return setfirstSeeMore(false);
@@ -62,20 +60,12 @@ export default function ReviewProduct({ rating = 0, productCode }: ReviewProduct
     <div className="mt-6 mx-4 sm:mx-0">
       <div className="flex items-center">
         <span className="font-medium mr-1">{t`reviews`}</span>
-        {/* <NumberFormat
-          className="text-lighterGray text-sm"
-          value={numberRates}
-          prefix="("
-          suffix=")"
-        /> */}
         <div className="text-lighterGray text-sm">({numberRates})</div>
       </div>
-
       <div className="flex items-center">
         <Stars numberOfStars={rating} />
         <span className="text-sm text-black-dark">{rating}/5</span>
       </div>
-
       {reviews.length > 0 && (
         <div>
           <div>
@@ -83,7 +73,6 @@ export default function ReviewProduct({ rating = 0, productCode }: ReviewProduct
               <OneReview key={i} review={item} />
             ))}
           </div>
-
           {(reviews.length < numberRates || (firstSeeMore && reviews.length <= 10)) && !loading && (
             <div className="flex justify-center mt-6">
               <span

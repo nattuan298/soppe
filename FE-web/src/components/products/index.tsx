@@ -61,16 +61,10 @@ export function Products({
     return Math.round(rating * 2) / 2;
   };
 
-  const handleRedirect = (id: string) => () => {
-    router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id, locationBase: "Vietnam" }));
+  const handleRedirect = (id?: string) => () => {
+    id && router.push(makeUrlObjectFromRouteBase(routeProductDetailBase, { id }));
   };
 
-  const imagePropperty = (product: ProductType) => {
-    if (product?.media && product?.media.length > 1 && product?.media[0].fileType === "VIDEO") {
-      return "media[1].urlPreSign";
-    }
-    return "media[0].urlPreSign";
-  };
 
   const handleAddToCart = (product: ProductType) => () => {
     const callBack = (message: string, typeMessage: string) => notifyToast(typeMessage, message, t);
@@ -86,7 +80,7 @@ export function Products({
   //   const { media } = product;
   //   return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
   // };
-  console.log(products);
+
   return (
     <div
       className={
@@ -96,13 +90,9 @@ export function Products({
       }
     >
       {products.map((product) => {
-        // const imageurl = imagePropperty(product);
-        // const onlyVideo = hasOnlyVideo(product);
-        // const image = get(product, imageurl);
         const { isNewProduct } = product;
         return (
           <div
-            // className={type === "listing" ? `${cls.productItem}` : cls.product}
             className={`${cls.newProduct} ${
               type === "listing" ? STYLE_DESKTOP_PRODUCT_ITEM : STYLE_DESKTOP_PRODUCT
             }`}
@@ -143,7 +133,7 @@ export function Products({
                 height={type === "listing" ? 210 : 270}
                 src={product.mediaUrl || imageDummy}
                 alt="image product"
-                onClick={handleRedirect(product._id)}
+                onClick={handleRedirect(favorite ? product?.productId : product?._id)}
               />
               {/* )} */}
 
@@ -162,7 +152,7 @@ export function Products({
                     cls.title,
                     type === "listing" ? cls.titleListing : cls.titleHome,
                   )}
-                  onClick={handleRedirect(product._id)}
+                  onClick={handleRedirect(favorite ? product?.productId : product?._id)}
                 >
                   {truncateStr(product.productName, 49)}
                 </div>

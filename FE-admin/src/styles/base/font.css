@@ -1,0 +1,6 @@
+html,
+body {
+  font-size: 16px;
+  /* https://bitsofco.de/the-new-system-font-stack/ */
+  font-family: "Kanit", sans-serif;
+}

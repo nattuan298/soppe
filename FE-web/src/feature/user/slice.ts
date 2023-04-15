@@ -21,16 +21,16 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    changePhoneConnectStatus: (state, action: PayloadAction<boolean>) => {
-      if (state.userInfor) {
-        state.userInfor.smsAuth = action.payload;
-      }
-    },
-    changeFacebookConnectStatus: (state, action: PayloadAction<boolean>) => {
-      if (state.userInfor) {
-        state.userInfor.facebookAuth = action.payload;
-      }
-    },
+    // changePhoneConnectStatus: (state, action: PayloadAction<boolean>) => {
+    //   if (state.userInfor) {
+    //     state.userInfor.smsAuth = action.payload;
+    //   }
+    // },
+    // changeFacebookConnectStatus: (state, action: PayloadAction<boolean>) => {
+    //   if (state.userInfor) {
+    //     state.userInfor.facebookAuth = action.payload;
+    //   }
+    // },
     changeAvatar: (state, action: PayloadAction<string>) => {
       if (state.userInfor) {
         state.userInfor.avatar = action.payload;
@@ -84,8 +84,7 @@ export const userSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  changePhoneConnectStatus,
-  changeFacebookConnectStatus,
+
   changeRedirectUrl,
   updatePreUrl,
   changeAvatar,

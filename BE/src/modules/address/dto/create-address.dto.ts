@@ -20,7 +20,7 @@ export class CreateAddressDto {
   phoneNumber: string;
 
   @IsString()
-  address: string;
+  addressDetail: string;
 
   @IsString()
   @IsNotEmpty()
@@ -32,5 +32,5 @@ export class CreateAddressDto {
 
   @IsString()
   @IsNotEmpty()
-  sub_district: string;
+  subDistrict: string;
 }

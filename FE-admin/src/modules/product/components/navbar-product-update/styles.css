@@ -1,0 +1,35 @@
+.navbar-product-update {
+  height: 95px;
+}
+
+.navbar-product-update .product {
+  height: 85px;
+  margin-left: 40px;
+  width: 320px;
+}
+
+.navbar-product-update .product .image {
+  height: 85px;
+  margin-right: 10px;
+}
+
+.navbar-product-update .product .txt-sku {
+  font-size: 18px;
+  color: #ff7500;
+  margin-left: 10px;
+  margin-top: 8px;
+}
+
+.navbar-product-update .product .txt-name {
+  font-size: 18px;
+  color: #311339;
+  margin-left: 10px;
+  width: 190px;
+  word-wrap: break-word;
+  margin-top: 2px;
+}
+
+.dropdown-language {
+  width: 343px;
+  height: 50px;
+}

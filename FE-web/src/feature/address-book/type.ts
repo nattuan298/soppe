@@ -1,12 +1,12 @@
 export interface AddressModel {
-  address: string;
+  addressDetail: string;
   createdAt?: string;
   district: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
   province: string;
-  sub_district: string;
+  subDistrict: string;
   updatedAt?: string;
   userId?: string;
   __v?: number;
@@ -25,7 +25,7 @@ export type AddressModel2 = {
   province: string;
   district: string;
   subDistrict: string;
-  address: string;
+  addressDetail: string;
   phoneCode: string;
   phoneNumber: string;
 };

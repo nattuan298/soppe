@@ -8,14 +8,14 @@ const AddressSchema = new mongoose.Schema(
     firstName: String,
     lastName: String,
     phoneNumber: String,
-    address: String,
+    addressDetail: String,
     userId: {
       type: mongoose.Types.ObjectId,
       ref: 'users',
     },
     province: String,
     district: String,
-    sub_district: String,
+    subDistrict: String,
   },
   { timestamps: true },
 );

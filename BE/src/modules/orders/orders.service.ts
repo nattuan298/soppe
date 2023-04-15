@@ -22,6 +22,7 @@ export class OrdersService {
   constructor(
     @InjectModel(ORDER_MODEL)
     private readonly orderModel: PaginateModel<IOrderDoc>,
+    @Inject(forwardRef(() => ProductsService))
     private readonly productsService: ProductsService,
     @Inject(forwardRef(() => UploadService))
     private readonly uploadService: UploadService,
@@ -35,7 +36,10 @@ export class OrdersService {
 
     for (let i = 0; i < createOrderDto.products.length; i++) {
       const prod = createOrderDto.products[i];
-      const getProd = await this.productsService.findOne(prod.productId);
+      const getProd =
+        await this.productsService.findOneAndNotReturnFullMediaUrl(
+          prod.productId,
+        );
 
       totalPrice = totalPrice + prod.quantity * getProd.price;
       totalQuantity = totalQuantity + prod.quantity;
@@ -75,9 +79,17 @@ export class OrdersService {
     options.sort = { createdAt: -1 };
     try {
       const orders = await this.orderModel.paginate(filters, options);
+
       if (!orders.docs.length) {
         return paginationTransformer(orders);
       }
+      orders.docs.forEach((ord: any) => {
+        ord.products.forEach((prod: any) => {
+          const url = this.uploadService.getSignedUrl(prod.mediaUrl);
+          prod.mediaUrl = url;
+        });
+      });
+
       return paginationTransformer(orders);
     } catch (e) {
       throw new InternalServerErrorException(e);
@@ -90,6 +102,22 @@ export class OrdersService {
       if (!order) {
         throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
       }
+      order.products.forEach((prod: any) => {
+        const url = this.uploadService.getSignedUrl(prod.mediaUrl);
+        prod.mediaUrl = url;
+      });
+      return order;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async findOneNotReturnFullImage(id: string) {
+    try {
+      const order = await this.orderModel.findById(id).lean();
+      if (!order) {
+        throw new NotFoundException(ResponseOrderMessage.NOT_FOUND);
+      }
       return order;
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -97,7 +125,7 @@ export class OrdersService {
   }
 
   async markReceived(id: string) {
-    const order = await this.findOne(id);
+    const order = await this.findOneNotReturnFullImage(id);
     order.completedAt = Date.now();
     order.orderStatus = OrderStatus.RECEIPTED;
     order.products.forEach((el: any) => {
@@ -121,10 +149,10 @@ export class OrdersService {
     return order;
   }
 
-  async updateReviewed(orderId: string, productId: string) {
+  async updateReviewed(userId: string, productId: string) {
     await this.orderModel.findOneAndUpdate(
       {
-        _id: orderId,
+        userId,
         'products.productId': productId,
       },
       { 'products.$.isReviewed': true },
@@ -132,9 +160,8 @@ export class OrdersService {
     );
   }
 
-  async findOrderReviewed(orderId: string, productId: string, userId: string) {
+  async findOrderReviewed(productId: string, userId: string) {
     return await this.orderModel.findOne({
-      _id: orderId,
       userId,
       'products.productId': productId,
       'products.isReviewed': true,

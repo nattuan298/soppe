@@ -30,6 +30,8 @@ import { paginationTransformer } from 'src/common/helpers';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { CheckStockDto, ProductCheckDto } from './dto/check-stock.dto';
 import { FavouriteProductsService } from '../favourite-products/favourite-products.service';
+import { ReviewsService } from '../reviews/reviews.service';
+import { OrdersService } from '../orders/orders.service';
 // import { ReviewStatus } from '../reviews/review.constant';
 
 @Injectable()
@@ -45,6 +47,10 @@ export class ProductsService {
     private readonly uploadService: UploadService,
     @Inject(forwardRef(() => FavouriteProductsService))
     private readonly favoriteProductsService: FavouriteProductsService,
+    @Inject(forwardRef(() => ReviewsService))
+    private readonly reviewsService: ReviewsService,
+    @Inject(forwardRef(() => OrdersService))
+    private readonly ordersService: OrdersService,
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
@@ -89,8 +95,7 @@ export class ProductsService {
       input.categoryId = categoryId;
     }
     if (maxPrice) {
-      input.min_price = minPrice;
-      input.max_price = maxPrice;
+      input.$or = [{ price: { $lte: maxPrice, $gte: minPrice } }];
     }
 
     options.page = findProductsDto.page;
@@ -119,14 +124,25 @@ export class ProductsService {
         product.mediaUrl = this.uploadService.getSignedUrl(product.mediaUrl);
       }
       product.isFavorite = false;
+      product.isAbleToReview = false;
       if (userId) {
-        const isFavorite = await this.favoriteProductsService.findOne(
-          id,
-          userId,
-        );
+        const [isFavorite, getIsAbleToReview] = await Promise.all([
+          this.favoriteProductsService.findOne(id, userId),
+          this.isProductAbleToReview(userId, id),
+        ]);
         if (isFavorite) product.isFavorite = true;
+        product.isAbleToReview = getIsAbleToReview;
       }
+
       return product;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findOneAndNotReturnFullMediaUrl(id: string) {
+    try {
+      return await this.productModel.findById(id).lean();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -243,6 +259,12 @@ export class ProductsService {
       .find()
       .sort({ rating: -1 })
       .limit(5);
+    if (productList) {
+      productList.map((prod: any) => {
+        prod.mediaUrl = this.uploadService.getSignedUrl(prod.mediaUrl);
+      });
+    }
+
     return productList;
   }
 
@@ -261,5 +283,20 @@ export class ProductsService {
       statusCode: 200,
       message: 'OK',
     };
+  }
+
+  async isProductAbleToReview(userId: string, productId: string) {
+    const [order, review] = await Promise.all([
+      this.ordersService.findOrderReviewed(productId, userId),
+      this.reviewsService.findOneReview(userId, productId),
+    ]);
+    if (review == undefined || order == undefined) {
+      return true;
+    } else if (review != undefined || order != undefined) {
+      const product = order.products.filter((prod: any) => {
+        return prod.productId === productId;
+      });
+      if (product[0].isReviewed) return false;
+    }
   }
 }

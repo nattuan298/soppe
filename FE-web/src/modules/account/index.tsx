@@ -14,7 +14,6 @@ import { apiRoute } from "src/constants/apiRoutes";
 import { browserConfig } from "src/constants/browser-config";
 import { notifyToast } from "src/constants/toast";
 import { updateScreen } from "src/feature/update-account-infor/slice";
-import { changeFacebookConnectStatus, changePhoneConnectStatus } from "src/feature/user/slice";
 import useGetScreenWidth from "src/hooks/useGetScreenWidth";
 import axios from "src/lib/client/request";
 import { phoneNumberFormatter234 } from "src/lib/format";
@@ -23,6 +22,7 @@ import { ModalUserSummaryInfo } from "../../components/user-summary";
 import UpdateImages from "./update-images";
 import UpdateInfor from "./update-infor";
 import UpdatePhone from "./update-phone";
+import { Cookies } from "react-cookie";
 
 declare global {
   interface Window {
@@ -36,21 +36,8 @@ const infors = [
   { title: "date_of_birth" },
   { title: "email" },
   { title: "phone-number" },
-  { title: "citizenship" },
 ];
 
-const images = [
-  { title: "id-card-photo", value: "0" },
-  { title: "beneficiary-person-id-card-photo", value: "0" },
-  { title: "book_bank_photo", value: "0" },
-  { title: "marriage_relationship_certificate", value: "0" },
-];
-
-const imagesOthers = [
-  { title: "passport_photo", value: "0" },
-  { title: "beneficiary_passport_photo", value: "0" },
-  { title: "cash_card_photo", value: "0" },
-];
 
 const connects = [{ title: "connect_phone_number" }, { title: "connect_facebook" }];
 
@@ -70,18 +57,18 @@ export default function AccountInfor() {
   const [imagesData, setImagesData] = useState<InterfaceImage[]>([]);
   const refFacebook = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const callAPI = async () => {
-      const res = await axios.get(apiRoute.members.documents);
-      setImagesData(res.data.images);
-    };
+  // useEffect(() => {
+  //   const callAPI = async () => {
+  //     const res = await axios.get(apiRoute.members.documents);
+  //     setImagesData(res.data.images);
+  //   };
 
-    callAPI();
+  //   callAPI();
 
-    return () => {
-      dispatch(updateScreen(""));
-    };
-  }, [dispatch]);
+  //   return () => {
+  //     dispatch(updateScreen(""));
+  //   };
+  // }, [dispatch]);
 
   const handleChangeScreen = (val: string, disabled?: boolean) => () => {
     if (disabled) {
@@ -146,23 +133,18 @@ export default function AccountInfor() {
 
   const dataDisplay: { [key: string]: string } = {
     full_name: userInfor
-      ? `${userInfor.prefixName !== "Co.,Ltd." ? t(userInfor.prefixName) : t("Co_Ltd")} ${
-          userInfor.firstName
+      ? ` ${userInfor.firstName
         } ${userInfor.lastName}`
       : "",
     gender: userInfor ? t(`${userInfor.gender.toLowerCase()}`) : "",
-    date_of_birth: userInfor ? dayjs(userInfor.birthday).format("DD - MM - YYYY") : "",
+    date_of_birth: userInfor ? dayjs(userInfor.dateOfBirth).format("DD - MM - YYYY") : "",
     email: userInfor ? userInfor.email : "",
     "phone-number": userInfor
-      ? phoneNumberFormatter234(userInfor.phoneCode, userInfor.phoneNumber)
+      ? userInfor.phoneNumber
       : "",
-    citizenship: userInfor ? userInfor.citizenship : "",
   };
 
-  const dataDisplayConnects: { [key: string]: boolean } = {
-    connect_phone_number: userInfor ? userInfor.smsAuth : false,
-    connect_facebook: userInfor ? userInfor.facebookAuth : false,
-  };
+
 
   const responseFacebook = async (response: ReactFacebookLoginInfo & { error?: boolean }) => {
     if (!response.id || response.error) {
@@ -185,15 +167,12 @@ export default function AccountInfor() {
     }
   };
 
-  const handleSaveImage = async () => {
-    const res = await axios.get(apiRoute.members.documents);
-    setImagesData(res.data.images);
-  };
+  // const handleSaveImage = async () => {
+  //   const res = await axios.get(apiRoute.members.documents);
+  //   setImagesData(res.data.images);
+  // };
 
-  const photos = useMemo(
-    () => (userInfor?.citizenship === "Thai" ? images : imagesOthers),
-    [userInfor],
-  );
+
   const width = useGetScreenWidth();
 
   return (
@@ -226,9 +205,7 @@ export default function AccountInfor() {
                               className={`${disabled ? "text-lighterGray" : ""} line-clamp-1`}
                               style={{ wordBreak: "break-all" }}
                             >
-                              {item.title === "citizenship"
-                                ? t(dataDisplay[item.title])
-                                : dataDisplay[item.title]}
+                               {dataDisplay[item.title]}
                             </span>
                             <div className="ml-4">
                               <ChevronRightIcon className="text-lighterGray" />
@@ -238,45 +215,8 @@ export default function AccountInfor() {
                       );
                     })}
 
-                    {photos.map((item) => (
-                      <div
-                        key={item.title}
-                        className="flex justify-between items-center mt-6 cursor-pointer"
-                        onClick={handleChangeScreen("images")}
-                      >
-                        <span className="capitalize">{t(`${item.title}`)}</span>
-                        <div className="flex items-center">
-                          {userInfor.documentStatus === "Complete" ? (
-                            <span className="text-greenLight">{t`verified`}</span>
-                          ) : (
-                            <span className="text-lighterGray">{t`unverified`}</span>
-                          )}
 
-                          <div className="ml-4">
-                            <ChevronRightIcon className="text-lighterGray" />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
 
-                    {connects.map((item) => (
-                      <div
-                        key={item.title}
-                        className="flex justify-between items-center mt-6 cursor-pointer"
-                      >
-                        <span>{t(`${item.title}`)}</span>
-                        <div className="flex items-center">
-                          {/* <span>{item.value}</span> */}
-                          <div className="text-right">
-                            {/* <SwitchCustome checked={item.value === "1"} /> */}
-                            <SwitchCustome
-                              checked={dataDisplayConnects[item.title]}
-                              onChange={handleSwitch(item.title)}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 </div>
               )}
@@ -284,14 +224,6 @@ export default function AccountInfor() {
                 <UpdateInfor onCancel={handleChangeScreen("")} user={userInfor} />
               )}
 
-              {screen === "images" && (
-                <UpdateImages
-                  onCancel={handleChangeScreen("")}
-                  images={imagesData}
-                  citizenship={userInfor.citizenship}
-                  onSave={handleSaveImage}
-                />
-              )}
 
               {["phone", "otp"].includes(screen) && <UpdatePhone screen={screen} />}
             </div>

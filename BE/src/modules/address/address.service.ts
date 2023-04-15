@@ -17,7 +17,7 @@ export class AddressService {
   async create(createAddress: CreateAddressDto, userId: string) {
     createAddress.firstName = createAddress.firstName.trim();
     createAddress.lastName = createAddress.lastName.trim();
-    createAddress.address = createAddress.address.trim();
+    createAddress.addressDetail = createAddress.addressDetail.trim();
     return await this.addressModel.create({
       ...createAddress,
       userId,
@@ -43,7 +43,7 @@ export class AddressService {
     return address;
   }
   async update(id: string, updateAddressDto: UpdateAddressDto) {
-    updateAddressDto.address = updateAddressDto.address.trim();
+    updateAddressDto.addressDetail = updateAddressDto.addressDetail.trim();
     updateAddressDto.firstName = updateAddressDto.firstName.trim();
     updateAddressDto.lastName = updateAddressDto.lastName.trim();
     const existingAddressLoop = await this.addressModel.findByIdAndUpdate(
@@ -62,5 +62,14 @@ export class AddressService {
     if (!addressDelete) {
       throw new NotFoundException(AddressResponseMessage.NotFound);
     }
+  }
+
+  concatAddress(
+    addressDetail: string,
+    subDistrict: string,
+    district: string,
+    province: string,
+  ) {
+    return addressDetail + subDistrict + district + province;
   }
 }

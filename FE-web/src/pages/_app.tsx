@@ -102,11 +102,7 @@ import { resetState } from "src/feature/signup/slice";
 import { fetchPoints, fetchUserInformation } from "src/feature/user/action";
 import useLoggedIn from "src/hooks/useLoggedIn";
 import axiosCutome from "src/lib/client/request";
-import {
-  initializeAnalytics,
-  subscribeToTopic,
-  unSubscribeToTopic,
-} from "src/lib/firebase/clientApp";
+
 import General from "src/modules/general";
 import { RootState, store } from "src/state/store";
 import { theme } from "src/theme";
@@ -248,15 +244,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
     ConfigAxios.defaults.headers.lang = lang;
   }, [lang]);
 
-  useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
-    jssStyles?.parentElement?.removeChild(jssStyles);
-    const firebaseCall = async () => {
-      await initializeAnalytics();
-    };
-    firebaseCall();
-  }, []);
+
 
   useEffect(() => {
     const newState = localStorage.getItem("stateCheckout");
@@ -394,7 +382,7 @@ function ECommerceApp({ Component, pageProps, router, hasSmallCart }: ECommerceA
           <div className="body flex-grow">
             <Component {...pageProps} router={router} />
           </div>
-          {/* <Footer hasSmallCart={hasSmallCart} /> */}
+          <Footer hasSmallCart={hasSmallCart} />
           <ToastContainer />
         </div>
       </div>

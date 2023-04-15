@@ -13,11 +13,6 @@ export class CreateReviewDto {
   @IsNotEmpty()
   productId: string;
 
-  @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
-  orderId: string;
-
   @IsNumber()
   @IsDefined()
   @IsNotEmpty()

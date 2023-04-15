@@ -40,10 +40,6 @@ export class UpdateUserDto {
   @IsString()
   @IsDateString()
   dateOfBirth?: Date;
-
-  @IsOptional()
-  @IsString()
-  avatar?: string;
 }
 
 export class UpdatePasswordDto {
@@ -82,4 +78,9 @@ export class RecoveryPassword {
   @MinLength(8)
   @IsAlphanumeric()
   newPassword: string;
+}
+
+export class UpdateAvatarDto {
+  @IsString()
+  avatar: string;
 }

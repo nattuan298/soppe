@@ -19,6 +19,10 @@ const AddressSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    address: {
+      type: String,
+      default: '',
+    },
   },
   {
     _id: false,
@@ -52,10 +56,6 @@ const productSchema = new mongoose.Schema(
       default: false,
     },
     categoryId: String,
-    ableToReview: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     _id: false,
@@ -101,6 +101,9 @@ const OrderSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+OrderSchema.index({ userId: 1, orderStatus: 1 });
+
 OrderSchema.plugin(mongoosePaginate);
 OrderSchema.plugin(mongooseAggregatePaginate);
 export { OrderSchema, ORDER_MODEL };

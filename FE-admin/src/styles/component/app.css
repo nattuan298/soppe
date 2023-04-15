@@ -1,0 +1,149 @@
+.app {
+  min-height: calc(100vh - var(--header-desktop-h) - var(--footer-desktop-h));
+}
+
+body {
+  min-width: 1280px;
+}
+
+:root {
+  --header-desktop-h: 58px;
+  --footer-desktop-h: 248px;
+}
+
+.content {
+  margin-left: 70px;
+}
+
+.footer-logged-in {
+  /* width: calc(100% - 70px); */
+}
+
+.Toastify__toast--default {
+  color: #8dc900 !important;
+  background-color: #ffffff !important;
+  font-family: "Kanit";
+  font-size: 18px;
+  box-shadow: 0px 0px 20px #00000033;
+}
+
+.Toastify__close-button--default {
+  color: #8dc900 !important;
+  opacity: 1 !important;
+}
+
+.Toastify__toast--error {
+  background-color: #ffffff !important;
+  color: #ff0000 !important;
+  font-family: "Kanit";
+  font-size: 18px;
+  line-height: 1.375rem;
+  box-shadow: 0px 0px 20px #00000033;
+}
+
+.Toastify__close-button--error {
+  color: #ff0000 !important;
+  opacity: 1 !important;
+}
+
+.Toastify__toast-container {
+  min-width: 500px;
+  width: auto !important;
+}
+
+.jodit a {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.jodit h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.jodit h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.jodit h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+.jodit h4 {
+  font-weight: bold;
+}
+
+.jodit h5 {
+  font-size: 0.83em;
+  font-weight: bold;
+}
+
+.jodit h6 {
+  font-size: 0.67em;
+  font-weight: bold;
+}
+
+.jodit ol {
+  list-style-type: decimal;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  padding-inline-start: 40px;
+}
+
+.jodit ul {
+  list-style-type: disc;
+  padding-left: 40px;
+}
+
+.jodit b,
+.jodit strong {
+  font-weight: bold;
+}
+
+.Toastify__toast-container {
+  width: fit-content;
+}
+
+.Toastify__toast-body {
+  padding-right: 8px;
+}
+
+.jodit table tr td {
+  border: 1px solid #bfbfbf;
+  min-width: 2em;
+  padding: 0.4em;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  vertical-align: middle;
+}
+
+@page {
+  margin: 10mm 0;
+}
+
+.button-cancel {
+  color: #ff7500;
+  border-color: #ff7500;
+}
+
+.button-cancel:hover {
+  color: #ff9033;
+  border-color: #ff9033;
+}
+
+.MuiAutocomplete-option {
+  width: 100% !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MuiAutocomplete-option[data-focus="true"] {
+  background-color: #ff7500 !important;
+  color: #ffffff !important;
+}

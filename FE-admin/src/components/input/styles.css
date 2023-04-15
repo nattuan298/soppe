@@ -1,0 +1,16 @@
+.show-password path[fill="#e3e3e3"] {
+  fill: #231f20;
+}
+
+.label {
+  color: #231f20;
+  margin-bottom: 5px;
+}
+
+.label .required-field {
+  color: #ff0000;
+}
+
+.inputChangePassword ::placeholder {
+  color: red;
+}

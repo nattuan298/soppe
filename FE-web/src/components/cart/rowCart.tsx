@@ -44,7 +44,7 @@ export default function RowCart({
       return;
     }
     router.push(
-      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product._id, locationBase }),
+      makeUrlObjectFromRouteBase(routeProductDetailBase, { id: product._id }),
     );
   };
 

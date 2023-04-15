@@ -43,8 +43,9 @@ export default function OrderDetailView({
   const router = useRouter();
   const { userInfor } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  const { symbol } = useLocationBase();
+  const { symbol, tax } = useLocationBase();
   const [isOpenModalTopay, setIsOpenModalTopay] = useState<boolean>(false);
+
 
   const handleTrackPackage = () => {
     order && router.push(makeUrlObjectFromRouteBase(routeTrackingOrderBase, { id: order._id }));
@@ -151,9 +152,6 @@ export default function OrderDetailView({
     <Fragment>
       <div>
         <div className="flex justify-between items-center">
-          <div>
-            <LogoConnextIcons />
-          </div>
           <div className="flex items-center">
             <div className="hidden sm:block">
               {" "}
@@ -202,37 +200,9 @@ export default function OrderDetailView({
         <div className="col-span-5">
           <div>
             <span className="font-medium mr-2">{t`order_id`}:</span>
-            <span className="font-medium text-orange">{order.orderNumber}</span>
+            <span className="font-medium text-orange">{order._id}</span>
           </div>
-          {order.type === "Pickup" && (
-            <>
-              <p className="text-sm mt-2 font-medium">{t`pickup_location`}:</p>
-              <p className="text-sm text-brown">{branchByLanguage}</p>
-              <p className="text-sm text-brown">{addressByLocation}</p>
-              <p className="text-sm text-brown">
-                Tel:{" "}
-                {phoneNumberFormatter22(
-                  order.pickupAddress.phoneCode,
-                  order.pickupAddress.phoneNumbers[0],
-                )}
-              </p>
-              {order.pickupAddress.phoneNumbers[1] && (
-                <p className="text-sm text-brown">
-                  Tel:{" "}
-                  {phoneNumberFormatter22(
-                    order.pickupAddress.phoneCode,
-                    order.pickupAddress.phoneNumbers[1],
-                  )}
-                </p>
-              )}
-              <p className="text-sm text-brown">
-                {hoursByLocation &&
-                  handleBusinessHour(hoursByLocation).map((item: string) => (
-                    <p className="w-full">{item}</p>
-                  ))}
-              </p>
-            </>
-          )}
+
 
 
           <>
@@ -271,31 +241,11 @@ export default function OrderDetailView({
               <span>{t`taxes`}</span>
             </div>
             <div className="col-span-2">
-              {/* <NumberFormatCustome value={order.taxes.toFixed(2)} prefix={symbol} /> */}
+              <NumberFormatCustome value={(((order.totalPrice) / (1 + tax)) * tax).toFixed(2)} prefix={symbol} />
             </div>
           </div>
-          <Link href="https://scmconnext.com/help-center-3/61b1844b133b46494dc544b3">
-            <a
-              target="_blank"
-              className="text-0.6875 text-blue mt-2 cursor-pointer"
-            >{t`more_about_taxes`}</a>
-          </Link>
-
-          {order.type !== "Pickup" && (
-            <div className="grid grid-cols-5 mt-2">
-              <div className="col-span-3">
-                <span>{t`total_shipping_fees`}</span>
-              </div>
-              <div className="col-span-2">
-                {/* <NumberFormatCustome value={order.totalShippingFees?.toFixed(2)} prefix={symbol} /> */}
-              </div>
-            </div>
-          )}
-
-
-
+          {"(10% total bill)"}
           <Divider className="mt-6" />
-
           <div className="grid grid-cols-5 mt-6">
             <div className="col-span-3">
               <span className="font-medium text-xl">{t`total`}:</span>
@@ -317,31 +267,7 @@ export default function OrderDetailView({
 
       {!hideButton && renderButton()}
 
-      {/* <div className="mt-6 font-light">
-        <p className="text-sm text-brown-dark">
-          {t`shipping_terms_and_conditions_full`}{" "}
-          <Link href="https://scmconnext.com/help-center-3/61b09e84e49b5a2cfdf1b5cc">
-            <a className="text-blue">{t`shipping_terms_and_conditions`}.</a>
-          </Link>
-        </p>
-        <p className="text-sm text-brown-dark mt-6">
-          {t`agree_to_scmconnect`}{" "}
-          <span
-            className="text-blue cursor-pointer"
-            onClick={() => {
-              router.push("/help-center-3/61b0a00816657045a987b643");
-            }}
-          >{t`privacy_policy`}</span>{" "}
-          {t`and`}{" "}
-          <span
-            className="text-blue cursor-pointer"
-            onClick={() => {
-              router.push("/help-center-3/61b09e84e49b5a2cfdf1b5cc");
-            }}
-          >{t`terms_and_conditions`}</span>
-          . {t`policy_conditions_full`}
-        </p>
-      </div> */}
+
       <ModalConfirm
         open={isOpenModalTopay}
         confirmType="unable-delete"

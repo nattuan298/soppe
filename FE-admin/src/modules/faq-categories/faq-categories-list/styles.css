@@ -1,0 +1,46 @@
+.faq-list .search-filter {
+  box-shadow: 0px 0px 15px #00000029;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+}
+
+.faq-list .search-filter .filter .dropdown {
+  width: 343px;
+}
+
+.faq-list .search-filter .filter p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.faq-list .search-filter .search-group .create-new-account-btn {
+  width: 250px;
+}
+
+.faq-list .search-filter .search-group .search-input {
+  width: 400px;
+}
+
+.faq-list .faq-table {
+  box-shadow: 0px 0px 10px #7979791a;
+  padding: 27px 36.5px 45px 36.5px;
+  border-radius: 10px;
+}
+
+.faq-list .faq-table table {
+  margin-bottom: 50px;
+}
+
+.faq-list .faq-table .action-buttons-wrapper button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.faq-list .faq-table .action-buttons-wrapper a:not(:last-child) {
+  margin-right: 10px;
+}
+
+.faq-list .faq-table .preview .info-label {
+  margin-bottom: 10px;
+  font-weight: 500;
+}

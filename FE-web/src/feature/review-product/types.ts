@@ -1,11 +1,8 @@
 export interface ReviewProductType {
-  sku: string | string[] | undefined;
-  productName: string | string[] | undefined;
-  productQuality: number;
-  shippingQuality: number;
-  detail: string;
-  orderId: string | string[] | undefined;
-  photos: string[];
+  productId?: string;
+  rating: number;
+  describe: string;
+  mediaUrl: string;
 }
 
 export const FETCH_POST_PRODUCT_REVIEW = "product/review-product";

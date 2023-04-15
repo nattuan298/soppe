@@ -1,0 +1,12 @@
+.search-filter {
+  box-shadow: 0px 0px 15px #00000029;
+  border-radius: 10px;
+}
+
+.filter-group .filter {
+  width: 343px;
+}
+
+.search-filter .filter-group .filter .select-dropdown .dropdown {
+  width: 343px;
+}

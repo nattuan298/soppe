@@ -1,0 +1,22 @@
+@import "tailwindcss/base";
+@import "./base/font.css";
+@import "./base/input.css";
+@import "./base/mui-table.css";
+@import "./utilities/typography.css";
+
+@import "tailwindcss/components";
+@import "./component/app.css";
+@import "./component/loading-indicator.css";
+@import "tailwindcss/utilities";
+
+@layer utilities {
+  .w-343px {
+    width: 343px;
+  }
+  .h-50px {
+    height: 50px;
+  }
+  .mr-10px {
+    margin-right: 10px;
+  }
+}

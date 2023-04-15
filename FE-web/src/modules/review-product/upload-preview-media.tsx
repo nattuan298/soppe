@@ -77,7 +77,7 @@ export function UploadPreviewMedia({ newMedias, setNewMedias }: UploadPreviewMed
   return (
     <div className="">
       <div>
-        <UploadMedia name={t`upload-the-image`} addNewMedias={addNewMedias} fileLimit={fileLimit} />
+        {newMedias.length < 1 && <UploadMedia name={t`upload-the-image`} addNewMedias={addNewMedias} fileLimit={1} />}
       </div>
       <SortComponent onSortEnd={onSortEnd} axis="xy" useDragHandle>
         {newMedias.map((item: Medias, index: number) => (
