@@ -136,7 +136,7 @@ export class ProductsService {
 
       return product;
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      throw error;
     }
   }
 
@@ -286,17 +286,14 @@ export class ProductsService {
   }
 
   async isProductAbleToReview(userId: string, productId: string) {
-    console.log(333333, productId);
-
     const [order, review] = await Promise.all([
       this.ordersService.findOrderReviewed(productId, userId),
       this.reviewsService.findOneReview(userId, productId),
     ]);
-
-    if (review == undefined) {
+    if (review == undefined || order == undefined) {
       return true;
     } else if (review != undefined || order != undefined) {
-      const product = order.products.filter((prod) => {
+      const product = order.products.filter((prod: any) => {
         return prod.productId === productId;
       });
       if (product[0].isReviewed) return false;
