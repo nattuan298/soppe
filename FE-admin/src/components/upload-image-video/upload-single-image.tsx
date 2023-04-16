@@ -73,7 +73,7 @@ export function UploadSigleImage({
       const imageDimensions = await imageSize(fileObjects[0]);
       if (
         dimension &&
-        (imageDimensions.width < dimension.width || imageDimensions.height < dimension.height)
+        (imageDimensions.width < 0 || imageDimensions.height < 0)
       ) {
         notifyToast(
           "error",

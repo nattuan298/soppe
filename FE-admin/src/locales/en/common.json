@@ -617,5 +617,8 @@
   "expire": "Expire",
   "this_order_id_no_longer_exists": "This Order ID no longer exists.",
   "upload_banner_image": "Please upload banner image.",
-  "total_shipping_fees": "Total Shipping Fees"
+  "total_shipping_fees": "Total Shipping Fees",
+  "waiting_approve": "Waiting aprrove",
+  "delivery":"Delivery",
+  "receipted":"Receipted"
 }

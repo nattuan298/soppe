@@ -258,7 +258,7 @@ console.log(userData);
     <div className="user-list">
       <div className="bg-white rounded-navbar flex justify-between items-center mb-5 px-5 search-filter">
         <div className="filter-group flex">
-          <div className="filter mr-6">
+          {/* <div className="filter mr-6">
             <p>{t("status")}</p>
             <Select
               className="dropdown"
@@ -267,7 +267,7 @@ console.log(userData);
               onChange={handleSelectStatusFilter}
               defaultValue={statusFilter.name}
             />
-          </div>
+          </div> */}
 
         </div>
         <Grid item container xl={4} lg={5} className="search-group">

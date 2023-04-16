@@ -41,13 +41,9 @@ export default function FAQForm({ mode }: FAQFormProps) {
     }
   }, [dispatch, id, mode]);
   const initialValues = useMemo(() => {
-    if (mode === "edit") {
-      return {
-        name: FAQCategoryDetail.name,
-      };
-    }
+
     return {
-      name: "",
+      category: "",
     };
   }, [FAQCategoryDetail, mode]);
 
@@ -86,7 +82,7 @@ export default function FAQForm({ mode }: FAQFormProps) {
     if (mode === "create") {
       try {
         const response = await createFAQCategory({
-          ...sendData,
+          category: [values.category],
         });
         if (response.statusCode) {
           return;
@@ -128,10 +124,10 @@ export default function FAQForm({ mode }: FAQFormProps) {
                       <Label required>{t("category-name")}</Label>
                       <Input
                         placeholder={t("category-name")}
-                        name="name"
-                        value={formik.values.name}
+                        name="category"
+                        value={formik.values.category}
                         onChange={formik.handleChange}
-                        errorMessage={formik.touched.name ? t(formik.errors.name as "to_ship") : ""}
+                        errorMessage={formik.touched.category ? t(formik.errors.category as "to_ship") : ""}
                         inputProps={{
                           maxLength: 255,
                         }}

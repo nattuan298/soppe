@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import {
   routeHomePageTemplateManagement,
   routeManagementBannerLoopListBase,
-  routeSectionBannerSlideManagement,
+
   routeSectionProductSlideList,
 } from "src/constants/routes";
 import { AppearanceManagementIcon } from "../icons";
@@ -13,7 +13,7 @@ export default function AppearanceMenu() {
 
   const routes = [
     { route: routeManagementBannerLoopListBase, name: t("home-banner-management") },
-    { route: routeSectionBannerSlideManagement, name: t("section-banner-slide-management") },
+
     { route: routeSectionProductSlideList, name: t("section-product-slide-management") },
     { route: routeHomePageTemplateManagement, name: t("home-page-template-management") },
   ];

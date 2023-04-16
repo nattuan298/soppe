@@ -568,7 +568,7 @@ export default function UserForm() {
   const getKeyImage = async (newFile: File | null, defaultkey: string) => {
     if (newFile) {
       const key = await uploadImageFull({ file: newFile, moduleName: "user" });
-      return key;
+      return key.key;
     }
     return defaultkey;
   };

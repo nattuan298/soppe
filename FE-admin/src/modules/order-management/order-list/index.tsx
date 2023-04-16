@@ -29,12 +29,15 @@ import {
   ResultFor,
   Search,
   Select,
+  StatusDropdown,
   TableBody,
 } from "src/components";
 import "./styles.css";
 import { usePaymentMethodOptions, useStatusOptions } from "./constants";
 import { textChangeLanguage } from "src/lib/format";
-import { getOrder } from "src/services/orders.services";
+import { changeStatusDelivery, getOrder } from "src/services/orders.services";
+import { notifyToast } from "../../../constants/toast";
+
 
 const queryString = require("query-string");
 
@@ -317,7 +320,17 @@ export default function OrderList() {
     setIsModalDeleted(false);
     getData();
   };
+  const handleChangeStatus = async (id: string) => {
+    try {
+      const res = await changeStatusDelivery(id);
+      if (res) {
+        notifyToast("default", "Change order Status to delivery are successfully!");
+        getData();
+      }
+    } catch (error) {
 
+    }
+  };
   return (
     <div className="order-list">
       <Grid
@@ -335,26 +348,6 @@ export default function OrderList() {
               defaultValue={statusFilter.name}
               options={statusOptions}
               onChange={handleSelectStatusFilter}
-            />
-          </Grid>
-          <Grid item xl={3} lg={3} className="filter">
-            <p>{t("payment-method")}</p>
-            <Select
-              className="w-full"
-              placeholder={t("all-payment-methods")}
-              defaultValue={paymentFilter.name}
-              options={paymentMethodOptions}
-              onChange={handleSelectPaymentMethodFilter}
-            />
-          </Grid>
-          <Grid item xl={3} lg={3} className="filter">
-            <p>{t("date-range")}</p>
-            <InputDatePicker
-              className="h-12 float-left w-72 pl-4"
-              handleSelect={handleSelectDate}
-              defaultFrom={from}
-              defaultTo={to}
-              placeholder={t("all")}
             />
           </Grid>
         </Grid>
@@ -434,10 +427,27 @@ export default function OrderList() {
                 <TableCell>
                   {t(textChangeLanguage(order.paymentMethod).toUpperCase() as "to_ship")}
                 </TableCell>
-                <TableCell align="center">
-                  <StatusLabel
+                <TableCell >
+                  {/* <StatusLabel
                     status={order.orderStatus}
                     name={t(textChangeLanguage(order.orderStatus).toLocaleLowerCase() as "to_ship")}
+                  /> */}
+                  <StatusDropdown
+                    data={true}
+                    statusOptions={["waiting_approve", "delivery", "receipted"]}
+                    defaultValue={order.orderStatus.toLowerCase()}
+                    onChange={(_, status) => {
+                      if (status === "delivery") {
+                        handleChangeStatus(order._id);
+                      }
+                      // if (status === el.status.toLowerCase()) return;
+                      // setActionModal("action");
+                      // setOpenActionModal(true);
+                      // setSelectedNewsArt(el);
+                      // setUserStatus(status);
+                    }}
+                    trans={t}
+                    isSelect={order.orderStatus.toLocaleLowerCase() === "waiting_approve"}
                   />
                 </TableCell>
                 <TableCell className="max-w-[200px]">
@@ -450,9 +460,6 @@ export default function OrderList() {
                       }
                       action="view"
                     />
-
-
-
                   </div>
                 </TableCell>
               </CollapsibleBodyRow>

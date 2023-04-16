@@ -64,18 +64,7 @@ export const routeCreateFAQ = "/admin-dashboard/FAQ/create-new-FAQ";
 export const routeEditFAQ = "/admin-dashboard/FAQ/edit-FAQ/:id";
 export const routePreviewFAQ = "/admin-dashboard/FAQ/full-FAQ-detail/:id";
 
-export const routeSectionBannerSlideManagement =
-  "/admin-dashboard/appearance-management/section-banner-slide-management/slide-list";
-export const routeSectionAddBannerSlide =
-  "/admin-dashboard/appearance-management/section-banner-slide-management/slide-list/create-new-banner-slide";
-export const routeSectionEditBannerSlide =
-  "/admin-dashboard/appearance-management/section-banner-slide-management/slide-list/edit-banner-slide/:id";
-export const routeSectionBannerListManagement =
-  "/admin-dashboard/appearance-management/section-banner-slide-management/slide-list/banner-list/:id";
-export const routeSectionAddNewBanner =
-  "/admin-dashboard/appearance-management/section-banner-slide-management/slide-list/banner-list/add-new-banner/:id";
-export const routeSectionEditBanner =
-  "/admin-dashboard/appearance-management/section-banner-slide-management/slide-list/banner-list/edit-banner/:id";
+
 
 export const routeHomePageTemplateManagement =
   "/admin-dashboard/appearance-management/home-page-template-management/template-list";
@@ -115,8 +104,8 @@ export const routeInternalUserHistoryList =
 export const routePlatformHome = "/admin-dashboard/platform-statistic/home";
 export const routeDataHistoryList = "/admin-dashboard/platform-statistic/data-export-history";
 
-export const routeFAQCategoryList = "/admin-dashboard/category-management/faq-category/list";
+export const routeFAQCategoryList = "/admin-dashboard/category-management/product-category/list";
 export const routeCreateFAQCategory =
-  "/admin-dashboard/category-management/faq-category/create-new-faq-category";
+  "/admin-dashboard/category-management/product-category/create-new-category";
 export const routeEditFAQCategory =
   "/admin-dashboard/category-management/faq-category/edit-faq-category/:id";

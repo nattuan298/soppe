@@ -8,18 +8,15 @@ export function BannerListHeader() {
   const { t } = useTranslation("common");
   return (
     <TableRow>
-      <Th align="left" className="w-96">
-        <Box width={298}>{t`banner-loop-name`}</Box>
+      <Th align="left" className="w-84">
+        <Box>Banner Name</Box>
       </Th>
       <Th align="left">{t`create-date`}</Th>
-      <Th align="left" className="w-56">{t`publish-period`}</Th>
-      <Th align="center" className="w-42">{t`number-of-banner`}</Th>
-      <Th align="center">{t`total-duration`}</Th>
       <Th align="center">
-        <Box width={110}>{t`status`}</Box>
+        <Box >{t`status`}</Box>
       </Th>
       <Th align="center">
-        <Box width={250}>{t`action`}</Box>
+        <Box>{t`action`}</Box>
       </Th>
     </TableRow>
   );

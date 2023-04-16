@@ -27,12 +27,9 @@ export function UploadBanner({
   const classContainer = clsx(className && className, "w-6/12");
   const [urlPreview, setUrlPreview] = useState<string | null>(null);
   useEffect(() => {
-    const getImageURL = async (key: any) => {
-      const url = await getImageByKey({ key });
-      setUrlPreview(encodeURI(url));
-    };
+
     if (defaultBg) {
-      getImageURL(defaultBg);
+      setUrlPreview(defaultBg);
     }
   }, [defaultBg]);
 
@@ -59,17 +56,7 @@ export function UploadBanner({
         urlDefaultPreview={urlPreview}
         dimension={dimension}
       />
-      <Input
-        name={formName}
-        className="hidden-input"
-        type="number"
-        value={formik.values[formName]}
-        errorMessage={
-          formik.touched[formName] && formik.errors[formName]
-            ? t(formik.errors[formName] as "to_ship")
-            : ""
-        }
-      />
+
       <span className="block my-2 text-base text-black">{t("recommendation")}</span>
       <p className="text-xs">{dimensionTitle}</p>
       <p className="text-xs">{t("support-file-img")}</p>

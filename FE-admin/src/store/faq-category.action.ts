@@ -27,7 +27,7 @@ export type FetchCategoryList = {
 const getListCategory = async (params: ParamsListRequestFAQ) => {
   try {
     const response = (await authorizedRequest.get(
-      toQueryString(`${config.apiBaseUrl}/admin/faq-categories`, params),
+      toQueryString(`${config.apiBaseUrl}/products/category`),
     )) as ApiListModel<InternalUserModel>;
     return response;
   } catch (error) {

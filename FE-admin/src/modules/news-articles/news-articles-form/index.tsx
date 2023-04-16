@@ -231,26 +231,7 @@ export function NewsArticleForm({ type }: NewsArticleFormCProps) {
   }
 
   async function handleSubmit() {
-    if (!hasFormErr()) {
-      const image = await getImage();
-      if (!image) return;
-      if (type === "Create") {
-        await dispatch(
-          addNewsAction({ ...getPayload(image) } as CallbackResponse & {
-            payload: Partial<NewsArticle>;
-          }),
-        );
-      }
 
-      if (type === "Edit") {
-        await dispatch(
-          updateNewsAction({
-            id: id || "",
-            ...getPayload(image),
-          }),
-        );
-      }
-    }
     setSubmitting(false);
   }
 
@@ -264,19 +245,19 @@ export function NewsArticleForm({ type }: NewsArticleFormCProps) {
   }
 
   async function getImage() {
-    let image = newsArticle?.image;
+    const image = newsArticle?.image;
     setSubmitting(true);
-    if (selectedMedida) {
-      image = await uploadImageFull({ file: selectedMedida, moduleName: "article" });
-    }
-    if (!image) {
-      setSubmitting(false);
-      setModalType("confirm");
-      setVisibleModal(true);
-      setConfirmText(t("pls-select-article-image"));
-      return;
-    }
-    return image;
+    // if (selectedMedida) {
+    //   image = await uploadImageFull({ file: selectedMedida, moduleName: "article" });
+    // }
+    // if (!image) {
+    //   setSubmitting(false);
+    //   setModalType("confirm");
+    //   setVisibleModal(true);
+    //   setConfirmText(t("pls-select-article-image"));
+    //   return;
+    // }
+    // return image;
   }
 
   function getPayload(image: string) {

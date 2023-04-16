@@ -37,7 +37,7 @@ export default function Breadcrumb() {
         str += "-";
       }
     }
-
+    console.log(str);
     return str.trim();
   };
 
@@ -45,9 +45,8 @@ export default function Breadcrumb() {
     <Breadcrumbs separator=">" aria-label="breadcrumb" className={root}>
       {filteredSplitPath.map((breadcrumb) => {
         const pageName = breadcrumb.replace(/[-]+/g, " ");
-
         const txtBreadcrumb = changeLanguage(pageName) as "admin-dashboard";
-
+        console.log(txtBreadcrumb);
         return <p className="capitalize">{t(txtBreadcrumb)}</p>;
       })}
     </Breadcrumbs>

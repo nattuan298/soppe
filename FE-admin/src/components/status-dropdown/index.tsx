@@ -11,18 +11,23 @@ interface StatusDropdownProps {
   defaultValue: string;
   onChange?: (data: any, value: string) => void;
   trans?: (text: string) => string;
+  isSelect?:boolean;
 }
 
 const STATUS_DROPDOWN_CLASS: Record<string, string> = {
   active: "status-active",
   inactive: "status-inactive",
   terminate: "status-terminate",
+  waiting_approve: "status-waiting_approve",
+  delivery: "status-delivery",
+  receipted: "status-receipted",
 };
 
 export function StatusDropdown({
   data,
   defaultValue,
   statusOptions,
+  isSelect = true,
   onChange,
   trans,
 }: StatusDropdownProps) {
@@ -43,7 +48,7 @@ export function StatusDropdown({
 
   const statusSelectClass = clsx(
     STATUS_DROPDOWN_CLASS[defaultValue],
-    "flex justify-center items-center status-select text-white mb-1 relative",
+    "flex justify-center items-center status-select text-white mb-1 relative px-2",
   );
 
   function handleClickOpenSelect(event: MouseEvent<HTMLDivElement>) {
@@ -64,9 +69,9 @@ export function StatusDropdown({
         onClick={handleClickOpenSelect}
       >
         {trans ? trans(defaultValue as "active") : defaultValue}
-        {isOpen ? <ChevronUp className="right-2" /> : <ChevronDown className="right-2" />}
+        {isOpen && isSelect ? <ChevronUp className="right-2" /> : <ChevronDown className="right-2" />}
       </div>
-      {isOpen && (
+      {isOpen && isSelect && (
         <ul className="absolute left-0 right-0 status-options bg-white z-10 p-0">
           {statusOptions.map((status, index) => (
             <li
@@ -74,6 +79,7 @@ export function StatusDropdown({
               className={clsx(
                 "hover:bg-orange-light hover:text-white cursor-pointer",
                 status.toLocaleLowerCase() === defaultValue && "text-orange-light bg-white",
+                { disabled: status === "receipted" || status === "waiting_approve" },
               )}
               onMouseDown={() => handleClickSelectOption(status)}
             >

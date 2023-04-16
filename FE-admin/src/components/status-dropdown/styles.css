@@ -1,7 +1,9 @@
 .status-dropdown {
-  width: 110px;
+  width: max-content;
   height: 25px;
   font-size: 1rem;
+  margin: 0 auto;
+  min-width: 104px;
 }
 
 .status-select {
@@ -16,6 +18,12 @@
   position: absolute;
 }
 
+.disabled {
+  background-color: azure;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .status-terminate {
   background-color: #231f20;
 }
@@ -23,7 +31,17 @@
 .status-inactive {
   background-color: #f3b916;
 }
+.status-waiting_approve {
+  background-color: #191cce;
+}
 
+.status-delivery {
+  background-color: #f2be24;
+}
+
+.status-receipted {
+  background-color: #0cb518;
+}
 .status-inactive svg {
   position: absolute;
 }
