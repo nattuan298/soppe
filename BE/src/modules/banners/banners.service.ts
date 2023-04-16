@@ -62,8 +62,8 @@ export class BannersService {
 
     options.page = findBannerDto.page;
     options.limit = findBannerDto.pageSize;
-    options.sort = { createdAt: -1 };
-    const banner = await this.bannerModel.paginate(filters);
+    options.sort = { status: 1, createdAt: -1 };
+    const banner = await this.bannerModel.paginate(filters, options);
     banner.docs.map((banner: any) => {
       if (banner.url) {
         banner.url = this.uploadService.getSignedUrl(banner.url);
