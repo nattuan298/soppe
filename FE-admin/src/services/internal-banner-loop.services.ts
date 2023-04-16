@@ -10,7 +10,7 @@ export function editInternalBannerLoopService(
   bannerLoop: InternalBannerLoopModel,
 ): Promise<void | any> {
   const { _id, ...body } = bannerLoop;
-  return authorizedRequest.put(`${config.apiBaseUrl}/admin/banner-loops/${_id}`, body);
+  return authorizedRequest.put(`${config.apiBaseUrl}/admin/banners/${_id}`, body);
 }
 
 export function deleteInternalBannerLoopService(id: string): Promise<void | any> {
@@ -18,5 +18,5 @@ export function deleteInternalBannerLoopService(id: string): Promise<void | any>
 }
 
 export function createInternalBannerLoopService(body: InternalBannerLoopBody): Promise<void | any> {
-  return authorizedRequest.post(`${config.apiBaseUrl}/admin/banner-loops`, body);
+  return authorizedRequest.post(`${config.apiBaseUrl}/admin/banners`, body);
 }

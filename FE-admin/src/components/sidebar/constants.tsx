@@ -1,4 +1,6 @@
 import {
+  AppearanceManagementIcon,
+  CategoryIcon,
   CouponIcon,
   FAQIcon,
   HomeIcon,
@@ -14,8 +16,10 @@ import {
 import {
   routeArticleList,
   routeCouponList,
+  routeFAQCategoryList,
   routeFAQManagement,
   routeInventoryManagementProductListBase,
+  routeManagementBannerLoopListBase,
   routePushNotificationManagement,
   routesHomeDashboard,
   routesOrderManagement,
@@ -39,27 +43,26 @@ export const sidebarItems = [
     url: routeInventoryManagementProductListBase,
     icon: <InventoryManagementIcon />,
   },
-  {
-    name: "Review Aprv.",
-    title: <Translation>{(t) => <div>{t("common:review_nav")}</div>}</Translation>,
-    url: routesReviewListManagement,
-    icon: <ReviewIcon />,
-  },
+
   {
     name: "User Mng.",
     title: <Translation>{(t) => <div>{t("common:User_nav")}</div>}</Translation>,
     url: routesUserManagement,
     icon: <UserManagementIcon />,
   },
-
-
   {
-    name: "Appearance",
-    title: <Translation>{(t) => <div>{t("common:appearance")}</div>}</Translation>,
-  },
-  {
-    name: "Categories",
+    name: "User Mng.",
     title: <Translation>{(t) => <div>{t("common:categories")}</div>}</Translation>,
+    url: routeFAQCategoryList,
+    icon: <CategoryIcon/>,
   },
+
+  {
+    name: "User Mng.",
+    title: <Translation>{(t) => <div>{t("common:appearance")}</div>}</Translation>,
+    url: routeManagementBannerLoopListBase,
+    icon: <AppearanceManagementIcon/>,
+  },
+
 
 ];

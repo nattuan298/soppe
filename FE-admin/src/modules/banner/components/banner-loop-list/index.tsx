@@ -90,7 +90,8 @@ export function BannerLoopList() {
         return;
       }
       if (confirmType === "action") {
-        const response = await editInternalBannerLoopService(selectedInternalBannerLoop);
+        const { updatedAt, createdAt, __v, url, ...body } = selectedInternalBannerLoop;
+        const response = await editInternalBannerLoopService(body);
         if (!response?.statusCode) {
           getData();
         }
@@ -128,15 +129,14 @@ export function BannerLoopList() {
 
   const renderRow = useCallback(
     (item: InternalBannerLoopModel) => {
-      const { _id, name, createdAt, startDate, endDate, numberOfBanner, duration, status } = item;
-      const titleStartDate = format(new Date(startDate), "dd LLL yyyy");
-      const titleEndDate = format(new Date(endDate), "dd LLL yyyy");
-      const publishPeriod = `${titleStartDate} to ${titleEndDate}`;
-      const titleCreateAt = format(new Date(createdAt), "dd LLL yyyy HH:mm:ss");
+      const { _id, name, createdAt, status } = item;
+
+
+      const titleCreateAt = format(new Date(createdAt ?? new Date), "dd LLL yyyy HH:mm:ss");
       const [firstChar, ...restChar] = status;
       const defaultStatus = firstChar + restChar.join("").toLocaleLowerCase();
-      const total = duration * numberOfBanner;
-      const totalDuration = total > 60 ? `${Math.floor(total / 60)}m ${total % 60}s` : `${total}s`;
+
+
 
       const publicDateSlice = (date: string) => {
         let result = "";
@@ -179,11 +179,7 @@ export function BannerLoopList() {
           <TableCell align="left">
             <Box maxWidth={100}>{dateSlice(titleCreateAt)}</Box>
           </TableCell>
-          <TableCell align="left">
-            <Box maxWidth={125}>{publicDateSlice(publishPeriod)}</Box>
-          </TableCell>
-          <TableCell align="center">{numberOfBanner}</TableCell>
-          <TableCell align="center">{totalDuration}</TableCell>
+
           <TableCell align="center">
             <StatusDropdown
               data={item}
@@ -194,21 +190,14 @@ export function BannerLoopList() {
             />
           </TableCell>
           <TableCell align="center">
-            <Box width={250}>
-              <div className="flex action-buttons-wrapper justify-evenly items-center">
+            <Box >
+              <div className="flex action-buttons-wrapper justify-center items-center">
                 <ButtonLink
                   to={`/admin-dashboard/appearance-management/home-banner-management/banner-loop-list/edit-banner-loop/${_id}`}
                 >
                   <ActionButton action="edit" />
                 </ButtonLink>
                 <ActionButton action="delete" onClick={() => handlecDeleteAction(item)} />
-                <ButtonLink
-                  to={`/admin-dashboard/appearance-management/home-banner-management/banner-loop-list/banner-list/${_id}`}
-                  variant="text"
-                  className="bg-orange-light text-white px-3.5 py-1 hover:bg-orange-hover"
-                >
-                  {t`manage-banner`}
-                </ButtonLink>
               </div>
             </Box>
           </TableCell>

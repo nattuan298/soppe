@@ -2,27 +2,25 @@ import { authorizedRequest } from "src/lib/request";
 import { config } from "src/constants/config";
 
 export const getImageByKey = async ({ key }: { key: string }) => {
-  const params = { key };
-  const res = (await authorizedRequest.get(`${config.apiBaseUrl}/upload/signed-url`, {
-    params,
-  })) as string;
+  const res = await authorizedRequest.get(`${config.apiBaseUrl}/upload?key=${key}`);
   return res;
 };
 
 export const getSignURL = async ({
-  moduleName = "user",
+  moduleName = "avatar",
   fileName,
 }: {
   moduleName?: string;
-  fileName: string;
+  fileName: File;
 }) => {
-  const params = { moduleName, fileName };
-  const res: { key: string; preSignedUrl: string } = await authorizedRequest.get(
-    `${config.apiBaseUrl}/upload/upload-signed-url`,
-    {
-      params,
-    },
+  const formData = new FormData();
+  formData.append("file", fileName);
+  formData.append("folder", moduleName);
+  const res: { Key: string; Location: string } = await authorizedRequest.post(
+    `${config.apiBaseUrl}/upload`,
+    formData,
   );
+  console.log(res);
   return res;
 };
 
@@ -35,10 +33,11 @@ export const putImageToSignURL = async ({ file, signUrl }: { file: File; signUrl
     xhr.setRequestHeader("Content-Type", "");
     xhr.send(file);
     xhr.onload = function () {
-      this.status < 400 ? resolve({ status: this.status }) : reject(this.responseText);
+      this.status < 400 ? resolve({}) : reject(this.responseText);
     };
   });
 };
+
 
 export const uploadImageFull = async ({
   file,
@@ -47,17 +46,12 @@ export const uploadImageFull = async ({
   file: File;
   moduleName?: string;
 }) => {
-  const match = /.*\.(.+)/.exec(file.name);
-  const suffix = match && match[1];
-  const name = file.name
-    .split(".")
-    .slice(0, -1)
-    .join(".")
-    .replaceAll("#", Math.floor(Math.random() * 100) + "")
-    .replaceAll("+", Math.floor(Math.random() * 100) + "")
-    .replaceAll("'", Math.floor(Math.random() * 100) + "");
-  const fileName = `${name}${new Date().getTime() + Math.ceil(Math.random() * 100)}.${suffix}`;
-  const res = await getSignURL({ fileName, moduleName });
-  await putImageToSignURL({ file, signUrl: res.preSignedUrl });
-  return res.key;
+  const res = await getSignURL({ fileName: file, moduleName });
+  // await putImageToSignURL({ file, signUrl: res.preSignedUrl });
+  console.log(res);
+  const res2 = await getImageByKey({ key: res.Key });
+  return {
+    imageUrl: res2,
+    key: res.Key,
+  };
 };

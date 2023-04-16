@@ -35,7 +35,7 @@ import { FAQCategoryDetail, FAQCategoryModel } from "src/types/faq-category.mode
 // });
 
 interface InitialStateType {
-  FAQCategoryData: ApiListModel<FAQCategoryModel>;
+  FAQCategoryData: FAQCategoryModel[];
   FAQCategoryDetail: FAQCategoryDetail;
   loading: boolean;
   errorMessage: string;
@@ -43,12 +43,7 @@ interface InitialStateType {
 }
 
 const initialState: InitialStateType = {
-  FAQCategoryData: {
-    data: [],
-    total: 0,
-    page: 0,
-    limit: 0,
-  },
+  FAQCategoryData: [],
   errorMessage: "",
   FAQCategoryDetail: {
     status: "",

@@ -3,7 +3,7 @@ import { ToastPosition, toast } from "material-react-toastify";
 export const notifyToast = (
   type: string,
   text: string,
-  t: (text: string) => string,
+  t?: (text: string) => string,
   position: ToastPosition | undefined = "top-center",
   autoClose: number = 4000,
   hideProgressBar: boolean = true,
@@ -13,7 +13,7 @@ export const notifyToast = (
 ) => {
   switch (type) {
     case "default":
-      return toast(t(text), {
+      return toast(t ? t(text) : text, {
         position,
         autoClose,
         hideProgressBar,
@@ -22,7 +22,7 @@ export const notifyToast = (
         draggable,
       });
     case "error":
-      return toast.error(t(text), {
+      return toast.error(t ? t(text) : text, {
         position,
         autoClose,
         hideProgressBar,

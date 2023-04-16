@@ -1,21 +1,20 @@
 export interface InternalBannerLoopModel {
-  _id: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  duration: number;
-  status: string;
-  createdAt: string;
-  numberOfBanner: number;
-  updatedAt: string;
-  countryCode: string;
+  createdAt?:string;
+  name
+  :
+  string;
+  status
+  :
+  string;
+  updatedAt?:string;
+  url?:string;
+  __v?:number;
+  _id:string;
 }
 
 export interface InternalBannerLoopBody {
   name: string;
-  startDate: string;
-  endDate: string;
-  duration: number;
+  url: string;
   status: string;
 }
 

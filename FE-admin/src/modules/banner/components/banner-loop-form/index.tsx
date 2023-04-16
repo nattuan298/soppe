@@ -16,6 +16,7 @@ import {
 import { fetchSelectedBannerLoop } from "src/store/internal-selected-banner-loop.action";
 import { getParams } from "src/store/router-params.slice";
 import { internalBannerLoop } from "./schema";
+import { uploadImageFull } from "../../../../services/upload.services";
 
 const DEFAULT_COUNTRY = "Thailand";
 interface ParamsType {
@@ -23,12 +24,10 @@ interface ParamsType {
 }
 
 export function BannerLoopCreateForm() {
-  const [from, setFrom] = useState<Date | null>(null);
-  const [to, setTo] = useState<Date | null>(null);
+
   const [status, setStatus] = useState<string>("2");
   const { id } = useParams<ParamsType>();
-  const [showErrorDate, setShowErrorDate] = useState<boolean>(false);
-  const [messageDateError, setMessageDateError] = useState<string>("");
+
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [location, setLocation] = useState(DEFAULT_COUNTRY);
 
@@ -59,35 +58,14 @@ export function BannerLoopCreateForm() {
   };
 
   const handleSubmit = async (values: any) => {
-    const { name, totalDuration } = values;
-    if (
-      name === "" ||
-      totalDuration === "" ||
-      totalDuration <= 0 ||
-      !from ||
-      !to ||
-      date.getTime() - to.getTime() > 86400000
-    ) {
-      if (!to || !from) {
-        setMessageDateError("please_select_banner_publish_period");
-        setShowErrorDate(true);
-      } else if (date.getTime() - to.getTime() > 86400000) {
-        setMessageDateError("you_can't_create_a_banner_loop_in_past_time");
-        setShowErrorDate(true);
-      } else {
-        setShowErrorDate(false);
-      }
-      return;
-    }
+    const { name } = values;
     const statusValue = status === "1" ? "ACTIVE" : "INACTIVE";
-
+    const upload = await uploadImageFull({ file: values.desktopBanner,
+      moduleName: "banner" });
     const body = {
       name,
-      duration: totalDuration,
-      startDate: from?.toISOString(),
-      endDate: to?.toISOString(),
+      url: upload.key,
       status: statusValue,
-      countryCode: location,
     };
 
     try {
@@ -105,28 +83,20 @@ export function BannerLoopCreateForm() {
       notifyToast("error", e.response.data?.message, t);
     }
   };
-  useEffect(() => {
-    if (!bannerLoopData || loading) {
-      return;
-    }
-    setStatus(bannerLoopData?.status === "ACTIVE" ? "1" : "2");
-    const { startDate, endDate, countryCode } = bannerLoopData;
-    setFrom(new Date(startDate));
-    setTo(new Date(endDate));
-    setLocation(countryCode || DEFAULT_COUNTRY);
-  }, [bannerLoopData, loading, t, id]);
+
 
   const initialValues = useMemo(() => {
     if (bannerLoopData) {
-      const { name, duration: totalDuration } = bannerLoopData;
+      const { name, status, url } = bannerLoopData;
+      setStatus(status === "ACTIVE" ? "1" : "2");
       return {
         name,
-        totalDuration,
+        desktopBanner: url,
       };
     }
     return {
       name: "",
-      totalDuration: "",
+      desktopBanner: "",
     };
   }, [bannerLoopData]);
 
@@ -137,41 +107,9 @@ export function BannerLoopCreateForm() {
     validationSchema: internalBannerLoop,
   });
 
-  const handleSelectDate = useCallback(
-    (startDate, eDate) => {
-      const endDate = eDate
-        ? new Date(eDate.getFullYear(), eDate.getMonth(), eDate.getDate(), 23, 59, 59)
-        : null;
-      setFrom(startDate);
-      setTo(endDate);
-      if (!endDate || !startDate) {
-        setMessageDateError("please_select_banner_publish_period");
-        setShowErrorDate(true);
-      } else if (date.getTime() - endDate.getTime() > 86400000) {
-        setMessageDateError("you_can't_create_a_banner_loop_in_past_time");
-        setShowErrorDate(true);
-      } else {
-        setShowErrorDate(false);
-      }
-    },
-    [date],
-  );
-
   const updateStatus = (value: string | null) => {
     if (value) {
       setStatus(value);
-    }
-  };
-
-  const checkDateFromTo = () => {
-    if (!to || !from) {
-      setMessageDateError("please_select_banner_publish_period");
-      setShowErrorDate(true);
-    } else if (date.getTime() - to.getTime() > 86400000) {
-      setMessageDateError("you_can't_create_a_banner_loop_in_past_time");
-      setShowErrorDate(true);
-    } else {
-      setShowErrorDate(false);
     }
   };
 
@@ -209,33 +147,11 @@ export function BannerLoopCreateForm() {
                 handleChangeLocation={handleChangeLocation}
               />
             </CollapsibleBlock>
-            <CollapsibleBlock className="mb-5" heading={t("publish-date")}>
-              <div className="w-6/12 flex mt-2">
-                <label className="block w-7/12 mr-2">
-                  <span className="block mt-2 mb-1 text-base text-black required">
-                    {t`publish-period`}
-                  </span>
-                  <InputDatePicker
-                    handleSelect={handleSelectDate}
-                    className="h-12 w-full focus:outline-none ring-gray-300 ring-1 focus:ring-orange-light focus:ring-1 rounded pl-4 placeholder-italic"
-                    defaultFrom={from}
-                    defaultTo={to}
-                    minDate={new Date()}
-                  />
-                  {showErrorDate && (
-                    <p className="text-sm text-red-light mt-2">
-                      {t(messageDateError as "to_ship")}
-                    </p>
-                  )}
-                </label>
-              </div>
-            </CollapsibleBlock>
             <div className="button-wapper px-5 mb-10 flex">
               <Button
                 variant="text"
                 type="submit"
                 className="bg-orange-light text-white h-12 w-72 hover:bg-orange-hover"
-                onClick={checkDateFromTo}
               >
                 {t`submit`}
               </Button>
