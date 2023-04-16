@@ -340,11 +340,6 @@ console.log(userData);
                   </TableCell>
                   <TableCell align="center">
                     <div className="flex action-buttons-wrapper justify-center">
-                      <Link
-                        to={`/admin-dashboard/internal-user-management/edit-internal-user-account/${userItem._id}`}
-                      >
-                        <ActionButton action="edit" onClick={() => dispatch(resetUser())} />
-                      </Link>
                       <ActionButton action="delete" onClick={() => handleDeleteUser(userItem._id)} />
                     </div>
                   </TableCell>

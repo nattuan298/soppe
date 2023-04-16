@@ -152,7 +152,7 @@
   "503": "Something went wrong. Please try again.",
   "401": "Session Expired. Please sign in again.",
   "network-error": "Network error. Please try again later",
-  "scm-business": "SCM Business",
+
   "invalid-format-file": "Invalid format file.",
   "banner-name": "Banner Name",
   "copied": "Copied",
@@ -517,7 +517,7 @@
   "to_review": "To Review",
   "cancel/refund": "Cancel/Refund",
   "credit/_debit_card": "Credit/ Debit Card",
-  "scm_point": "SCM Point",
+
   "complete": "Complete",
   "qr_code": "QR code",
   "packed_by_seller_warehouse": "Packed by seller / warehouse",
@@ -600,7 +600,7 @@
   "applicable_products_categories": "Applicable Products Categories",
   "MOBILEAPP": "MobileApp",
   "WEBAPP": "WebApp",
-  "scm_admin": "SCM Admin",
+
   "required_faq": "As the all fields are not filled, If you change language then all data will be deleted.",
   "webapp": "Web App",
   "mobileapp": "Mobile App",

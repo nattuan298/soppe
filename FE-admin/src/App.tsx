@@ -49,7 +49,6 @@ export function App() {
       <div className="w-full font-kanit">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{t("scm_admin")}</title>
         </Helmet>
         <BrowserRouter>
           <PageLayout>

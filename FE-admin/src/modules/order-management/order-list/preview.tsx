@@ -15,16 +15,16 @@ export default function Preview({
   function getAddress(address: Address): string {
     if (address) {
       if (language === "en" || !address.province) {
-        return `${address.address}, 
-      ${address.subDistrictEng}, 
-      ${address.subDistrictEng}, 
-      ${address.provinceEng}, 
+        return `${address.address} , 
+      ${address.subDistrictEng} , 
+      ${address.subDistrictEng} , 
+      ${address.provinceEng} , 
       ${address.postalCode} ${address.country}`;
       }
-      return `${address.address}, 
-      ${address.subDistrict}, 
-      ${address.district}, 
-      ${address.province}, 
+      return `${address.address} , 
+      ${address.subDistrict} , 
+      ${address.district} , 
+      ${address.province} , 
       ${address.postalCode} ${address.country}`;
     }
     return "";
@@ -38,7 +38,7 @@ export default function Preview({
     <div className="preview w-full my-7.5">
       <div className="info flex mb-7.5">
         {shippingAddress && (
-          <div className="w-1/4 pr-20">
+          <div className="w-full">
             <p className="info-label text-sm text-purple-primary">{t("shipping-address")}</p>
             <p className="font-light text-purple-primary">
               Receiver: {`${shippingAddress.firstName} ${shippingAddress.lastName}`} (

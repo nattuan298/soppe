@@ -181,7 +181,7 @@ export default function Checkout() {
           firstName: addressCheckout?.firstName,
           lastName: addressCheckout?.lastName,
           phoneNumber: addressCheckout?.phoneNumber,
-          address: `${addressCheckout?.addressDetail},${addressCheckout?.subDistrict},${addressCheckout?.district},${addressCheckout?.province}`,
+          address: `${addressCheckout?.addressDetail}, ${addressCheckout?.subDistrict}, ${addressCheckout?.district}, ${addressCheckout?.province}`,
         },
       };
       const response = await axios.post("/orders", bodyCheckout);
