@@ -76,7 +76,7 @@
   "off": "Off",
   "unable-delete-confirm": "Unable to delete.You must provide at least one address.",
   "THB": "THB",
-  "scm-business": "SCM Business",
+
   "security": "Security",
   "google_authentication": "Google Authentication",
   "secret_key": "Secret Key (Scan to Add)",
@@ -163,10 +163,10 @@
   "shipping_fees": "Shipping Fees",
   "total": "Total",
   "make_payment": "Make Payment",
-  "read_more_scm_point_topup": "Click to read more about SCM Point Topup",
+
   "checkout": "Checkout",
   "quantity": "Quantity",
-  "SCM_subscription": "SCM Business Account Annual Subscription",
+
   "upload_payment_evidence": "Upload payment evidence",
   "taxes": "Taxes",
   "more_about_taxes": "(10% total bill)",
@@ -226,12 +226,10 @@
   "order_tracking": "Order Tracking",
   "tracking_number": "Tracking number",
   "order_type": "Order Type",
-  "scm-point-topup": "SCM Point Topup",
   "topup-amount": "Topup amount",
   "points": "Points",
   "note": "Note",
-  "text-change-point": "1 SCM Point = 1 ",
-  "topup-scm-point": "Topup SCM Point",
+
   "order_has_been_confirmed": "Your order has been confirmed. Thank you for using our service. We will send you a confirmation email when your items ship.",
   "order_has_been_confirmed_topup": "Your order has been confirmed. Thank you for using our service.",
   "manage_order": "Manage Order",
@@ -258,8 +256,8 @@
   "track_package": "Track Package",
   "shipping_terms_and_conditions_full": "By placing your order for items sold by the platform in this order, you authorize the platform to designate a carrier to clear the package and pay the import fees on your (or the recipient's) behalf. Customs declarations will be made in the name of, and on your or the recipient's behalf by the designated carrier. Read our",
   "shipping_terms_and_conditions": "Shipping Terms and Conditions",
-  "agree_to_scmconnect": "By placing your order, you agree to scmconnect.com’s",
-  "policy_conditions_full": "Unless otherwise noted, items sold by scmconnect.com are subject to sales tax in select states in accordance with the applicable laws of that country. If your order contains one or more items from a seller other than scmconnect.com, it may be subject to state and local sales tax, depending upon the seller's business policies and the location of their operations. Learn more about tax and seller information.",
+
+ 
   "shipping_type": "Shipping Type",
   "select_shipping_type": "Select shipping type",
   "ship_to_address": "Ship to address",
@@ -282,7 +280,7 @@
   "ok": "OK",
   "transfer_BMC_PV_point": "Transfer BMC PV Point",
   "member_id": "Member ID",
-  "SCMP": "SCMP",
+
   "order_cancellation_refund": "Order Cancellation & Refund",
   "Please_contact_our_call_center_to_inform_perform_the_actions": "Please contact our call center to inform perform the actions",
   "items": "items",
@@ -356,7 +354,7 @@
   "notice": "Notice",
   "payment_successfully": "Payment has been made successfully",
   "can_not_process_payment": "Can not process payment, please try again or select other payment method",
-  "insufficient_scm_point": "Insufficient SCM point",
+
   "joined": "Joined",
   "expired": "Expired",
   "packed_by_seller_warehouse": "Packed by seller / warehouse",
@@ -450,9 +448,9 @@
   "save": "Save",
   "create_note": "Create New Note",
   "address_book": "Address Book",
-  "scm_point_topup": "SCM Point Topup",
+
   "carry_on": "Carry On",
-  "smb": "SMB",
+
   "matching": "Matching",
   "one_time": "One Time",
   "stockist_bonus": "Stockist Bonus",
@@ -540,9 +538,7 @@
   "credit_debit": "Credit/Debit",
   "left": "Left",
   "right": "Right",
-  "150_subscription_fee": "SCM Business (฿150 Subscription Fee)",
-  "300_subscription_fee": "SCM Business (฿300 Subscription Fee)",
-  "100_subscription_fee": "SCM Member (฿100 Subscription Fee)",
+
   "list": "List",
   "tree": "Tree",
   "empty": "Empty",
@@ -588,7 +584,7 @@
   "select_location_base_and_language": "Select Location Base and Language",
   "credit-debit": "Credit/Debit",
   "qr-payment": "QR Payment",
-  "scm-point": "SCM Point",
+
   "you_can_not_buy_more_than": "You can not buy more than 10,000 products at the same time.",
   "member_id_login": "Username",
   "this_order_id_no_longer_exists": "This Order ID no longer exists.",

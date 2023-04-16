@@ -41,10 +41,6 @@ export function usePaymentMethodOptions() {
         value: "Credit/ Debit Card",
       },
       {
-        title: t("scm_point"),
-        value: "SCM Point",
-      },
-      {
         title: t("qr_code"),
         value: "QR code",
       },

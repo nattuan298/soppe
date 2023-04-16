@@ -67,8 +67,7 @@ export const routeTrackingOrderUrl = makeUrlObjectFromRouteBase(routeTrackingOrd
 export const routeMyAccountBase = "/account-information";
 export const routeMyAccountUrl = makeUrlObjectFromRouteBase(routeMyAccountBase);
 
-export const routePointTopupBase = "/scm-point-topup";
-export const routePointTopupURL = makeUrlObjectFromRouteBase(routePointTopupBase);
+
 
 export const routeCheckoutPointTopupBase = "/checkout-topup-scm-point";
 export const routeCheckoutPointTopupURL = makeUrlObjectFromRouteBase(routeCheckoutPointTopupBase);

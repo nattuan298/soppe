@@ -71,7 +71,7 @@ export function ModalUserSummaryInfo({
     <div
       className={classNames(
         `${
-          router.pathname === "/scm-point-topup"
+          router.pathname === "/abc"
             ? "md:flex rounded-0.625 shadow-modalSummary md:right-0 md:w-max"
             : "md:flex md:absolute rounded-0.625 shadow-modalSummary md:right-0 md:w-max"
         }`,
