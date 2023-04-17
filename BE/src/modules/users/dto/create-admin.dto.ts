@@ -33,8 +33,4 @@ export class CreateAdminDto {
   @IsDefined()
   @IsPhoneNumber()
   phoneNumber: string;
-
-  @ApiProperty({ example: 'avatar/avatar1.png' })
-  @IsString()
-  avatar: string;
 }

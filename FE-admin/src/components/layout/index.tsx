@@ -26,7 +26,7 @@ export function PageLayout({ children, ...rest }: PageLayoutProps) {
           {children}
         </div>
         <div className={clsx(footerClass, `${isLoggedIn ? "h-12 pt-6" : "h-12 pt-4"}`)}>
-          <Footer isLoggedIn={isLoggedIn} />
+          {/* <Footer isLoggedIn={isLoggedIn} /> */}
         </div>
       </div>
       <ToastContainer />

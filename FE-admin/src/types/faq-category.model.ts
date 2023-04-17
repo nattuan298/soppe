@@ -1,13 +1,20 @@
 export interface FAQCategoryModel {
-  _id: string;
-  name: string;
-  createdAt: string;
-  totalFAQs: number;
-  totalViews: number;
-  isAbleToDelete: boolean;
+  category: string;
+  createdAt
+  :
+  string;
+  updatedAt
+  :
+  string;
+  __v
+  :
+  number;
+  _id
+  :
+  string;
 }
 export interface FAQBody {
-  name: string;
+  category: string[];
 }
 export interface FAQCategoryDetail {
   status: string;

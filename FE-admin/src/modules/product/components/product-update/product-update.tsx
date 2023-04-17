@@ -197,11 +197,11 @@ export function ProductUpdate({ ...props }: ProductUpdateProps) {
       media,
     };
     try {
-      const response = await updateProductService(productDetail, bodyPayload);
-      setIsLoading(false);
-      if (!response?.statusCode) {
-        history.push(routeInventoryManagementProductListBase);
-      }
+      // const response = await updateProductService(productDetail, bodyPayload);
+      // setIsLoading(false);
+      // if (!response?.statusCode) {
+      //   history.push(routeInventoryManagementProductListBase);
+      // }
     } catch (e) {
       setIsLoading(false);
       notifyToast("error", "error", t);

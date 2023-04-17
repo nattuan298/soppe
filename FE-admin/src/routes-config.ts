@@ -44,12 +44,7 @@ import {
   routePreviewFAQ,
   routeProfile,
   routePushNotificationManagement,
-  routeSectionAddBannerSlide,
-  routeSectionAddNewBanner,
-  routeSectionBannerListManagement,
-  routeSectionBannerSlideManagement,
-  routeSectionEditBanner,
-  routeSectionEditBannerSlide,
+
   routeSectionProductCreateSlide,
   routeSectionProductEditSlide,
   routeSectionProductSlideAddProduct,
@@ -65,7 +60,6 @@ import {
   routesEditRoleAndPermission,
   routesEditUserManagement,
   routesHomeDashboard,
-  routesInternalUserManagement,
   routesOrderManagement,
   routesOrderManagementDetail,
   routesOrderManagementEdit,
@@ -144,13 +138,13 @@ export const routesConfig = [
       loadable(lazy(() => retry(() => import("./pages/user-management-edit")))),
     ),
   },
-  {
-    path: routesInternalUserManagement,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/internal-user-management-list")))),
-    ),
-  },
+  // {
+  //   path: routesInternalUserManagement,
+  //   exact: true,
+  //   component: withAuthentication(
+  //     loadable(lazy(() => retry(() => import("./pages/internal-user-management-list")))),
+  //   ),
+  // },
   {
     path: routesCreateInternalUserAccount,
     exact: true,
@@ -208,23 +202,11 @@ export const routesConfig = [
     ),
   },
   {
-    path: routeAddBanne,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/add-banner-list")))),
-    ),
-  },
-  {
     path: routeEditBannerLoop,
     exact: true,
     component: withAuthentication(
       loadable(lazy(() => retry(() => import("./pages/banner-management-loop-form")))),
     ),
-  },
-  {
-    path: routeEditBanner,
-    exact: true,
-    component: withAuthentication(loadable(lazy(() => retry(() => import("./pages/edit-banner"))))),
   },
   {
     path: routeSectionProductSlideList,
@@ -303,76 +285,9 @@ export const routesConfig = [
       loadable(lazy(() => retry(() => import("./pages/order-management-detail")))),
     ),
   },
-  {
-    path: routesOrderManagementEdit,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/order-management-edit")))),
-    ),
-  },
-  {
-    path: routesOrderManagementTracking,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/order-management-tracking")))),
-    ),
-  },
-  {
-    path: routeSectionBannerSlideManagement,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-banner-slide-management")))),
-    ),
-  },
-  {
-    path: routeSectionAddBannerSlide,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-banner-slide-management-add-edit")))),
-    ),
-  },
-  {
-    path: routeSectionEditBannerSlide,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-banner-slide-management-add-edit")))),
-    ),
-  },
-  {
-    path: routeSectionBannerListManagement,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-banner-list-management")))),
-    ),
-  },
-  {
-    path: routeSectionAddNewBanner,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-add-new-banner")))),
-    ),
-  },
-  {
-    path: routeSectionEditBanner,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-edit-banner")))),
-    ),
-  },
-  {
-    path: routeHomePageTemplateManagement,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/homepage-template-management")))),
-    ),
-  },
-  {
-    path: routeCreateNewTemplateHomePage,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/homepage-template-form")))),
-    ),
-  },
+
+
+
   {
     path: routesReviewListManagement,
     exact: true,
@@ -380,13 +295,7 @@ export const routesConfig = [
       loadable(lazy(() => retry(() => import("./pages/review-management-list")))),
     ),
   },
-  {
-    path: routeEditTemplateHomePage,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/homepage-template-form")))),
-    ),
-  },
+
   {
     path: routePushNotificationManagement,
     exact: true,

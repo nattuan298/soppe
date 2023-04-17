@@ -19,5 +19,9 @@ export function getBranches(provinceId: string | undefined): Promise<void> {
 }
 
 export function getOrder(id: string): Promise<void | any> {
-  return authorizedRequest.get(`${config.apiBaseUrl}/admin/orders/${id}`);
+  return authorizedRequest.get(`${config.apiBaseUrl}/orders/${id}`);
+}
+
+export function changeStatusDelivery(id: string): Promise<void | any> {
+  return authorizedRequest.patch(`${config.apiBaseUrl}/admin/orders/mark-approved/${id}`);
 }

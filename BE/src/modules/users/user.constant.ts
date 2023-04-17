@@ -8,4 +8,4 @@ export enum UserResponseMessage {
   Verified = `Your account has been verified`,
 }
 
-export const defaultAvatar = `user/d0e2c90f-943b-4bb2-a26a-8ca50a475031-default-avatar.jpg`;
+export const defaultAvatar = `avatar/8575d67b-8efa-412f-9524-2cc2848b98d8-default-avatar.png`;

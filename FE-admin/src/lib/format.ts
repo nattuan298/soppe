@@ -18,9 +18,9 @@ export const phoneNumberFormatter = (
 };
 
 export const textChangeLanguage = (text: string): string => {
-  text.trim();
+  text?.trim();
   let str = "";
-  for (let i = 0; i < text.length; i++) {
+  for (let i = 0; i < text?.length; i++) {
     if (text[i] !== " ") {
       str += text[i];
     } else {

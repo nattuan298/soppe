@@ -15,9 +15,11 @@ import { phoneNumberFormatter, textChangeLanguage } from "src/lib/format";
 import { RootState } from "src/store";
 import {
   ActionButton,
+  ButtonLink,
   ChipType,
   CollapsibleBodyRow,
   CollapsibleHeadRow,
+  Modal,
   Pagination,
   ResultFor,
   Search,
@@ -33,6 +35,10 @@ import Preview from "./preview";
 import { NoDataIcon } from "src/components/icons";
 import { userModel } from "src/types/user.model";
 import { getUserAction } from "src/store/user.action";
+import { notifyToast } from "../../../constants/toast";
+import { authorizedRequest } from "../../../lib/request";
+import { Grid } from "@material-ui/core";
+
 
 const queryString = require("query-string");
 
@@ -61,10 +67,8 @@ export default function UserList() {
     id: "",
     name: "",
   });
-  const [locationFilter, setLocationFilter] = useState({
-    id: "locationBase",
-    name: "Thailand",
-  });
+  const [openActionModal, setOpenActionModal] = useState(false);
+  const [idDelete, setIdDelete] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
   const history = useHistory();
@@ -77,12 +81,12 @@ export default function UserList() {
       getUserAction({
         page,
         pageSize,
-        locationBase: locationFilter.name,
+
         status: statusFilter.name,
         search: searchFilter.search,
       }),
     );
-  }, [dispatch, page, pageSize, statusFilter.name, locationFilter.name, searchFilter.search]);
+  }, [dispatch, page, pageSize, statusFilter.name, searchFilter.search]);
   useEffect(() => {
     getData();
   }, [getData]);
@@ -94,10 +98,7 @@ export default function UserList() {
 
   function handleChangeLocation(value: string) {
     if (value) {
-      setLocationFilter({
-        id: "locationBase",
-        name: value,
-      });
+
       setSearchFilterChips((prevState) => {
         for (let i = 0; i < prevState.length; i++) {
           if (prevState[i] && prevState[i].id === "locationBase") prevState.splice(i, 1);
@@ -130,7 +131,7 @@ export default function UserList() {
           ...prevState,
           {
             id: "status",
-            name: status === "Expire" ? "Expired" : textChangeLanguage(status),
+            name: status === "Expire" ? "Expired" : textChangeLanguage(status || "Expired"),
           },
         ];
       });
@@ -149,12 +150,7 @@ export default function UserList() {
         name: "",
       });
     }
-    if (id === "locationBase") {
-      setLocationFilter({
-        id: "locationBase",
-        name: "Thailand",
-      });
-    }
+
     if (id === "search") {
       setSearchFilter({
         id: "",
@@ -172,10 +168,7 @@ export default function UserList() {
       id: "",
       name: "",
     });
-    setLocationFilter({
-      id: "locationBase",
-      name: "Thailand",
-    });
+
   }
   function handleSubmitSearch(search: string) {
     const searchFilterArray = [
@@ -245,12 +238,27 @@ export default function UserList() {
 
     return result;
   };
+  const handleDeleteUser = (id: string) => {
+    setIdDelete(id);
+    setOpenActionModal(true);
+  };
+const handleConfirm = async () => {
+  try {
+  const response = await authorizedRequest.delete(`/admin/user/${idDelete}`);
+  console.log(response);
+  if (response.status === 200) {
+    notifyToast("default", "success", t);
+  }
+} catch (error) {
 
+}
+};
+console.log(userData);
   return (
     <div className="user-list">
       <div className="bg-white rounded-navbar flex justify-between items-center mb-5 px-5 search-filter">
         <div className="filter-group flex">
-          <div className="filter mr-6">
+          {/* <div className="filter mr-6">
             <p>{t("status")}</p>
             <Select
               className="dropdown"
@@ -259,24 +267,21 @@ export default function UserList() {
               onChange={handleSelectStatusFilter}
               defaultValue={statusFilter.name}
             />
-          </div>
-          <div className="filter ">
-            <p>{t("location-base")}</p>
-            <SelectCountry2
-              country={locationFilter.name}
-              onSelect={handleChangeLocation}
-              className="dropdown"
-            />
-          </div>
+          </div> */}
+
         </div>
-        <div className="search-group flex">
+        <Grid item container xl={4} lg={5} className="search-group">
+        <Grid item xl={12} lg={12}>
+
           <Search
             className="mr-7.5 search-input"
             onSearch={handleSubmitSearch}
             placeholder={t`search`}
             value={searchFilter.search}
           />
-        </div>
+          </Grid>
+
+        </Grid>
       </div>
 
       {searchFilterChips.length > 0 && (
@@ -292,12 +297,8 @@ export default function UserList() {
           <TableHead>
             <CollapsibleHeadRow>
               <TableCell align="left">{t("name")}</TableCell>
-              <TableCell align="center">{t("member-id")}</TableCell>
               <TableCell align="left">{t("phone-Number")}</TableCell>
-              <TableCell align="center">{t("matching")}</TableCell>
-              <TableCell align="center">{t("document")}</TableCell>
-              <TableCell align="center">{t("expired-date")}</TableCell>
-              <TableCell align="center">{t("status")}</TableCell>
+              <TableCell align="center">Created at</TableCell>
               <TableCell align="center">{t("action")}</TableCell>
               <TableCell />
             </CollapsibleHeadRow>
@@ -313,66 +314,33 @@ export default function UserList() {
               userData.data?.map((userItem: userModel) => (
                 <CollapsibleBodyRow
                   key={1}
-                  colSpan={9}
-                  memberid={userItem.memberId}
+                  colSpan={5}
+                  memberid={userItem._id}
                   preview={
                     <Preview
                       email={userItem.email}
                       dateOfBirth={dayjs(userItem.dateOfBirth).format("DD-MM-YYYY")}
                       gender={userItem.gender}
-                      citizenship={userItem.citizenship}
-                      facebookConnect={userItem.facebookAuth ? t("on-radio") : t("off-radio")}
-                      FAStatus={userItem.googleAuth ? t("on-radio") : t("off-radio")}
-                      shippingAddress={userItem.shippingAddress}
-                      billingAddress={userItem.billingAddress}
-                      sponsorData={userItem.sponsor}
+                      // role={userItem.role}
                     />
                   }
                 >
                   <TableCell align="left">
                     <UserCard
-                      name={userItem.name ? userItem.name : ""}
+                      name={userItem.username ? userItem.username : ""}
                       avatar={`${userItem.avatar}`}
                     />
                   </TableCell>
-                  <TableCell align="center">{userItem.memberId}</TableCell>
                   <TableCell align="left">
                     {" "}
-                    {userItem.phoneNumber &&
-                      phoneNumberFormatter(userItem.phoneCode, userItem.phoneNumber)}
-                  </TableCell>
-                  <TableCell align="center">{userItem.matching}</TableCell>
-                  <TableCell align="center">
-                    <span
-                      className={clsx(
-                        userItem.documentStatus === "Complete"
-                          ? "document-status-complete"
-                          : "document-status-pending",
-                      )}
-                    >
-                      {t(
-                        textChangeLanguage(
-                          userItem.documentStatus,
-                        ).toLocaleLowerCase() as "to_ship",
-                      )}
-                    </span>
+                    {userItem.phoneNumber}
                   </TableCell>
                   <TableCell align="center">
-                    {dateSlice(dayjs(userItem.expiredDate).format("DD MMM YYYY"))}
-                  </TableCell>
-                  <TableCell align="center">
-                    <div className="flex justify-center">
-                      <LabelStatus defaultValue={userItem.status ? userItem.status : ""} />
-                    </div>
+                    {dateSlice(dayjs(userItem.createdAt).format("DD MMM YYYY"))}
                   </TableCell>
                   <TableCell align="center">
                     <div className="flex action-buttons-wrapper justify-center">
-                      <Link
-                        to={`/admin-dashboard/user-management/edit-user-information/${userItem.memberId}`}
-                      >
-                        <ActionButton action="edit" onClick={() => dispatch(resetUser())} />
-                      </Link>
-                      <ActionButton action="delete" disabled />
+                      <ActionButton action="delete" onClick={() => handleDeleteUser(userItem._id)} />
                     </div>
                   </TableCell>
                 </CollapsibleBodyRow>
@@ -392,9 +360,15 @@ export default function UserList() {
         </Table>
 
         <Pagination
-          totalPage={Math.round(userData.total / userData.limit)}
+          totalPage={Math.ceil(userData.total / userData.limit)}
           onPageChange={handleChangePage}
           onPageSizeChange={handleChangePageSize}
+        />
+            <Modal
+          open={openActionModal}
+          confirmType="delete"
+          onClose={() => setOpenActionModal(false)}
+          onConfirm={handleConfirm}
         />
       </TableContainer>
     </div>

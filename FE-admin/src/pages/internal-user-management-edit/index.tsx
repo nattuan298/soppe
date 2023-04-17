@@ -1,11 +1,12 @@
 import { InternalUserForm } from "src/modules/internal-user-managment";
 import { GoBack } from "src/components";
-import { routesInternalUserManagement } from "src/constants/routes";
+import { routesUserManagement } from "../../constants/routes";
+
 
 export default function InternalUserManagementEdit() {
   return (
     <main className="p-5">
-      <GoBack url={routesInternalUserManagement} />
+      <GoBack url={routesUserManagement} />
       <InternalUserForm mode="edit" />
     </main>
   );

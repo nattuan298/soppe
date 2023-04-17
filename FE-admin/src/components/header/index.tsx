@@ -61,65 +61,11 @@ function HeaderNotLoggedIn() {
     <div className="w-full">
       <div className="large:w-2/3 m-auto flex justify-between items-center header-not-logged-in">
         <div className="flex">
-          <p className="">
-            <LogoConnext />
-          </p>
-          <p className="txt-dashboard font-medium text-orange-light">{t`admin-dashboard`}</p>
+          <p className="txt-dashboard font-medium text-rose-700">{t`admin-dashboard`}</p>
         </div>
-        <div className="flex justify-between items-center">
-          <p
-            className=" text-orange-light pr-8 hover:underline"
-            role="button"
-            onClick={handleOpenModal}
-          >
-            {t`need-help`}
-          </p>
-          <div className="" role="button">
-            <div
-              onClick={showMenuSelectLanguage}
-              className="ml-4 w-7 h-7 mr-7.5 border-2 rounded-full border-lightestGray hover:cursor-pointer"
-            >
-              <img
-                src={`/assets/images/country/${
-                  i18n.language === "th" ? "thailand" : "united-states"
-                }.svg`}
-                alt="curentLang"
-                className="w-full h-full"
-              />
-            </div>
-          </div>
-        </div>
+        <div></div>
       </div>
-      <div className="w-full bg-orange-light h-24"></div>
-      <Popover
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        disableScrollLock={true}
-      >
-        <MenuItem onClick={() => changeLanguage("th")}>
-          <img src="/assets/images/country/thailand.svg" alt="thaiLang" className="w-4 h-4 mr-2" />
-          ไทย
-        </MenuItem>
-        <MenuItem onClick={() => changeLanguage("en")}>
-          <img
-            src="/assets/images/country/united-states.svg"
-            alt="thaiLang"
-            className="w-4 h-4 mr-2"
-          />
-          English
-        </MenuItem>
-      </Popover>
+      {/* <div className="w-full bg-orange-light h-24"></div> */}
       <Modal
         isOpen={openModalContact}
         onClose={closeModal}
@@ -210,39 +156,8 @@ function HeaderLogged() {
     <div className="shadow-headerSignIn fixed z-50 bg-white flex justify-between items-center px-5 header-logged">
       <Breadcrumb />
       <div className="flex items-center">
-        <div
-          onClick={showMenuSelectLanguage}
-          className="ml-4 w-7 h-7 mr-7.5 border-2 rounded-full border-lightestGray hover:cursor-pointer"
-        >
-          <img
-            src={`/assets/images/country/${
-              i18n.language === "th" ? "thailand" : "united-states"
-            }.svg`}
-            alt="curentLang"
-            className="w-full h-full"
-          />
-        </div>
-        <NotifyBell />
-        <div className="user flex items-center mr-7.5">
-          <div className="avatar flex justify-center items-center rounded-full text-orange-light mr-5">
-            {urlUser ? (
-              <img className="img-avatar" src={urlUser} alt="" />
-            ) : (
-              <p className="txtAvatar font-medium">{information.firstName[0]}</p>
-            )}
-          </div>
-          <div
-            className="username cursor-pointer"
-            onClick={() => {
-              history.push(routeProfile);
-            }}
-          >
-            <p>
-              {information.firstName}&nbsp;
-              {information.lastName}
-            </p>
-          </div>
-        </div>
+
+
 
         <button className="flex" type="button" onClick={handleLogout}>
           <SignoutIcon className="mr-2" />

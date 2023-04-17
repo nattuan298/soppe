@@ -7,6 +7,7 @@ export type PreviewType = {
   gender?: string;
   citizenship?: string;
   facebookConnect?: string;
+  role?:string;
   FAStatus?: string;
   shippingAddress?: AddressModel;
   billingAddress?: AddressModel;

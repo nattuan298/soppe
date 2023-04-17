@@ -30,7 +30,7 @@ const initialState: InitialStateType = {
   },
   errorMessage: "",
   internalUserDetail: {
-    roles: [],
+    roles: "",
     _id: "",
     firstName: "",
     lastName: "",
@@ -56,7 +56,7 @@ const internalUsersSlice = createSlice({
   reducers: {
     resetCurrentInteralUser: (state) => {
       state.internalUserDetail = {
-        roles: [],
+        roles: "",
         _id: "",
         firstName: "",
         lastName: "",

@@ -1,53 +1,24 @@
 export interface OrderModel {
-  _id: string;
-  arrivingDate?: string;
-  orderNumber: string;
-  quantity: string;
-  totalQuantity: number;
-  totalPrice: number;
-  totalPv: number;
-  totalProductPrice: number;
-  totalShippingFees: number;
-  status: string;
+  approveBy : string;
+  completedAt: string;
+  createdAt : string;
+  orderStatus : string;
   paymentMethod: string;
-  pickupAddress: {
-    branch: string;
-    code: string;
-    country: string;
-    province: string;
-    _id: string;
-    address: string;
-    addressEng: string;
-    phoneCode: string;
-    phoneNumbers: string[];
-    branchEng?: string;
-    provinceEng?: string;
-    businessHours?: string;
-    businessHoursEng?: string;
-  };
-  courierName?: string;
-  trackingNumber?: string;
-  createdBy: string;
-  createdAt: string;
-  products: Product[];
-  taxes: number;
-  shippingFees: number;
-  shippingAddress: Address;
-  billingAddress: Address;
-  type: string;
-  buyer: {
-    avatar: string;
-    avatarImage: string;
-    memberId: string;
-    name: string;
-    phoneCode: string;
-    phoneNumber: string;
-    documentStatus: string;
-    _id: string;
-  };
-  couponRedeemAmount?: number;
-  unit?: string;
-  statusCode?: number;
+  products
+  : Product[];
+  shippingAddress
+  : ShippingAddress;
+  totalPrice:number;
+  totalQuantity
+  :number;
+  updatedAt:string;
+  userId
+  :string;
+  __v
+  :
+  number;
+  _id
+  :string;
 }
 
 export interface Product {
@@ -56,6 +27,7 @@ export interface Product {
   productName: string;
   pv: number;
   quantity: number;
+  mediaUrl: string;
   price: number;
   unit: string;
   productImage: string;
@@ -80,6 +52,12 @@ export interface Address {
   subDistrictEng?: string;
 }
 
+export interface ShippingAddress {
+  address:string;
+  firstName:string;
+  lastName:string;
+  phoneNumber:string;
+}
 export interface PickupAddress {
   branch: string;
   code: string;

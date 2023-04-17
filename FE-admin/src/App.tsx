@@ -17,7 +17,7 @@ import {
   SignInForm,
 } from "./modules/auth";
 import { execute } from "src/lib/execute";
-import { routesHomeDashboard } from "./constants/routes";
+import { routesHomeDashboard, routesUserManagement } from "./constants/routes";
 import Page404 from "src/pages/404Page";
 import { subscribeToTopic } from "src/lib/firebase/clientApp";
 import { incressCountNotification } from "src/store/notification.slice";
@@ -35,14 +35,7 @@ export function App() {
   useEffect(() => {
     execute.defaults.headers.lang = language;
   }, []);
-  useEffect(() => {
-    const getTopic = async () => {
-      if (isLoggedIn) {
-        dispatch(fetchGetTopicNotification());
-      }
-    };
-    getTopic();
-  }, [isLoggedIn]);
+
 
   useEffect(() => {
     const pushNotificationCount = () => dispatch(incressCountNotification());
@@ -56,7 +49,6 @@ export function App() {
       <div className="w-full font-kanit">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{t("scm_admin")}</title>
         </Helmet>
         <BrowserRouter>
           <PageLayout>
@@ -64,7 +56,7 @@ export function App() {
               {!isLoggedIn ? (
                 <Redirect from="/" to="/signin" exact />
               ) : (
-                <Redirect from="/" to={routesHomeDashboard} exact />
+                <Redirect from="/" to={routesUserManagement} exact />
               )}
               <Route key="/signin" exact path="/signin" component={SignInForm} />
               <Route key="/signin-2fa" exact path="/signin-2fa" component={SignIn2FAForm} />

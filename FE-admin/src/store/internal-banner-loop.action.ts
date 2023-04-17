@@ -16,7 +16,7 @@ import {
 } from "./internal-banner-loop.slice";
 
 const getInternalBannerLoopList = async (params: ParamListRequestBannerLoopModel) => {
-  const response = (await authorizedRequest.get(`${config.apiBaseUrl}/admin/banner-loops`, {
+  const response = (await authorizedRequest.get(`${config.apiBaseUrl}/admin/banners`, {
     params,
   })) as ApiListModel<InternalBannerLoopModel>;
   return response;

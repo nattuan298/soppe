@@ -408,74 +408,22 @@ export default function UserForm() {
   const initialValues = useMemo(() => {
     setStatus(userDetail.status);
     setGender(userDetail.gender);
-    setDocumentStatus(userDetail.documentStatus);
     setDateOfBirth(userDetail.dateOfBirth);
-    setCitizenship(userDetail.citizenship);
-    setAvatarKey(userDetail?.avatar?.key || "");
-    setFacebookConnect(userDetail.facebookAuth);
-    setTwoFa(userDetail.googleAuth);
-    setImageKeys({
-      idPhoto: userDetail.images?.length > 0 ? userDetail.images[0]?.key : "",
-      beneficiaryIdPhoto: userDetail.images?.length > 1 ? userDetail.images[1]?.key : "",
-      bankAccountPhoto: userDetail.images?.length > 2 ? userDetail.images[2]?.key : "",
-      certificatePhoto: userDetail.images?.length > 3 ? userDetail.images[3]?.key : "",
-    });
-    setShippingAddress({
-      phoneCode: userDetail.shippingAddress?.phoneCode || "66",
-      country: userDetail.shippingAddress?.country || "",
-      category: userDetail.shippingAddress?.category || "",
-      firstName: userDetail.shippingAddress?.firstName || "",
-      lastName: userDetail.shippingAddress?.lastName || "",
-      postalCode: userDetail.shippingAddress?.postalCode || "",
-      address: userDetail.shippingAddress?.address || "",
-      phoneNumber: userDetail.shippingAddress?.phoneNumber || "",
-      province: userDetail.shippingAddress?.province || "",
-      provinceEng: userDetail.shippingAddress?.provinceEng || "",
-      district: userDetail.shippingAddress?.district || "",
-      districtEng: userDetail.shippingAddress?.districtEng || "",
-      subDistrict: userDetail.shippingAddress?.subDistrict || "",
-      subDistrictEng: userDetail.shippingAddress?.subDistrictEng || "",
-    });
-    setBillingAddress({
-      phoneCode: userDetail.billingAddress?.phoneCode || "66",
-      country: userDetail.billingAddress?.country || "",
-      category: userDetail.billingAddress?.category || "",
-      firstName: userDetail.billingAddress?.firstName || "",
-      lastName: userDetail.billingAddress?.lastName || "",
-      postalCode: userDetail.billingAddress?.postalCode || "",
-      address: userDetail.billingAddress?.address || "",
-      phoneNumber: userDetail.billingAddress?.phoneNumber || "",
-      province: userDetail.billingAddress?.province || "",
-      provinceEng: userDetail.billingAddress?.provinceEng || "",
-      district: userDetail.billingAddress?.district || "",
-      districtEng: userDetail.billingAddress?.districtEng || "",
-      subDistrict: userDetail.billingAddress?.subDistrict || "",
-      subDistrictEng: userDetail.billingAddress?.subDistrictEng || "",
-    });
+
+    // setAvatarKey(userDetail?.avatar?.key || "");
+
     return {
       // personal information
       firstName: userDetail.firstName,
       lastName: userDetail.lastName,
-      memberId: userDetail.memberId,
+
       status: userDetail.status,
       email: userDetail.email,
       phoneNumber: userDetail.phoneNumber,
       // default shipping address
-      shippingFirstName: userDetail.shippingAddress?.firstName,
-      shippingLastName: userDetail.shippingAddress?.lastName,
-      shippingPhoneNumber: userDetail.shippingAddress?.phoneNumber,
-      shippingPostalCode: userDetail.shippingAddress?.postalCode,
-      shippingAddress: userDetail.shippingAddress?.address,
-      shippingIsDefault: userDetail.shippingAddress?.default,
-      shippingCategory: userDetail.shippingAddress?.category,
+
       // default billing address
-      billingFirstName: userDetail.billingAddress?.firstName,
-      billingLastName: userDetail.billingAddress?.lastName,
-      billingPhoneNumber: userDetail.billingAddress?.phoneNumber,
-      billingPostalCode: userDetail.billingAddress?.postalCode,
-      billingAddress: userDetail.billingAddress?.address,
-      billingIsDefault: userDetail.billingAddress?.default,
-      billingCategory: userDetail.billingAddress?.category,
+
     };
   }, [userDetail]);
   const formik = useFormik({
@@ -519,20 +467,20 @@ export default function UserForm() {
   function handleTheSame(event: ChangeEvent<HTMLInputElement>) {
     setSame(event.target.checked);
     if (event.target.checked === true) {
-      delete formik.errors.billingFirstName;
-      delete formik.errors.billingLastName;
-      delete formik.errors.billingPhoneNumber;
-      delete formik.errors.billingPostalCode;
-      delete formik.errors.billingAddress;
+      // delete formik.errors.billingFirstName;
+      // delete formik.errors.billingLastName;
+      // delete formik.errors.billingPhoneNumber;
+      // delete formik.errors.billingPostalCode;
+      // delete formik.errors.billingAddress;
       setErrorBillingProvince(errorShippingProvince);
       setErrorBillingDistrict(errorShippingDistrict);
       setErrorBillingSubDistrict(errorShippingSubDistrict);
-      formik.values.billingFirstName = formik.values.shippingFirstName;
-      formik.values.billingLastName = formik.values.shippingLastName;
-      formik.values.billingPhoneNumber = formik.values.shippingPhoneNumber;
-      formik.values.billingPostalCode = formik.values.shippingPostalCode;
-      formik.values.billingAddress = formik.values.shippingAddress;
-      formik.values.billingCategory = formik.values.shippingCategory;
+      // formik.values.billingFirstName = formik.values.shippingFirstName;
+      // formik.values.billingLastName = formik.values.shippingLastName;
+      // formik.values.billingPhoneNumber = formik.values.shippingPhoneNumber;
+      // formik.values.billingPostalCode = formik.values.shippingPostalCode;
+      // formik.values.billingAddress = formik.values.shippingAddress;
+      // formik.values.billingCategory = formik.values.shippingCategory;
 
       setBillingAddress({ ...shippingAddress });
     }
@@ -560,7 +508,6 @@ export default function UserForm() {
       subDistrict: "",
       subDistrictEng: "",
     });
-    formik.values.shippingAddress = "";
 
     setListDistrict([]);
     setListSubDistrict([]);
@@ -576,7 +523,7 @@ export default function UserForm() {
       subDistrict: "",
       subDistrictEng: "",
     });
-    formik.values.billingAddress = "";
+    // formik.values.billingAddress = "";
   }
   function handleChangePhoneCode(value: string) {
     setPhone({ ...phone, code: value });
@@ -621,22 +568,11 @@ export default function UserForm() {
   const getKeyImage = async (newFile: File | null, defaultkey: string) => {
     if (newFile) {
       const key = await uploadImageFull({ file: newFile, moduleName: "user" });
-      return key;
+      return key.key;
     }
     return defaultkey;
   };
-  const handleChangeFacebookConnect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (userDetail.facebookAuth === false) {
-      return;
-    }
-    setFacebookConnect(false);
-  };
-  const handleChange2FAGoogle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (userDetail.googleAuth === false) {
-      return;
-    }
-    setTwoFa(false);
-  };
+
   function handleValidateOnSubmit() {
     if (
       isEmpty(shippingAddress.provinceEng) ||
@@ -817,7 +753,7 @@ export default function UserForm() {
                         <Input
                           placeholder="MemberId"
                           name="memberId"
-                          value={formik.values.memberId}
+                          // value={formik.values.memberId}
                           disabled={true}
                         />
                       </div>
@@ -847,7 +783,7 @@ export default function UserForm() {
                           onChangePhoneCode={handleChangePhoneCode}
                           onChangePhoneNumber={formik.handleChange}
                           name="phoneNumber"
-                          phoneCode={userDetail.phoneCode}
+                          phoneCode={"84"}
                           phoneNumber={formik.values.phoneNumber}
                           errorMessage={
                             formik.touched.phoneNumber && formik.errors.phoneNumber
@@ -923,99 +859,10 @@ export default function UserForm() {
                       </div>
                     </Grid>
                   </Grid>
-                  <Grid className="mb-4" container>
-                    <Grid item lg={6}>
-                      <div className="flex items-center mr-4">
-                        <Label className="mr-12 mb-0">{t("facebook-connection")}</Label>
-                        <SwitchCustom
-                          checked={facebookConnect}
-                          onChange={handleChangeFacebookConnect}
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item lg={6}>
-                      <div className="flex items-center ml-4">
-                        <Label className="mr-12 mb-0">{t("2fa-google-authen")}</Label>
-                        <SwitchCustom checked={twoFa} onChange={handleChange2FAGoogle} />
-                      </div>
-                    </Grid>
-                  </Grid>
-                  <Grid className="mb-4">
-                    <Label>{t("sponsor")}</Label>
-                    <SponsorCard showVerified sponsorData={userDetail?.sponsor} />
-                  </Grid>
                 </Grid>
               )}
             </CollapsibleBlock>
-            <CollapsibleBlock className="mb-5" heading={t("uploaded-documents")}>
-              {loadingDetail ? (
-                <div>
-                  <Spinner />
-                </div>
-              ) : (
-                <Grid container lg={10} className="uploaded-component">
-                  <Grid className="mb-4" container>
-                    <Grid item lg={6} className="px-2">
-                      <Label>{t("id-passort-photo")}</Label>
-                      <div className="mt-2">
-                        <UploadSigleImage
-                          name={t("upload-the-image")}
-                          setImage={handleChangeIdImage}
-                          urlDefaultPreview={
-                            userDetail?.images?.[0] ? userDetail?.images?.[0].url : ""
-                          }
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item lg={6} className="px-2">
-                      <Label>{t("beneficiary-id-passpord-photo")}</Label>
-                      <div className="mt-2">
-                        <UploadSigleImage
-                          name={t("upload-the-image")}
-                          setImage={handleChangeBeneficiaryIdImage}
-                          urlDefaultPreview={
-                            userDetail?.images?.[1] ? userDetail?.images?.[1].url : ""
-                          }
-                        />
-                      </div>
-                    </Grid>
-                  </Grid>
-                  <Grid className="mb-4" container>
-                    <Grid item lg={6} className="px-2">
-                      {citizenship === "Thai" ? (
-                        <Label>{t("banking-account-photo")}</Label>
-                      ) : (
-                        <Label>{t("cash_card_photo")}</Label>
-                      )}
-                      <div className="mt-2">
-                        <UploadSigleImage
-                          name={t("upload-the-image")}
-                          setImage={handleChangeBankingImage}
-                          urlDefaultPreview={
-                            userDetail?.images?.[2] ? userDetail?.images?.[2].url : ""
-                          }
-                        />
-                      </div>
-                    </Grid>
-                    {citizenship === "Thai" && (
-                      <Grid item lg={6} className="px-2">
-                        <Label>{t("marriage-relationship-certificate-photo")}</Label>
-                        <div className="mt-2">
-                          <UploadSigleImage
-                            name={t("upload-the-image")}
-                            setImage={handleChangeCertificateImage}
-                            urlDefaultPreview={
-                              userDetail?.images?.[3] ? userDetail?.images?.[3].url : ""
-                            }
-                          />
-                        </div>
-                      </Grid>
-                    )}
-                  </Grid>
-                </Grid>
-              )}
-            </CollapsibleBlock>
-            <CollapsibleBlock className="mb-5" heading={t("default-shipping-address")}>
+            {/* <CollapsibleBlock className="mb-5" heading={t("default-shipping-address")}>
               {loadingDetail ? (
                 <div>
                   <Spinner />
@@ -1228,8 +1075,8 @@ export default function UserForm() {
                   </Grid>
                 </Grid>
               )}
-            </CollapsibleBlock>
-            <CollapsibleBlock className="mb-5" heading={t("default-billing-address")}>
+            </CollapsibleBlock> */}
+            {/* <CollapsibleBlock className="mb-5" heading={t("default-billing-address")}>
               <Grid className="mb-4" container>
                 <div className="flex flex-row">
                   <FormControlLabel
@@ -1450,7 +1297,7 @@ export default function UserForm() {
                   </Grid>
                 </Grid>
               )}
-            </CollapsibleBlock>
+            </CollapsibleBlock> */}
             <div className="flex">
               <Button
                 className="mr-7.5 w-343px h-50px bg-orange-light text-white hover:bg-orange-hover"
@@ -1471,7 +1318,7 @@ export default function UserForm() {
           </form>
         </div>
         <UploadProfileImage
-          avatarUrl={userDetail?.avatar?.url}
+          avatarUrl={userDetail?.avatar}
           onChangeUpload={handleUploadProfileImage}
         />
       </div>

@@ -7,16 +7,13 @@ interface StatusLabelProps {
 }
 
 const STATUS_LABEL_CLASS: Record<string, string> = {
-  "To Receive": "order-status-receive",
-  Complete: "order-status-complete",
-  "To Ship": "order-status-ship",
-  "To Pay": "order-status-pay",
-  "To Review": "order-status-review",
-  "Cancel-Refund": "order-status-cancel-refund",
-  Pending: "order-status-pending",
+  waiting_approve: "waiting_approve",
+  delivery: "delivery",
+  receipted: "receipted",
 };
 
 function StatusLabel({ status = "", name }: StatusLabelProps) {
+  console.log(status);
   const statusLabelClass = clsx(
     "order-status-label text-center text-base font-normal text-white",
     STATUS_LABEL_CLASS[status],

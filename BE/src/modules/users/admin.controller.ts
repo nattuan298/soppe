@@ -14,6 +14,8 @@ import { JwtGuard } from 'src/common/guards/jwt-guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { AdminFindUserDto } from './dto/find-user.dto';
 import { UsersService } from './users.service';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
+import IJwtPayload from '../auth/payloads/jwt-payload';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -22,6 +24,16 @@ import { UsersService } from './users.service';
 @Controller('admin')
 export class AdminController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get('profile')
+  getProfile(@GetUser() { id }: IJwtPayload) {
+    return this.usersService.findById(id);
+  }
+
+  @Get('list')
+  findAllAdmin(@Query() findUserDto: AdminFindUserDto) {
+    return this.usersService.adminListAll(findUserDto);
+  }
 
   @Get('users')
   findAllUser(@Query() findUserDto: AdminFindUserDto) {

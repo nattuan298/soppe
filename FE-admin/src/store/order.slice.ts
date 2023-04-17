@@ -46,12 +46,11 @@ interface OrderTrackingDetailModel {
   trackingStatus: TrackingStatusModel[];
 }
 interface InitialStateType {
-  orderData: ApiListModel<OrderModel>;
-  orderDetail: OrderModel;
+  orderData?: ApiListModel<OrderModel>;
+  orderDetail?: OrderModel;
   loading: boolean;
   loadingDetail: boolean;
   errorMessage: string;
-  orderTrackingDetail: OrderTrackingDetailModel;
 }
 
 const initialState: InitialStateType = {
@@ -61,175 +60,8 @@ const initialState: InitialStateType = {
     page: 0,
     limit: 0,
   },
-  orderDetail: {
-    _id: "",
-    orderNumber: "",
-    quantity: "",
-    totalQuantity: 0,
-    totalPrice: 0,
-    totalPv: 0,
-    totalProductPrice: 0,
-    status: "",
-    taxes: 0,
-    shippingFees: 0,
-    paymentMethod: "",
-    createdBy: "",
-    createdAt: "",
-    type: "",
-    totalShippingFees: 0,
-    products: [
-      {
-        _id: "",
-        images: "",
-        productCode: "",
-        productName: "",
-        pv: 0,
-        quantity: 0,
-        price: 0,
-        unit: "",
-        productImage: "",
-        fileType: "",
-        isReviewed: false,
-      },
-    ],
-    shippingAddress: {
-      firstName: "",
-      lastName: "",
-      phoneCode: "",
-      phoneNumber: "",
-      country: "",
-      postalCode: "",
-      province: "",
-      district: "",
-      subDistrict: "",
-      address: "",
-    },
-    billingAddress: {
-      firstName: "",
-      lastName: "",
-      phoneCode: "",
-      phoneNumber: "",
-      country: "",
-      postalCode: "",
-      province: "",
-      district: "",
-      subDistrict: "",
-      address: "",
-    },
-    pickupAddress: {
-      branch: "",
-      _id: "",
-      code: "",
-      country: "",
-      province: "",
-      phoneCode: "",
-      phoneNumbers: [""],
-      address: "",
-      addressEng: "",
-    },
-    buyer: {
-      avatar: "",
-      avatarImage: "",
-      memberId: "",
-      name: "",
-      phoneCode: "",
-      phoneNumber: "",
-      documentStatus: "",
-      _id: "",
-    },
-  },
-  orderTrackingDetail: {
-    order: {
-      _id: "",
-      orderNumber: "",
-      quantity: "",
-      totalQuantity: 0,
-      totalPrice: 0,
-      totalPv: 0,
-      totalProductPrice: 0,
-      status: "",
-      taxes: 0,
-      shippingFees: 0,
-      paymentMethod: "",
-      createdBy: "",
-      createdAt: "",
-      type: "",
-      courierName: "",
-      trackingNumber: "",
-      totalShippingFees: 0,
-      products: [
-        {
-          _id: "",
-          images: "",
-          productCode: "",
-          productName: "",
-          pv: 0,
-          quantity: 0,
-          price: 0,
-          unit: "",
-          productImage: "",
-          fileType: "",
-          isReviewed: false,
-        },
-      ],
-      shippingAddress: {
-        firstName: "",
-        lastName: "",
-        phoneCode: "",
-        phoneNumber: "",
-        country: "",
-        postalCode: "",
-        province: "",
-        district: "",
-        subDistrict: "",
-        address: "",
-      },
-      billingAddress: {
-        firstName: "",
-        lastName: "",
-        phoneCode: "",
-        phoneNumber: "",
-        country: "",
-        postalCode: "",
-        province: "",
-        district: "",
-        subDistrict: "",
-        address: "",
-      },
-      pickupAddress: {
-        branch: "",
-        _id: "",
-        code: "",
-        country: "",
-        province: "",
-        phoneCode: "",
-        phoneNumbers: [""],
-        address: "",
-        addressEng: "",
-      },
-      buyer: {
-        avatar: "",
-        avatarImage: "",
-        memberId: "",
-        name: "",
-        phoneCode: "",
-        phoneNumber: "",
-        documentStatus: "",
-        _id: "",
-      },
-    },
-    trackingStatus: [
-      {
-        name: "",
-        statusCode: "",
-        statusDesc: "",
-        updateDate: "",
-        trackingNumber: "",
-        lastMileSignature: "",
-        _id: "",
-      },
-    ],
-  },
+
+
   errorMessage: "",
   loading: true,
   loadingDetail: true,
@@ -271,7 +103,7 @@ const ordersSlice = createSlice({
     },
     getOrderTrackingDetailFulfilled: (state, action) => {
       state.loadingDetail = false;
-      state.orderTrackingDetail = action.payload;
+      // state.orderTrackingDetail = action.payload;
     },
   },
   extraReducers: {

@@ -1,13 +1,8 @@
-import { Address, PickupAddress } from "src/types/order.model";
+import { Address, PickupAddress, ShippingAddress } from "src/types/order.model";
 
 export type PreviewType = {
-  buyer: {
-    name: string;
-    id: string;
-    avatar?: string;
-    documentStatus?: string;
-  };
-  shippingAddress?: Address;
+
+  shippingAddress?: ShippingAddress;
   billingAddress?: Address;
   pickupAddress?: PickupAddress;
 };

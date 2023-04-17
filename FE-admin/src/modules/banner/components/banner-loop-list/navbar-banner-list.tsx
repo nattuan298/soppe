@@ -215,37 +215,7 @@ export function NavbarBannerList({ setFilter }: NavbarBannerListTypeProps) {
                   />
                 </div>
               </label>
-              <label className="ml-1.5">
-                <span className="float-left medium:text-sm large:text-4xl wide:pl-6 pl-3 pt-2.5 pb-1.5">{t`create-date`}</span>
-                <div className="wide:pl-6 pl-3 pt-9">
-                  <InputDatePicker
-                    handleSelect={handleSelectDate}
-                    className="h-12 float-left wide:w-72 w-60 pl-4 placeholder-italic"
-                    defaultFrom={from}
-                    defaultTo={to}
-                    placeholder={t("all")}
-                  />
-                </div>
-              </label>
-              <label className="ml-1.5">
-                <span className="float-left medium:text-sm large:text-4xl wide:pl-6 pl-3 pt-2.5 pb-1.5">{t`location-base`}</span>
-                <div className="wide:pl-6 pl-3 pt-9">
-                  <SelectCountry2
-                    options={[
-                      {
-                        name: "all_countries",
-                        code: "10000",
-                        flag: "/assets/images/country/globe.png",
-                        value: "All",
-                      },
-                      ...ListCountryPhoneCode,
-                    ]}
-                    country={locationFilter.name}
-                    onSelect={handleChangeLocation}
-                    className="wide:w-72 w-48"
-                  />
-                </div>
-              </label>
+
             </div>
           </div>
           <div className="flex w-62/100 justify-end seach-component mr-5">
@@ -260,18 +230,12 @@ export function NavbarBannerList({ setFilter }: NavbarBannerListTypeProps) {
               className="bg-orange-light text-base	text-white wide:ml-6 ml-3 wide:px-6 px-2 max-w-xs hover:bg-orange-hover"
               onClick={handleCreateNewBanner}
             >
-              {t`create-new-banner-loop`}
+             Create New Banner
             </Button>
           </div>
         </div>
       </Navbar>
-      {chipResult.length > 0 && (
-        <ResultFor
-          arrayResult={chipResult}
-          onDelete={handleDeleteChip}
-          onClearAll={handleClearAll}
-        />
-      )}
+
     </div>
   );
 }

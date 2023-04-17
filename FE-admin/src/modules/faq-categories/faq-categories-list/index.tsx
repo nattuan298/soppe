@@ -32,8 +32,9 @@ export default function FAQCategoryList() {
   const { root, body } = useStyles();
   const dispatch = useAppDispatch();
   const { FAQCategoryData, loading } = useAppSelector((state) => state.faqCategory);
-  const { data, total } = FAQCategoryData;
-  const totalPage = getTotalPage(total, searchParams.pageSize);
+  console.log(FAQCategoryData);
+
+  const totalPage = getTotalPage(FAQCategoryData.length, searchParams.pageSize);
 
   useEffect(() => {
     dispatch(getListCategoryAction(searchParams));
@@ -62,7 +63,7 @@ export default function FAQCategoryList() {
             const newParams = {
               ...searchParams,
               page:
-                data.length === 1 && searchParams.page! > 1
+              FAQCategoryData.length === 1 && searchParams.page! > 1
                   ? searchParams.page! - 1
                   : searchParams.page,
             };
@@ -137,10 +138,8 @@ export default function FAQCategoryList() {
         <Table className={root}>
           <TableHead>
             <TableRow>
-              <TableCell className="w-[25%]">{t("category-name")}</TableCell>
+              <TableCell >{t("category-name")}</TableCell>
               <TableCell>{t("created-date")}</TableCell>
-              <TableCell align="center">{t("number_of_faq")}</TableCell>
-              <TableCell align="center">{t("total-views")}</TableCell>
               <TableCell align="center">{t("action")}</TableCell>
               <TableCell />
             </TableRow>
@@ -153,25 +152,20 @@ export default function FAQCategoryList() {
                 </TableCell>
               </TableRow>
             ) : (
-              (data || []).map((categories) => (
+              (FAQCategoryData || []).map((categories) => (
                 <TableRow className={body}>
                   <TableCell className="max-w-[300px]">
-                    <div className="truncate-2-line break-words">{categories.name}</div>
+                    <div className="truncate-2-line break-words">{categories.category}</div>
                   </TableCell>
                   <TableCell>
                     <div className="max-w-[120px]">
                       {dateSlice(dayjs(categories.createdAt).format("DD MMM YYYY HH:mm:ss"))}
                     </div>
                   </TableCell>
-                  <TableCell align="center">{formatNumber(categories.totalFAQs)}</TableCell>
-                  <TableCell align="center">{formatNumber(categories.totalViews)}</TableCell>
+
                   <TableCell>
                     <div className="flex justify-center action-buttons-wrapper space-x-2">
-                      <Link
-                        to={`/admin-dashboard/category-management/faq-category/edit-faq-category/${categories._id}`}
-                      >
-                        <ActionButton action="edit" />
-                      </Link>
+
                       <ActionButton
                         action="delete"
                         onClick={() => {
@@ -185,7 +179,7 @@ export default function FAQCategoryList() {
                 </TableRow>
               ))
             )}
-            {(!data || data.length === 0) && (
+            {(!FAQCategoryData || FAQCategoryData.length === 0) && (
               <TableRow>
                 <TableCell style={{ border: "none" }} colSpan={10}>
                   <div className="text-center">
@@ -198,15 +192,7 @@ export default function FAQCategoryList() {
           </TableBody>
         </Table>
 
-        <div className="py-10">
-          <Pagination
-            totalPage={totalPage}
-            onPageChange={(page, size) => handlePageChange(page, size)}
-            onPageSizeChange={() => {}}
-            notPreventChangeRoute={true}
-            selectedPage={searchParams.page}
-          />
-        </div>
+
 
         <Modal
           open={openDeleteModal}

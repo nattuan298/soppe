@@ -14,7 +14,7 @@ import {
 
 const getSelectedBannerLoop = async (id: string) => {
   const response = (await authorizedRequest.get(
-    `${config.apiBaseUrl}/admin/banner-loops/${id}`,
+    `${config.apiBaseUrl}/admin/banners/${id}`,
   )) as InternalBannerLoopModel;
   return response;
 };

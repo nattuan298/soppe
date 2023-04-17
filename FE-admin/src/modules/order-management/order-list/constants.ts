@@ -14,32 +14,16 @@ export function useStatusOptions() {
   useEffect(() => {
     setStatusOption([
       {
-        title: t("to_pay"),
-        value: "To Pay",
+        title: t("waiting_approve"),
+        value: "waiting_approve",
       },
       {
-        title: t("to_ship"),
-        value: "To Ship",
+        title: t("delivery"),
+        value: "delivery",
       },
       {
-        title: t("to_receive"),
-        value: "To Receive",
-      },
-      {
-        title: t("to_review"),
-        value: "To Review",
-      },
-      {
-        title: t("cancel/refund"),
-        value: "Cancel-Refund",
-      },
-      {
-        title: t("complete"),
-        value: "Complete",
-      },
-      {
-        title: t("pending"),
-        value: "Pending",
+        title: t("receipted"),
+        value: "receipted",
       },
     ]);
   }, [localStorage.getItem("i18nextLng")]);
@@ -55,10 +39,6 @@ export function usePaymentMethodOptions() {
       {
         title: t("credit/_debit_card"),
         value: "Credit/ Debit Card",
-      },
-      {
-        title: t("scm_point"),
-        value: "SCM Point",
       },
       {
         title: t("qr_code"),

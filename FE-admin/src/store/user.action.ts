@@ -16,7 +16,7 @@ export type FetchUser = {
   payload: ParamListRequestModel;
 };
 const getUserList = async (params: ParamListRequestModel) => {
-  const response = (await authorizedRequest.get(`${config.apiBaseUrl}/admin/members`, {
+  const response = (await authorizedRequest.get(`${config.apiBaseUrl}/admin/users`, {
     params,
   })) as any;
   return response;
