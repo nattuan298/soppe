@@ -141,14 +141,7 @@ import {
   FETCH_HISTORY_COUPON_ACTION,
   FETCH_UPDATE_COUPON_ACTION,
 } from "./coupons.type";
-import {
-  watcherAddCoupon,
-  watcherDeleteCoupon,
-  watcherDetailCoupon,
-  watcherGetCoupon,
-  watcherHistoryCoupon,
-  watcherUpdateCoupon,
-} from "./coupons.action";
+
 import {
   FETCH_ADD_NEWS_ARTICLE,
   FETCH_DELETE_NEWS_ARTICLE,
@@ -233,12 +226,6 @@ export default function* rootSaga() {
     takeLatest(FETCH_DELETE_NEWS, watcherDeleteNews),
     takeLatest(FETCH_GET_REVIEW, watcherGetListReview),
     takeLatest(FETCH_CATEGORY, watcherCategory),
-    takeLatest(FETCH_GET_COUPON_ACTION, watcherGetCoupon),
-    takeLatest(FETCH_GET__DETAIL_COUPON_ACTION, watcherDetailCoupon),
-    takeLatest(FETCH_ADD_COUPON_ACTION, watcherAddCoupon),
-    takeLatest(FETCH_UPDATE_COUPON_ACTION, watcherUpdateCoupon),
-    takeLatest(FETCH_DELETE_COUPON_ACTION, watcherDeleteCoupon),
-    takeLatest(FETCH_HISTORY_COUPON_ACTION, watcherHistoryCoupon),
     takeLatest(FETCH_GET_NEWS, watcherListNews),
     takeLatest(FETCH_GET_DETAIL_NEWS, watcherDetailNews),
     takeLatest(FETCH_GET_USER, watcherListUser),

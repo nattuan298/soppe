@@ -35,45 +35,14 @@ interface PreviewProductInformationProps {
 
 function PreviewProductInformation({ productDetail, ...props }: PreviewProductInformationProps) {
   const { t } = useTranslation("common");
-  const { media } = productDetail;
-
-  const hasOnlyVideo = (product: ProductModel) => {
-    return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
-  };
-  const hasImage = (product: ProductModel) => {
-    const count = media.find(({ fileType }) => fileType === "IMAGE");
-    if (count?.fileType) {
-      return true;
-    }
-    return false;
-  };
-  const onlyVideo = hasOnlyVideo(productDetail);
-  const countImage = hasImage(productDetail);
-  const image = media.filter(({ fileType }) => fileType !== "VIDEO");
-  const imageData = orderBy(image, ["position"], ["asc"]);
+  const { mediaUrl } = productDetail;
 
   return (
     <div className="relative flex product-name">
-      {countImage && !onlyVideo ? (
-        <img alt="err" className="image" src={imageData[0].urlPreSign} />
+      {mediaUrl ? (
+        <img alt="err" className="image" src={mediaUrl} />
       ) : null}
-      {onlyVideo && !countImage ? (
-        <Fragment>
-          <video
-            src={get(productDetail, "media[0].urlPreSign")}
-            controls={false}
-            className=""
-            style={{
-              width: "85px",
-              height: "85px",
-              objectFit: "fill",
-            }}
-            playsInline
-          />
-          <IconPlay className="absolute iconPlay" width={"30px"} height={"30px"} />
-        </Fragment>
-      ) : null}
-      {!countImage && !onlyVideo ? <ImageError /> : null}
+      {!mediaUrl ? <ImageError /> : null}
       <div className="float-left flex">
         <label>
           <p className="txt-sku">
@@ -81,7 +50,7 @@ function PreviewProductInformation({ productDetail, ...props }: PreviewProductIn
               {t`sku`}
               {":"}&nbsp;
             </span>
-            {productDetail.productCode}
+            {productDetail._id}
           </p>
           <p className="txt-name">{productDetail.productName}</p>
         </label>
@@ -163,16 +132,16 @@ export function ProductUpdate({ ...props }: ProductUpdateProps) {
     }
   }, [dispatch, id, locationBase]);
 
-  useEffect(() => {
-    if (productDetail?.media) {
-      const oldMedias = productDetail?.media.map((item) => ({ _id: uuidv4(), ...item }));
-      setOldMedias(oldMedias);
-    }
-    if (productDetail.description.en || productDetail.description.th) {
-      setDescription({ en: productDetail.description.en, th: productDetail.description.th });
-    }
-    setStatus(productDetail.isNewProduct ? "1" : "0");
-  }, [productDetail]);
+  // useEffect(() => {
+  //   if (productDetail?.media) {
+  //     const oldMedias = productDetail?.media.map((item) => ({ _id: uuidv4(), ...item }));
+  //     setOldMedias(oldMedias);
+  //   }
+  //   if (productDetail.description.en || productDetail.description.th) {
+  //     setDescription({ en: productDetail.description.en, th: productDetail.description.th });
+  //   }
+  //   setStatus(productDetail.isNewProduct ? "1" : "0");
+  // }, [productDetail]);
 
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

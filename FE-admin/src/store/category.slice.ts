@@ -18,9 +18,7 @@ const initialState: InitialStateType = {
   categoryData: [
     {
       _id: "",
-      categoryId: "",
-      categoryName: "",
-      image: "",
+      category: "",
     },
   ],
   loading: true,

@@ -1,32 +1,17 @@
 export interface ProductModel {
-  productCode: string;
-  productName: string;
-  pv: number;
-  memberPrice: number;
-  personalPrice: number;
-  weight: number;
-  categoryId: string;
-  categoryName: string;
-  sdate: string;
-  edate: string;
-  flag: string;
-  media: [
-    {
-      url: string;
-      fileType: string;
-      position: number;
-      urlPreSign?: string;
-    },
-  ];
-  description: {
-    en: string;
-    th: string;
-  };
-  status: string;
   isNewProduct: boolean;
   rating: number;
-  _id?: string;
-  countApprovedReviews: number;
+  ratingCount: number;
+  _id: string;
+  productName: string;
+  mediaUrl:string;
+  description: string;
+  stock: number;
+  price: number;
+  categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export interface DescriptionType {
@@ -41,4 +26,12 @@ export interface ProductModelBody {
     position: number;
   }>;
   description: DescriptionType;
+}
+export interface ProductDetailType {
+  productName: string;
+  mediaUrl: string;
+  description: string;
+  stock: number;
+  price: number;
+  categoryId: string;
 }
