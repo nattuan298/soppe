@@ -31,7 +31,6 @@ import notificationSlice from "./notification.slice";
 import googleAuthenSlice from "./googleAuthen.slice";
 import newsArtCatesSlice from "./news-article-categories.slice";
 import newsArtSlice from "./news-articles.slice";
-import couponSlice from "./coupons.slice";
 import userHistorySlice from "./user-history.slice";
 import dashboardSlice from "./dashboard.slice";
 import internalUserHistorySlice from "./internal-access-history.slice";
@@ -73,7 +72,6 @@ export const store = configureStore({
     GoogleAuthen: googleAuthenSlice,
     newsArtCates: newsArtCatesSlice,
     newsArt: newsArtSlice,
-    coupons: couponSlice,
     userHistory: userHistorySlice,
     dashboard: dashboardSlice,
     internalUserHistory: internalUserHistorySlice,

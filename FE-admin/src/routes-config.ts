@@ -34,6 +34,7 @@ import {
   routeHomeBase,
   routeHomePageTemplateManagement,
   routeInternalUserHistoryList,
+  routeInventoryManagementProductCreateBase,
   routeInventoryManagementProductListBase,
   routeInventoryManagementProductUpdateBase,
   routeManagementBannerList,
@@ -44,12 +45,6 @@ import {
   routePreviewFAQ,
   routeProfile,
   routePushNotificationManagement,
-
-  routeSectionProductCreateSlide,
-  routeSectionProductEditSlide,
-  routeSectionProductSlideAddProduct,
-  routeSectionProductSlideList,
-  routeSectionProductSlideProductList,
   routeSignin2FABase,
   routeSigninBase,
   routeSignupBase,
@@ -113,10 +108,10 @@ export const routesConfig = [
     ),
   },
   {
-    path: routeInventoryManagementProductUpdateBase,
+    path: routeInventoryManagementProductCreateBase,
     exact: true,
     component: loadable(
-      lazy(() => retry(() => import("./pages/inventory-management-update-product"))),
+      lazy(() => retry(() => import("./pages/inventory-management-create-product"))),
     ),
   },
   {
@@ -208,41 +203,7 @@ export const routesConfig = [
       loadable(lazy(() => retry(() => import("./pages/banner-management-loop-form")))),
     ),
   },
-  {
-    path: routeSectionProductSlideList,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-product-slide-list")))),
-    ),
-  },
-  {
-    path: routeSectionProductCreateSlide,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-product-slide-list-form")))),
-    ),
-  },
-  {
-    path: routeSectionProductEditSlide,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-product-slide-list-form")))),
-    ),
-  },
-  {
-    path: routeSectionProductSlideProductList,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-product-slide-product-list")))),
-    ),
-  },
-  {
-    path: routeSectionProductSlideAddProduct,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/section-product-slide-add-product")))),
-    ),
-  },
+
   {
     path: routeFAQManagement,
     exact: true,
@@ -369,32 +330,6 @@ export const routesConfig = [
     exact: true,
     component: withAuthentication(
       loadable(lazy(() => retry(() => import("./pages/news-article-edit")))),
-    ),
-  },
-  {
-    path: routeCouponList,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/coupons-list")))),
-    ),
-  },
-  {
-    path: routeCouponCreate,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => import("./pages/coupon-create")))),
-    ),
-  },
-  {
-    path: routeCouponEdit,
-    exact: true,
-    component: withAuthentication(loadable(lazy(() => retry(() => import("./pages/coupon-edit"))))),
-  },
-  {
-    path: routeCouponHistory,
-    exact: true,
-    component: withAuthentication(
-      loadable(lazy(() => retry(() => retry(() => import("./pages/coupon-history"))))),
     ),
   },
   {

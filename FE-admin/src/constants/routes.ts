@@ -10,6 +10,10 @@ export const routeInventoryManagementProductListBase =
   "/admin-dashboard/inventory-management/product-list";
 export const routeInventoryManagementProductUpdateBase =
   "/admin-dashboard/inventory-management/update-product-image-&-video/:locationBase/:id";
+export const routeInventoryManagementProductCreateBase =
+  "/admin-dashboard/inventory-management";
+export const routeInventoryManagementProductEditBase =
+  "/admin-dashboard/inventory-management/:id";
 
 export const routesHomeDashboard = "/admin-dashboard/home";
 export const routesOrderManagement = "/admin-dashboard/order-management/order-list";
@@ -48,16 +52,7 @@ export const routeEditBannerLoop =
 export const routeEditBanner =
   "/admin-dashboard/appearance-management/home-banner-management/banner-loop-list/banner-list/edit-banner/:id";
 
-export const routeSectionProductSlideList =
-  "/admin-dashboard/appearance-management/section-product-slide-management/slide-list";
-export const routeSectionProductCreateSlide =
-  "/admin-dashboard/appearance-management/section-product-slide-management/slide-list/create-new-product-slide";
-export const routeSectionProductEditSlide =
-  "/admin-dashboard/appearance-management/section-product-slide-management/slide-list/edit-product-slide/:id";
-export const routeSectionProductSlideProductList =
-  "/admin-dashboard/appearance-management/section-product-slide-management/slide-list/product-list/:id";
-export const routeSectionProductSlideAddProduct =
-  "/admin-dashboard/appearance-management/section-product-slide-management/slide-list/product-list/add-new-product/:id";
+
 
 export const routeFAQManagement = "/admin-dashboard/FAQ/list";
 export const routeCreateFAQ = "/admin-dashboard/FAQ/create-new-FAQ";

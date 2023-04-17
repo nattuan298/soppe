@@ -2,9 +2,7 @@ import { LogoSidebar } from "../icons";
 import SidebarItem from "./sidebar-item";
 import "./styles.css";
 import { sidebarItems } from "./constants";
-import AppearanceMenu from "./appearance-menu";
-import CategoriesMenu from "./categories-menu";
-import PlatformStatMenu from "./platform-stat-menu";
+
 
 export function Sidebar() {
   return (
@@ -16,9 +14,6 @@ export function Sidebar() {
           if (name !== "Appearance" && url) {
             return <SidebarItem url={url} title={title} icon={icon} />;
           }
-          if (name === "Categories") return <CategoriesMenu />;
-          if (name === "platforms_stat") return <PlatformStatMenu />;
-          return <AppearanceMenu />;
         })}
       </div>
     </div>

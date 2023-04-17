@@ -10,7 +10,7 @@ export type FetchCategory = {
 };
 const getCategory = async () => {
   const response = (await authorizedRequest.get(
-    `${config.apiBaseUrl}/categories`,
+    `${config.apiBaseUrl}/products/category`,
   )) as CategoryModel;
 
   return response;

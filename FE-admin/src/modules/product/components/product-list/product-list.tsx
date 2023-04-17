@@ -6,6 +6,8 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActionButton,
+  Button,
+  ButtonLink,
   ChipType,
   CollapsibleBodyRow,
   CollapsibleHeadRow,
@@ -33,11 +35,11 @@ import { ImageError } from "src/components/image-error/image-error";
 import { IconPlay, NewCollectionIcon } from "src/components/icons";
 import { get, orderBy } from "lodash";
 import { CategoryModel } from "src/types/category.model";
-import { SelectCountry2 } from "src/components/select-country-2";
 import { useDebounceValue } from "src/hooks";
 import { getProductAction } from "src/store/inventory-management.action";
 import { getCategoryAction } from "src/store/category.ation";
 import { getMaxPriceAction } from "src/store/max-price.action";
+import { routeInventoryManagementProductCreateBase } from "../../../../constants/routes";
 
 interface RatingComponentProps {
   rating: number;
@@ -92,45 +94,15 @@ function Preview({ categoryName, description }: PreviewProduct) {
 function ImageInventory({ product }: ImageInventoryProps) {
   const { t } = useTranslation("common");
 
-  const { media } = product;
+  const { mediaUrl } = product;
 
-  const hasOnlyVideo = () => {
-    return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
-  };
-  const hasImage = () => {
-    const count = media.find(({ fileType }) => fileType === "IMAGE");
-    if (count?.fileType) {
-      return true;
-    }
-    return false;
-  };
-  const onlyVideo = hasOnlyVideo();
-  const countImage = hasImage();
-  const image = media.filter(({ fileType }) => fileType !== "VIDEO");
-  const imageData = orderBy(image, ["position"], ["asc"]);
   return (
     <div className="relative flex product-name">
-      {countImage && !onlyVideo ? (
-        <img alt="err" className="image" src={imageData[0].urlPreSign} />
+      {mediaUrl ? (
+        <img alt="err" className="image" src={mediaUrl} />
       ) : null}
-      {onlyVideo && !countImage ? (
-        <Fragment>
-          <video
-            src={get(product, "media[0].urlPreSign")}
-            controls={false}
-            className=""
-            style={{
-              width: "85px",
-              height: "85px",
-              objectFit: "fill",
-            }}
-            playsInline
-          />
-          <IconPlay className="absolute iconPlay" width={"30px"} height={"30px"} />
-        </Fragment>
-      ) : null}
-      {!countImage && !onlyVideo ? <ImageError /> : null}
-      {product.isNewProduct && product.media.length > 0 ? (
+      {!mediaUrl ? <ImageError /> : null}
+      {product.isNewProduct && product.mediaUrl ? (
         <div className="absolute top-0 newCollection">
           <NewCollectionIcon />
         </div>
@@ -178,18 +150,10 @@ export function ProductList() {
   const dispatch = useDispatch();
   const { productData, loading } = useSelector((state: RootState) => state.inventoryManagements);
   const { categoryData } = useSelector((state: RootState) => state.categories);
-  const [locationFilter, setLocationFilter] = useState<string>();
   const { maxprice } = useSelector((state: RootState) => state.maxPriceLocation);
 
   useEffect(() => {
-    const locationBase = sessionStorage.getItem("locationBase");
     const sesstionPage = sessionStorage.getItem("productPage") as string;
-    if (locationBase) {
-      setLocationFilter(locationBase);
-      sessionStorage.removeItem("locationBase");
-    } else {
-      setLocationFilter("Thailand");
-    }
     if (sesstionPage) {
       const page = Number(sesstionPage);
       setTimeout(() => {
@@ -199,11 +163,7 @@ export function ProductList() {
     }
   }, [location.pathname]);
 
-  useEffect(() => {
-    if (locationFilter) {
-      dispatch(getMaxPriceAction({ country: locationFilter, type: "Product" }));
-    }
-  }, [locationFilter]);
+
 
   useEffect(() => {
     const { maxPrice } = maxprice;
@@ -215,7 +175,6 @@ export function ProductList() {
     {
       page,
       pageSize,
-      countryCode: locationFilter,
       category: categoryFilter.name,
       minPrice: rangeFilter.start,
       maxPrice: rangeFilter.end,
@@ -276,18 +235,7 @@ export function ProductList() {
       setRangeFilter({ start: MIN, end: maxPrice });
       setRange({ start: MIN, end: maxPrice });
     }
-    if (id === "locationBase") {
-      setLocationFilter("Thailand");
-      setSearchFilterChips((prevState) => {
-        return [
-          ...prevState,
-          {
-            id: "locationBase",
-            name: "Thailand",
-          },
-        ];
-      });
-    }
+
     setPage(1);
   }
   function handleClearAll() {
@@ -303,7 +251,6 @@ export function ProductList() {
     });
     setRangeFilter({ start: MIN, end: maxPrice });
     setRange({ start: MIN, end: maxPrice });
-    setLocationFilter("Thailand");
     setSearchFilterChips((prevState) => {
       return [
         ...prevState,
@@ -369,11 +316,11 @@ export function ProductList() {
   const handleFilterCategory = (category_id: string | null) => {
     if (category_id) {
       const categoryName = categoryData.find(
-        (data: CategoryModel) => data.categoryId === category_id,
+        (data: CategoryModel) => data._id === category_id,
       );
       setCategoryFilter({
         id: "category",
-        name: categoryName ? categoryName.categoryId : "",
+        name: categoryName ? categoryName._id : "",
         value: category_id,
       });
       setSearchFilterChips((prevState) => {
@@ -384,7 +331,7 @@ export function ProductList() {
           ...prevState,
           {
             id: "category",
-            name: categoryName ? categoryName.categoryName : "",
+            name: categoryName ? categoryName.category : "",
             value: category_id,
           },
         ];
@@ -396,30 +343,7 @@ export function ProductList() {
     }
   };
 
-  const handleShowImage = (images: any): boolean => {
-    const check = images.filter((item: any) => item.fileType !== "VIDEO").length;
-    if (check) {
-      return true;
-    }
-    return false;
-  };
 
-  const hasOnlyVideo = (product: ProductModel) => {
-    const { media } = product;
-    return !media.find(({ fileType }) => fileType !== "VIDEO") && media.length >= 1;
-  };
-
-  const handleChangeLocation = (value: string) => {
-    if (value !== locationFilter) {
-      setLocationFilter(value);
-      setSearchFilterChips((prevState) => {
-        return prevState.map((item) =>
-          item.id === "locationBase" ? { ...item, name: value } : item,
-        );
-      });
-      setPage(1);
-    }
-  };
 
   const { language } = i18n;
 
@@ -435,15 +359,14 @@ export function ProductList() {
   );
 
   const redrectPage = async (product: ProductModel) => {
-    if (locationFilter) {
-      sessionStorage.setItem("locationBase", locationFilter);
+
       sessionStorage.setItem("productPage", "" + page);
       setTimeout(() => {
         history.push(
-          `/admin-dashboard/inventory-management/update-product-image-&-video/${locationFilter}/${product.productCode}`,
+          `/admin-dashboard/inventory-management/update-product-image-&-video/${product._id}`,
         );
       }, 100);
-    }
+
   };
 
   return (
@@ -458,8 +381,8 @@ export function ProductList() {
                   className="w-[150px] 2xl:w-[343px]"
                   defaultValue={categoryFilter.name}
                   options={categoryData?.map((category: CategoryModel) => ({
-                    title: category.categoryName,
-                    value: category.categoryId,
+                    title: category.category,
+                    value: category._id,
                   }))}
                   placeholder={t("all-categories")}
                   onChange={handleFilterCategory}
@@ -473,7 +396,7 @@ export function ProductList() {
                   <SelectPriceRange
                     className="dropdown w-[250px] 2xl:w-[343px]"
                     min={MIN}
-                    max={maxPrice}
+                    max={1000000}
                     range={range}
                     setRange={setRange}
                     handleChangePrice={handleChangePrice}
@@ -481,47 +404,31 @@ export function ProductList() {
                 </div>
               </label>
             </div>
-            <div className="h-24 flex">
-              <label className="ml-1.5">
-                <span className="pl-6 float-left medium:text-sm large:text-4xl pb-1.5">{t`location-base`}</span>
-                <div className="pl-6 pt-6">
-                  <SelectCountry2
-                    country={locationFilter}
-                    onSelect={handleChangeLocation}
-                    className="w-[250px] 2xl:w-[343px]"
-                  />
-                </div>
-              </label>
-            </div>
           </div>
 
-          <div>
+          <div className="flex">
             <Search
               placeholder={t`search`}
               onSearch={handleSubmitSearch}
               value={searchFilter.name}
               className="w-[310px] 2xl:w-[350px]"
             />
+           <Button
+              variant="text"
+              className="bg-orange-light text-base	text-white wide:ml-6 ml-3 wide:px-6 px-2 max-w-xs hover:bg-orange-hover"
+              onClick={() => history.push(routeInventoryManagementProductCreateBase)}
+            >
+             Create New Product
+            </Button>
           </div>
         </div>
-        {searchChips.length > 0 && (
-          <ResultFor
-            arrayResult={searchChips}
-            onDelete={handleDeleteSearchFilter}
-            onClearAll={handleClearAll}
-          />
-        )}
         <div className="inventory-product-table mt-5">
           <Table>
             <TableHead>
               <CollapsibleHeadRow>
                 <TableCell align="left">{t`product-name`}</TableCell>
-                <TableCell>{t`sku`}</TableCell>
                 <TableCell>{t`price-retail`}</TableCell>
-                <TableCell>{t`price-member`}</TableCell>
-                <TableCell>{t`pv`}</TableCell>
                 <TableCell>{t`rating`}</TableCell>
-                <TableCell align="center">{t`status`}</TableCell>
                 <TableCell align="center">{t`action`}</TableCell>
               </CollapsibleHeadRow>
             </TableHead>
@@ -535,25 +442,20 @@ export function ProductList() {
               ) : null}
               {!loading && productData.data
                 ? productData.data.map((product: ProductModel) => {
-                    const onlyVideo = hasOnlyVideo(product);
 
-                    const { categoryName } =
+                    const { category } =
                       categoryData.find(
-                        (item: CategoryModel) => item.categoryId === product.categoryId,
+                        (item: CategoryModel) => item._id === product.categoryId,
                       ) || {};
 
                     return (
                       <CollapsibleBodyRow
                         colSpan={9}
-                        key={product.productCode}
+                        key={product._id}
                         preview={
                           <Preview
-                            categoryName={categoryName}
-                            description={
-                              localStorage.getItem("i18nextLng") === "en"
-                                ? product.description.en
-                                : product.description.th
-                            }
+                            categoryName={category}
+                            description={product.description}
                           />
                         }
                       >
@@ -562,27 +464,15 @@ export function ProductList() {
                             <ImageInventory product={product} />
                           </div>
                         </TableCell>
-                        <TableCell>{product.productCode}</TableCell>
-                        <TableCell>{<FormatNumber value={product.personalPrice} />}</TableCell>
-                        <TableCell>{<FormatNumber value={product.memberPrice} />}</TableCell>
-                        <TableCell>{<FormatNumber value={product.pv} />}</TableCell>
+                        <TableCell>{<FormatNumber value={product.price} />}</TableCell>
+
                         <TableCell>
                           <RatingComponent
                             rating={product.rating}
-                            countApprovedReviews={product.countApprovedReviews}
+                            countApprovedReviews={product.ratingCount}
                           />
                         </TableCell>
-                        <TableCell align="center">
-                          <div className="flex">
-                            <div className="m-auto">
-                              {product.status === "Active" ? (
-                                <Status active={true} value={product.status} />
-                              ) : (
-                                <Status active={false} value={product.status} />
-                              )}
-                            </div>
-                          </div>
-                        </TableCell>
+
                         <TableCell align="center">
                           <div className="flex action-buttons-wrapper">
                             <div className="m-auto flex">
