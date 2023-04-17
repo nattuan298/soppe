@@ -1,7 +1,7 @@
 import {
   CommonPaginationDto,
   PaginationResDto,
-} from './../../common/pagination.dto';
+} from './../../../common/pagination.dto';
 import {
   IsDefined,
   IsMongoId,

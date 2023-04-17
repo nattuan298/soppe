@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Status } from './../../common/common.constants';
-import { CommonPaginationDto } from './../../common/pagination.dto';
+import { Status } from './../../../common/common.constants';
+import { CommonPaginationDto } from './../../../common/pagination.dto';
 
 export class AdminFindUserDto extends CommonPaginationDto {
   @IsEnum(Status)
