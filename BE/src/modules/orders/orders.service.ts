@@ -13,7 +13,7 @@ import { UploadService } from '../upload/upload.service';
 import { IOrderDoc } from './orders.interface';
 import { UsersService } from '../users/users.service';
 import { ProductsService } from '../products/products.service';
-import { paginationTransformer } from 'src/common/helpers';
+import { paginationTransformer } from './../../common/helpers';
 import { OrderStatus, ResponseOrderMessage } from './orders.constant';
 import { FindOrderDto } from './dto/find-order.dto';
 

@@ -13,7 +13,7 @@ import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { UploadService } from './upload.service';
 import { Express } from 'express';
 import { FolderUploadDto } from './dto/upload.dto';
-import { ApiFile } from 'src/common/helpers';
+import { ApiFile } from './../../common/helpers';
 
 @ApiTags('Upload')
 @Controller('upload')

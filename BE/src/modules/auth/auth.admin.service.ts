@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Role, Status } from 'src/common/common.constants';
+import { Role, Status } from './../../common/common.constants';
 import { UsersService } from '../users/users.service';
 import { AdminSignInResponseMessage } from './auth.constant';
 import { JwtService } from '@nestjs/jwt';

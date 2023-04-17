@@ -1,4 +1,4 @@
-import { Role } from 'src/common/common.constants';
+import { Role } from './../../../common/common.constants';
 
 export default interface IJwtPayload {
   username: string;

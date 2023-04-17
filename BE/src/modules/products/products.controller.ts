@@ -8,7 +8,7 @@ import {
   ResFindProductsDto,
 } from './dto/find-products.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CommonIdParams } from 'src/common/common.dto';
+import { CommonIdParams } from './../../common/common.dto';
 import { CheckStockDto } from './dto/check-stock.dto';
 
 @ApiTags('Products')

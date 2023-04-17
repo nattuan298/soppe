@@ -7,14 +7,14 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Role } from 'src/common/common.constants';
-import { CommonIdParams } from 'src/common/common.dto';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { RolesGuard } from 'src/common/guards/role.guard';
+import { Role } from './../../common/common.constants';
+import { CommonIdParams } from './../../common/common.dto';
+import { Roles } from './../../common/decorators/roles.decorator';
+import { JwtGuard } from './../../common/guards/jwt-guard';
+import { RolesGuard } from './../../common/guards/role.guard';
 import { AdminFindUserDto } from './dto/find-user.dto';
 import { UsersService } from './users.service';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { GetUser } from './../../common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 
 @ApiTags('Users')

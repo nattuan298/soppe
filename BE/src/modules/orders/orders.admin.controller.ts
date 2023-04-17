@@ -8,13 +8,13 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { GetUser } from './../../common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { CommonIdParams } from 'src/common/common.dto';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/common.constants';
-import { RolesGuard } from 'src/common/guards/role.guard';
+import { JwtGuard } from './../../common/guards/jwt-guard';
+import { CommonIdParams } from './../../common/common.dto';
+import { Roles } from './../../common/decorators/roles.decorator';
+import { Role } from './../../common/common.constants';
+import { RolesGuard } from './../../common/guards/role.guard';
 import { FindOrderDto } from './dto/find-order.dto';
 
 @ApiTags('Orders')

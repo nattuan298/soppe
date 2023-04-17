@@ -1,4 +1,3 @@
-import { FolderName } from 'src/modules/upload/upload.constant';
 import { IPaginationData } from './common.interface';
 import { ApiBody } from '@nestjs/swagger';
 

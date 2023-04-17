@@ -11,10 +11,10 @@ import {
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { GetUser } from './../../common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { CommonIdParams } from 'src/common/common.dto';
+import { JwtGuard } from './../../common/guards/jwt-guard';
+import { CommonIdParams } from './../../common/common.dto';
 import { FindOrderDto, ResFindOrderDto } from './dto/find-order.dto';
 
 @ApiTags('Orders')
