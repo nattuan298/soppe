@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { Gender, Role, Status } from 'src/common/common.constants';
+import { Gender, Role, Status } from './../../common/common.constants';
 export interface IUser {
   username: string;
   password: string;

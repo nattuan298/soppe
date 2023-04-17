@@ -12,8 +12,8 @@ import { REVIEW_PRODUCT_MODEL } from './entities/review.schema';
 import { ProductsService } from '../products/products.service';
 import { PaginateModel } from 'mongoose-paginate-v2';
 import { OrdersService } from '../orders/orders.service';
-import { CommonPaginationDto } from 'src/common/pagination.dto';
-import { paginationTransformer } from 'src/common/helpers';
+import { CommonPaginationDto } from './../../common/pagination.dto';
+import { paginationTransformer } from './../../common/helpers';
 import { UsersService } from '../users/users.service';
 import { UploadService } from '../upload/upload.service';
 

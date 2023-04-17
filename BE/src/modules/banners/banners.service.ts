@@ -13,7 +13,7 @@ import { BANNER_MODEL } from './banner.schema';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { FindBannerDto } from './dto/find-admin-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
-import { paginationTransformer } from 'src/common/helpers';
+import { paginationTransformer } from './../../common/helpers';
 
 @Injectable()
 export class BannersService {

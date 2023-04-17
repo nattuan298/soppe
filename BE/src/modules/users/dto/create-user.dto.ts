@@ -10,7 +10,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Gender } from 'src/common/common.constants';
+import { Gender } from './../../common/common.constants';
 
 export class CreateUserDto {
   @IsString()

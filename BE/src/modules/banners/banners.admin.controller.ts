@@ -15,10 +15,10 @@ import { BannersService } from './banners.service';
 import { CreateBannerDto, ResCreateBannerDto } from './dto/create-banner.dto';
 import { FindBannerDto, ResFindBannerDto } from './dto/find-admin-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
-import { RolesGuard } from 'src/common/guards/role.guard';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { Role } from 'src/common/common.constants';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from './../../common/guards/role.guard';
+import { JwtGuard } from './../../common/guards/jwt-guard';
+import { Role } from './../../common/common.constants';
+import { Roles } from './../../common/decorators/roles.decorator';
 
 @ApiTags('banners')
 @ApiBearerAuth()

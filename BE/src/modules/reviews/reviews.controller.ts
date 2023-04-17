@@ -10,10 +10,10 @@ import {
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { JwtGuard } from './../../common/guards/jwt-guard';
+import { GetUser } from './../../common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
-import { CommonPaginationDto } from 'src/common/pagination.dto';
+import { CommonPaginationDto } from './../../common/pagination.dto';
 import { ListReviewByProductDto } from './dto/list-review-by-product.dto';
 
 @ApiTags('Review')

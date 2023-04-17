@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthAdminService } from './auth.admin.service';
 import { AdminUserController } from './auth.admin.controller';
 import { JwtStrategy } from './strategies/jwt-strategy';
-import { RolesGuard } from 'src/common/guards/role.guard';
+import { RolesGuard } from './../../common/guards/role.guard';
 
 @Module({
   imports: [

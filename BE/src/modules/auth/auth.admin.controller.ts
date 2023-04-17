@@ -3,10 +3,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthAdminService } from './auth.admin.service';
 import { AdminSignInDto } from './dto/admin-sign-in-dto';
 import { AdminSignUpDto } from './dto/admin-sign-up.dto';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/common.constants';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { RolesGuard } from 'src/common/guards/role.guard';
+import { Roles } from './../../common/decorators/roles.decorator';
+import { Role } from './../../common/common.constants';
+import { JwtGuard } from './../../common/guards/jwt-guard';
+import { RolesGuard } from './../../common/guards/role.guard';
 
 @ApiTags('Auth')
 @Controller('admin')

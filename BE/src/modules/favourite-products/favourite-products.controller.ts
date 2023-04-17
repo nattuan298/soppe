@@ -10,9 +10,9 @@ import {
 import { FavouriteProductsService } from './favourite-products.service';
 import { CreateFavouriteProductDto } from './dto/create-favourite-product.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CommonIdParams } from 'src/common/common.dto';
-import { JwtGuard } from 'src/common/guards/jwt-guard';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { CommonIdParams } from './../../common/common.dto';
+import { JwtGuard } from './../../common/guards/jwt-guard';
+import { GetUser } from './../../common/decorators/get-user.decorator';
 import IJwtPayload from '../auth/payloads/jwt-payload';
 
 @ApiTags('Favourite-products')

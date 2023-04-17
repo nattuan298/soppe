@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
-import { Status, Gender, Role } from 'src/common/common.constants';
+import { Status, Gender, Role } from './../../common/common.constants';
 import { defaultAvatar } from './user.constant';
 
 const USER_MODEL = 'users';
