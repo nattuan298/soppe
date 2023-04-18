@@ -1,8 +1,8 @@
 import {
   IsBoolean,
-  IsNegative,
   IsNumber,
   IsOptional,
+  IsPositive,
   IsString,
 } from 'class-validator';
 
@@ -23,12 +23,12 @@ export class UpdateProductDto {
   @IsOptional()
   description?: string;
 
-  @IsNegative()
+  @IsPositive()
   @IsNumber()
   @IsOptional()
   stock?: number;
 
-  @IsNegative()
+  @IsPositive()
   @IsNumber()
   @IsOptional()
   price?: number;
