@@ -1,8 +1,19 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
-import { Button, CollapsibleBlock, Input, InputDatePicker, Modal, Select } from "src/components";
+import {
+  Button,
+  CollapsibleBlock,
+  Input,
+  InputDatePicker,
+  Label,
+  Modal,
+  Select,
+} from "src/components";
 import { useFormik } from "formik";
 import { useHistory, useParams } from "react-router-dom";
-import { routeInventoryManagementProductListBase, routeManagementBannerLoopListBase } from "src/constants/routes";
+import {
+  routeInventoryManagementProductListBase,
+  routeManagementBannerLoopListBase,
+} from "src/constants/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { notifyToast } from "src/constants/toast";
@@ -20,7 +31,11 @@ import { useStatusOptions } from "../../../order-management/order-list/constants
 import { UploadSigleImage } from "../../../../components/upload-image-video/upload-single-image";
 import { CategoryModel } from "../../../../types/category.model";
 import { getCategoryAction } from "../../../../store/category.ation";
-import { createProductService } from "../../../../services/inventory-management.service";
+import {
+  createProductService,
+  editProductService,
+  getProductService,
+} from "../../../../services/inventory-management.service";
 
 const DEFAULT_COUNTRY = "Thailand";
 interface ParamsType {
@@ -28,20 +43,12 @@ interface ParamsType {
 }
 
 export function ProductForm() {
-
-  const [status, setStatus] = useState<string>("2");
   const { id } = useParams<ParamsType>();
-
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const history = useHistory();
 
   const [urlPreview, setUrlPreview] = useState<string | null>(null);
-  const [image, setImage] = useState<File | null>(null);
-  const [categoryFilter, setCategoryFilter] = useState({
-    id: "",
-    name: "",
-    value: "",
-  });
+
   const dispatch = useDispatch();
   const { t } = useTranslation("common");
   const date = useMemo(() => new Date(), []);
@@ -56,16 +63,33 @@ export function ProductForm() {
   useEffect(() => {
     if (id) {
       dispatch(getParams(id));
-      dispatch(fetchSelectedBannerLoop(id));
+      getDetailProduct();
     }
   }, [id, dispatch]);
-
-
-
+  const getDetailProduct = async () => {
+    try {
+      const response = await getProductService(id);
+      if (response) {
+        const {
+          createdAt,
+          updatedAt,
+          ratingCount,
+          rating,
+          isNewProduct,
+          isFavorite,
+          isAbleToReview,
+          __v,
+          _id,
+          ...res
+        } = response;
+        formik.setValues({ ...res });
+        setUrlPreview(response.mediaUrl);
+      }
+    } catch (error) {}
+  };
   const handleSubmit = async (values: any) => {
     const { productName, description, stock, price, categoryId, mediaUrl } = values;
-    const upload = await uploadImageFull({ file: mediaUrl,
-      moduleName: "product" });
+    const upload = await uploadImageFull({ file: mediaUrl, moduleName: "product" });
     const body = {
       productName,
       mediaUrl: upload.key,
@@ -76,21 +100,19 @@ export function ProductForm() {
     };
     try {
       let response = null;
-      if (id && bannerLoopData) {
-        const bannerLoop = { ...bannerLoopData, ...body };
-        response = await editInternalBannerLoopService(bannerLoop);
+      if (id) {
+        response = await editProductService({ id, body });
       } else {
         response = await createProductService(body);
       }
-      console.log(response);
       if (response !== null) {
         history.push(routeInventoryManagementProductListBase);
       }
     } catch (e: any) {
-      notifyToast("error", e.response.data?.message, t);
+      console.log(e);
+      // notifyToast("error", e.response.data?.message, t);
     }
   };
-
 
   const initialValues = useMemo(() => {
     return {
@@ -110,12 +132,6 @@ export function ProductForm() {
     validationSchema: product,
   });
 
-  const updateStatus = (value: string | null) => {
-    if (value) {
-      setStatus(value);
-    }
-  };
-
   const openModal = () => {
     setIsOpenModal(true);
   };
@@ -124,10 +140,9 @@ export function ProductForm() {
     setIsOpenModal(false);
   };
 
-  // const handleConfirm = () => {
-  //   redirectPage();
-  // };
-
+  const handleConfirm = () => {
+    history.push(routeInventoryManagementProductListBase);
+  };
 
   return (
     <Fragment>
@@ -138,7 +153,7 @@ export function ProductForm() {
               <div className="w-full">
                 <div className="w-6/12">
                   <label className="block">
-                    <span className="block mt-2 text-base text-black required">Product Name</span>
+                    <Label required>Product Name</Label>
                     <Input
                       name="productName"
                       className="h-12 w-full mt-1"
@@ -147,7 +162,9 @@ export function ProductForm() {
                       value={formik.values.productName}
                       onChange={formik.handleChange}
                       errorMessage={
-                        formik.touched.productName && formik.errors.productName ? t(formik.errors.productName as "to_ship") : ""
+                        formik.touched.productName && formik.errors.productName
+                          ? t(formik.errors.productName as "to_ship")
+                          : ""
                       }
                       inputProps={{
                         maxLength: 2500,
@@ -156,9 +173,8 @@ export function ProductForm() {
                   </label>
                 </div>
                 <div className="w-6/12 flex mt-2">
-
                   <label className="block w-6/12">
-                    <span className="block mt-2 text-base text-black required">Stock</span>
+                    <Label required>Stock</Label>
                     <Input
                       name="stock"
                       className="h-12 w-full mt-1"
@@ -166,15 +182,13 @@ export function ProductForm() {
                       placeholder="Stock"
                       value={formik.values.stock}
                       onChange={formik.handleChange}
-                      errorMessage={
-                        ""
-                      }
+                      errorMessage={""}
                     />
                   </label>
                 </div>
                 <div className="w-6/12 flex mt-2">
                   <label className="block w-6/12 mr-2">
-                    <span className="block mt-2 text-base text-black">Price</span>
+                    <Label required>Price</Label>
                     <Input
                       name="price"
                       className="h-12 w-full mt-1"
@@ -182,13 +196,11 @@ export function ProductForm() {
                       placeholder="Price"
                       value={formik.values.price}
                       onChange={formik.handleChange}
-                      errorMessage={
-                        ""
-                      }
+                      errorMessage={""}
                     />
                   </label>
                   <label className="block w-6/12">
-                    <span className="block mt-2 text-base text-black required">Category</span>
+                    <Label required>Category</Label>
                     <Select
                       className="w-[150px] 2xl:w-[343px]"
                       defaultValue={formik.values.categoryId}
@@ -203,7 +215,7 @@ export function ProductForm() {
                 </div>
                 <div className="w-full flex mt-2">
                   <label className="block w-6/12 mr-2">
-                    <span className="block mt-2 text-base text-black">{t("description")}</span>
+                    <Label required>{t`description`}</Label>
                     <Input
                       name="description"
                       className="w-full mt-1"
@@ -214,21 +226,17 @@ export function ProductForm() {
                       placeholder={t("description")}
                       value={formik.values.description}
                       onChange={formik.handleChange}
-                      errorMessage={
-                        ""
-                      }
+                      errorMessage={""}
                     />
                   </label>
                 </div>
+                <Label required>Image</Label>
                 <UploadSigleImage
                   name={t`upload-the-image-or-video`}
-                  setImage={(file : File) => {
-                    setImage(file);
+                  setImage={(file: File) => {
                     formik.setFieldValue("mediaUrl", file);
-                  }
-                  }
+                  }}
                   urlDefaultPreview={urlPreview}
-
                 />
               </div>
             </CollapsibleBlock>
@@ -255,7 +263,7 @@ export function ProductForm() {
         open={isOpenModal}
         confirmType={"cancel"}
         onClose={closeModal}
-        onConfirm={() => {}}
+        onConfirm={handleConfirm}
       />
     </Fragment>
   );

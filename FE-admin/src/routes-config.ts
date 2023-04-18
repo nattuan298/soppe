@@ -35,6 +35,7 @@ import {
   routeHomePageTemplateManagement,
   routeInternalUserHistoryList,
   routeInventoryManagementProductCreateBase,
+  routeInventoryManagementProductEditBase,
   routeInventoryManagementProductListBase,
   routeInventoryManagementProductUpdateBase,
   routeManagementBannerList,
@@ -109,6 +110,13 @@ export const routesConfig = [
   },
   {
     path: routeInventoryManagementProductCreateBase,
+    exact: true,
+    component: loadable(
+      lazy(() => retry(() => import("./pages/inventory-management-create-product"))),
+    ),
+  },
+  {
+    path: routeInventoryManagementProductEditBase,
     exact: true,
     component: loadable(
       lazy(() => retry(() => import("./pages/inventory-management-create-product"))),
@@ -246,8 +254,6 @@ export const routesConfig = [
       loadable(lazy(() => retry(() => import("./pages/order-management-detail")))),
     ),
   },
-
-
 
   {
     path: routesReviewListManagement,

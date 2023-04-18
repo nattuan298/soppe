@@ -29,7 +29,7 @@ export const throttleToastAPI = (func: Function, delay: number) => {
 
 const toastMessageError = (message: string, cbFunc?: Function) => {
   return throttleToastAPI(() => {
-    toast.error(message, { ...toastOptions });
+    // toast.error(message, { ...toastOptions });
     cbFunc?.();
   }, 3000);
 };

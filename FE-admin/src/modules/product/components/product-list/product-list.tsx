@@ -98,9 +98,7 @@ function ImageInventory({ product }: ImageInventoryProps) {
 
   return (
     <div className="relative flex product-name">
-      {mediaUrl ? (
-        <img alt="err" className="image" src={mediaUrl} />
-      ) : null}
+      {mediaUrl ? <img alt="err" className="image" src={mediaUrl} /> : null}
       {!mediaUrl ? <ImageError /> : null}
       {product.isNewProduct && product.mediaUrl ? (
         <div className="absolute top-0 newCollection">
@@ -163,8 +161,6 @@ export function ProductList() {
     }
   }, [location.pathname]);
 
-
-
   useEffect(() => {
     const { maxPrice } = maxprice;
     setMaxPrice(maxPrice);
@@ -175,7 +171,7 @@ export function ProductList() {
     {
       page,
       pageSize,
-      category: categoryFilter.name,
+      categoryId: categoryFilter.name,
       minPrice: rangeFilter.start,
       maxPrice: rangeFilter.end,
       keyword: searchFilter.name,
@@ -315,9 +311,7 @@ export function ProductList() {
 
   const handleFilterCategory = (category_id: string | null) => {
     if (category_id) {
-      const categoryName = categoryData.find(
-        (data: CategoryModel) => data._id === category_id,
-      );
+      const categoryName = categoryData.find((data: CategoryModel) => data._id === category_id);
       setCategoryFilter({
         id: "category",
         name: categoryName ? categoryName._id : "",
@@ -343,8 +337,6 @@ export function ProductList() {
     }
   };
 
-
-
   const { language } = i18n;
 
   const searchChips = useMemo(
@@ -359,14 +351,9 @@ export function ProductList() {
   );
 
   const redrectPage = async (product: ProductModel) => {
-
-      sessionStorage.setItem("productPage", "" + page);
-      setTimeout(() => {
-        history.push(
-          `/admin-dashboard/inventory-management/update-product-image-&-video/${product._id}`,
-        );
-      }, 100);
-
+    setTimeout(() => {
+      history.push(`/admin-dashboard/inventory-management/${product._id}`);
+    }, 100);
   };
 
   return (
@@ -413,12 +400,12 @@ export function ProductList() {
               value={searchFilter.name}
               className="w-[310px] 2xl:w-[350px]"
             />
-           <Button
+            <Button
               variant="text"
               className="bg-orange-light text-base	text-white wide:ml-6 ml-3 wide:px-6 px-2 max-w-xs hover:bg-orange-hover"
               onClick={() => history.push(routeInventoryManagementProductCreateBase)}
             >
-             Create New Product
+              Create New Product
             </Button>
           </div>
         </div>
@@ -442,21 +429,16 @@ export function ProductList() {
               ) : null}
               {!loading && productData.data
                 ? productData.data.map((product: ProductModel) => {
-
                     const { category } =
-                      categoryData.find(
-                        (item: CategoryModel) => item._id === product.categoryId,
-                      ) || {};
+                      categoryData.find((item: CategoryModel) => item._id === product.categoryId) ||
+                      {};
 
                     return (
                       <CollapsibleBodyRow
                         colSpan={9}
                         key={product._id}
                         preview={
-                          <Preview
-                            categoryName={category}
-                            description={product.description}
-                          />
+                          <Preview categoryName={category} description={product.description} />
                         }
                       >
                         <TableCell>
