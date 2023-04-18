@@ -20,7 +20,6 @@ export const getSignURL = async ({
     `${config.apiBaseUrl}/upload`,
     formData,
   );
-  console.log(res);
   return res;
 };
 
@@ -46,8 +45,7 @@ export const uploadImageFull = async ({
   moduleName?: string;
 }) => {
   const res = await getSignURL({ fileName: file, moduleName });
-  // await putImageToSignURL({ file, signUrl: res.preSignedUrl });
-  console.log(res);
+
   const res2 = await getImageByKey({ key: res.Key });
   return {
     imageUrl: res2,
