@@ -4,10 +4,10 @@ import {
   Body,
   Param,
   Query,
-  Put,
   UseGuards,
   Post,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -51,7 +51,7 @@ export class ProductsAdminController {
     return this.productsService.findOne(commonIdParams.id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiResponse({ type: UpdateProductDto })
   update(
     @Param() commonIdParams: CommonIdParams,

@@ -149,20 +149,15 @@ export class ProductsService {
   }
 
   async update({ id }: CommonIdParams, updateProductDto: UpdateProductDto) {
-    let existingProduct = await this.productModel.findById(id);
+    const existingProduct = await this.productModel.findByIdAndUpdate(
+      id,
+      updateProductDto,
+      { new: true },
+    );
     if (!existingProduct) {
-      existingProduct = new this.productModel({
-        ...updateProductDto,
-      });
-    } else {
-      existingProduct.mediaUrl = updateProductDto.mediaUrl;
-      existingProduct.isNewProduct = updateProductDto.isNewProduct;
-      existingProduct.description = updateProductDto.description;
-      existingProduct.productName = updateProductDto.productName;
-      existingProduct.stock = updateProductDto.stock;
-      existingProduct.price = updateProductDto.price;
+      throw new NotFoundException(ProductResponseMessage.NotFound);
     }
-    return existingProduct.save();
+    return existingProduct;
   }
 
   async popularKey() {
