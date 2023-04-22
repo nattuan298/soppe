@@ -11,6 +11,7 @@ import {
   ChipType,
   CollapsibleBodyRow,
   CollapsibleHeadRow,
+  Modal,
   Pagination,
   ResultFor,
   Search,
@@ -40,6 +41,8 @@ import { getProductAction } from "src/store/inventory-management.action";
 import { getCategoryAction } from "src/store/category.ation";
 import { getMaxPriceAction } from "src/store/max-price.action";
 import { routeInventoryManagementProductCreateBase } from "../../../../constants/routes";
+import { deleteProductService } from "../../../../services/inventory-management.service";
+import { notifyToast } from "../../../../constants/toast";
 
 interface RatingComponentProps {
   rating: number;
@@ -122,7 +125,8 @@ export function ProductList() {
   const { t, i18n } = useTranslation("common");
   const history = useHistory();
   const location = useLocation();
-
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [idPro, setIdPro] = useState("");
   const [searchFilterChips, setSearchFilterChips] = useState<ChipType[]>([
     {
       id: "locationBase",
@@ -355,7 +359,15 @@ export function ProductList() {
       history.push(`/admin-dashboard/inventory-management/${product._id}`);
     }, 100);
   };
-
+  const handleDeletePro = async () => {
+    console.log("OK");
+    try {
+      const res = await deleteProductService(idPro);
+setOpenDeleteModal(false);
+      notifyToast("default", "delete successfully!");
+      getData();
+    } catch (error) {}
+  };
   return (
     <div className="w-full">
       <div className="p-5 inventory-management ">
@@ -459,7 +471,13 @@ export function ProductList() {
                           <div className="flex action-buttons-wrapper">
                             <div className="m-auto flex">
                               <ActionButton action="edit" onClick={() => redrectPage(product)} />
-                              <ActionButton action="delete" disabled />
+                              <ActionButton
+                                action="delete"
+                                onClick={() => {
+                                  setIdPro(product._id);
+                                  setOpenDeleteModal(true);
+                                }}
+                              ></ActionButton>
                             </div>
                           </div>
                         </TableCell>
@@ -485,6 +503,12 @@ export function ProductList() {
             selectedPage={productData.page}
           />
         </div>
+        <Modal
+          open={openDeleteModal}
+          confirmType="delete"
+          onClose={() => setOpenDeleteModal(false)}
+          onConfirm={handleDeletePro}
+        />
       </div>
     </div>
   );

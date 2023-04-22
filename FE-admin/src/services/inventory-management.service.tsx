@@ -29,3 +29,7 @@ export function editProductService({
 }): Promise<void | any> {
   return authorizedRequest.patch(`${config.apiBaseUrl}/admin/products/${id}`, body);
 }
+
+export function deleteProductService(id: string): Promise<void | any> {
+  return authorizedRequest.delete(`${config.apiBaseUrl}/admin/products/${id}`);
+}
