@@ -60,4 +60,4 @@ $ npm run test:cov
 
 ## Stay in touch
 
-- Author - [Minh Phan]
+- Author - [Tyler Nguyen]
